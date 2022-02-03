@@ -1,4 +1,4 @@
-package com.group24.easyHomes.easyHomes;
+package com.group24.easyHomes;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
