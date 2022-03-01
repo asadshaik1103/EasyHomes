@@ -1,4 +1,4 @@
-/*
+
 package com.group24.easyHomes.service;
 
 import com.group24.easyHomes.repository.PropertyRepository;
@@ -67,8 +67,7 @@ public class PopertyServiceTest {
     }
 
     @Test
-    public void addProperty() */
-/*throws PropertyAlreadyExistsException*//*
+    public void addProperty() /*throws PropertyAlreadyExistsException*/
  {
         when(propertyRepository.save(any())).thenReturn(property1);
         propertyService.addProperty(property1);
@@ -103,12 +102,7 @@ public class PopertyServiceTest {
 
 
 }
-*/
 
-package com.group24.easyHomes.service;
-public class PopertyServiceTest {
-
-}
 
 
 
