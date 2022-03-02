@@ -48,22 +48,22 @@ const HomePage = () => {
           />
           <CardContent>
             <div>
-              <text>{service.serviceName}</text>
+              <p>{service.serviceName}</p>
             </div>
             <div>
-              <text>{service.city}</text>
+              <p>{service.city}</p>
             </div>
             <div>
-              <text>{service.country}</text>
+              <p>{service.country}</p>
             </div>
             <div>
-              <text>{service.pincode}</text>
+              <p>{service.pincode}</p>
             </div>
             <div>
-              <text>{service.province}</text>
+              <p>{service.province}</p>
             </div>
             <div>
-              <text>{service.address}</text>
+              <p>{service.address}</p>
             </div>
             <Rating
               name="simple-controlled"
@@ -101,10 +101,10 @@ const HomePage = () => {
           onChange={setToggleView}
         >
           <ToggleButton value="service" aria-label="service">
-            <text style={{ fontWeight: "bold" }}>Service</text>
+            <p style={{ fontWeight: "bold" }}>Service</p>
           </ToggleButton>
           <ToggleButton value="property" aria-label="property">
-            <text style={{ fontWeight: "bold" }}>Property</text>
+            <p style={{ fontWeight: "bold" }}>Property</p>
           </ToggleButton>
         </ToggleButtonGroup>
       </div>
