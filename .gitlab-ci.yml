@@ -8,7 +8,7 @@ build:
   image: maven:latest
   script:
     - echo "Building the pipeline"
-    - mvn clean package
+    - mvn clean package -X
   artifacts:
     paths:
       - target
