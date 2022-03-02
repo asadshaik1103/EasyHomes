@@ -15,6 +15,7 @@ import {
 } from "@mui/material";
 import "../Styles/HomePageStyle.css";
 
+
 const HomePage = () => {
   const [services, setServices] = useState([]);
   const [toggle, setToggle] = useState("service");
