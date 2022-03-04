@@ -1,32 +1,26 @@
-import { useEffect } from 'react';
+import React, { lazy, Suspense, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
+import { Link, Routes, Route, BrowserRouter } from 'react-router-dom';
 
-import logo from './logo.svg';
 import './App.css';
 import { updatePageState } from './reducers/app/appSlice';
+
+import Login from './components/login/Login';
+import NavBar from './components/nav-bar/Navbar';
+// import Drawer from './components/nav-bar/drawer/Drawer'
+
+// const NavBar = lazy(() => import('./components/nav-bar/Navbar'));
 
 function App() {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(updatePageState({ pageLoaded: 1 }));
   })
+  const isUserLoggedIn = true;
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <NavBar />
+    </>
   );
 }
 

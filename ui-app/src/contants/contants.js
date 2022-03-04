@@ -1,0 +1,1 @@
+export const CUSTOM_THEME_HEX = '#2c2c54'; // TODO change with the appropriate color
