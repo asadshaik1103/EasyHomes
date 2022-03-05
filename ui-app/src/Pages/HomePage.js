@@ -77,7 +77,7 @@ const HomePage = () => {
 
   return (
     <div>
-      <div style={{ display: "flex", justifyContent: "space-around" }}>
+      {/* <div style={{ display: "flex", justifyContent: "space-around" }}>
         <HomeIcon />
         <SearchBar />
         <div>
@@ -90,7 +90,7 @@ const HomePage = () => {
             Service
           </Fab>
         </div>
-      </div>
+      </div> */}
 
       <div style={{ marginBottom: "1%" }}>
         <ToggleButtonGroup
