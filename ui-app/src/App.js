@@ -1,32 +1,44 @@
-import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { lazy, Suspense, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { Routes, Route } from 'react-router-dom';
 
-import logo from './logo.svg';
+import Container from '@mui/material/Container';
+
 import './App.css';
-import { updatePageState } from './reducers/app/appSlice';
+import { updateUserLoggedInStatus } from './reducers/app/appSlice';
+import Login from './components/login/Login';
+import NavBar from './components/nav-bar/Navbar';
+import HomeTabs from './components/home-tabs/HomeTabs';
+import FabMenu from './components/fab-menu/FabMenu';
+// const NavBar = lazy(() => import('./components/nav-bar/Navbar'));
 
 function App() {
   const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(updatePageState({ pageLoaded: 1 }));
-  })
+  const isUserLoggedIn = useSelector(state => state.app.isUserLoggedIn);
+
+
+  setTimeout(() => { // TODO setTimeout is used just to mock auto login behaviour
+    dispatch(updateUserLoggedInStatus({ isUserLoggedIn: true }))
+  }, 3000);
+
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+    {/* TODO add protected route and lazy load'Home' component after login functionality is completed */}
+      <Suspense fallback={<small>Loading...</small>}>
+        <Routes>
+            <Route path="/" element={isUserLoggedIn ? 
+              <>
+                <NavBar />
+                <Container>
+                  <HomeTabs />
+                  <FabMenu />
+                </Container>
+              </> :
+              <Login />} />
+        </Routes>
+      </Suspense>
+    </>
   );
 }
 
