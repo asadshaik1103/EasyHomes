@@ -143,7 +143,7 @@ export default function ElevateAppBar(props) {
       onClose={handleMobileMenuClose}
     >
       <MenuItem>
-        <IconButton size="large" aria-label={`show ${favouritesCount} new messages`} color="inherit">
+        <IconButton size="large" aria-label={`show ${messagesCount} new messages`} color="inherit">
           <Badge badgeContent={messagesCount} color="error">
             <MailIcon />
           </Badge>
@@ -153,10 +153,10 @@ export default function ElevateAppBar(props) {
       <MenuItem>
         <IconButton
           size="large"
-          aria-label="show 17 favourites"
+          aria-label={`show ${favouritesCount} favourites`}
           color="inherit"
         >
-          <Badge badgeContent={17} color="error">
+          <Badge badgeContent={favouritesCount} color="error">
             <StarOutlineIcon />
           </Badge>
         </IconButton>
