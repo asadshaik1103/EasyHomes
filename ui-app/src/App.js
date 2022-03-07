@@ -1,25 +1,43 @@
 import React, { lazy, Suspense, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import { Link, Routes, Route, BrowserRouter } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { Routes, Route } from 'react-router-dom';
+
+import Container from '@mui/material/Container';
 
 import './App.css';
-import { updatePageState } from './reducers/app/appSlice';
-
+import { updateUserLoggedInStatus } from './reducers/app/appSlice';
 import Login from './components/login/Login';
 import NavBar from './components/nav-bar/Navbar';
-// import Drawer from './components/nav-bar/drawer/Drawer'
-
+import HomeTabs from './components/home-tabs/HomeTabs';
+import FabMenu from './components/fab-menu/FabMenu';
 // const NavBar = lazy(() => import('./components/nav-bar/Navbar'));
 
 function App() {
   const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(updatePageState({ pageLoaded: 1 }));
-  })
-  const isUserLoggedIn = true;
+  const isUserLoggedIn = useSelector(state => state.app.isUserLoggedIn);
+
+
+  setTimeout(() => { // TODO setTimeout is used just to mock auto login behaviour
+    dispatch(updateUserLoggedInStatus({ isUserLoggedIn: true }))
+  }, 3000);
+
+
   return (
     <>
-      <NavBar />
+    {/* TODO add protected route and lazy load'Home' component after login functionality is completed */}
+      <Suspense fallback={<small>Loading...</small>}>
+        <Routes>
+            <Route path="/" element={isUserLoggedIn ? 
+              <>
+                <NavBar />
+                <Container>
+                  <HomeTabs />
+                  <FabMenu />
+                </Container>
+              </> :
+              <Login />} />
+        </Routes>
+      </Suspense>
     </>
   );
 }
