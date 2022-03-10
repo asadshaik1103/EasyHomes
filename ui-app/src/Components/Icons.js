@@ -1,4 +1,4 @@
-import {Search, Home, PlusOne, PlusOneRounded, Add} from "@mui/icons-material";
+import {Search, Home, Favorite,Add} from "@mui/icons-material";
 
 const SearchIcon = () => {
     return (<Search fontSize="large" />);
@@ -12,4 +12,12 @@ const PlusIcon = () => {
     return (<Add/>);
 }
 
-export {HomeIcon,SearchIcon,PlusIcon};
+const AddFavorite = () => {
+    return (<Favorite />)
+}
+
+const Share = () => {
+    return (<Share />)
+}
+
+export {HomeIcon,SearchIcon,PlusIcon,AddFavorite,Share};

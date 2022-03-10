@@ -25,19 +25,6 @@ public class  ServiceController {
         return (Service) serviceRepository.findById(serviceId).orElseThrow(RuntimeException::new);
     }
 
-//    @PostMapping
-//    public ResponseEntity updateService(@PathVariable Long serviceId,@RequestBody Service service){
-//        Service currentService = serviceRepository.findById(serviceId).orElseThrow(RuntimeException::new);
-//        currentService.setServiceName(service.getServiceName());
-//        currentService.setCity(service.getCity());
-//        currentService.setProvince(service.getProvince());
-//        currentService.setCountry(service.getCountry());
-//        currentService.setPincode(service.getPincode());
-//        currentService.setAddress(service.getAddress());
-//        currentService = serviceRepository.save(currentService);
-//        return ResponseEntity.ok(currentService);
-//    }
-
     @PostMapping
     public ResponseEntity newService(@RequestBody Service service){
 //        Service currentService = serviceRepository.findById(serviceId).orElseThrow(RuntimeException::new);

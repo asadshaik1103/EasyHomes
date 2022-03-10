@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Set;
 
 @RestController
-@RequestMapping(value = "/property ",produces = "application/json")
+@RequestMapping(value = "/property",produces = "application/json")
 public class PropertyController {
 
     @Autowired

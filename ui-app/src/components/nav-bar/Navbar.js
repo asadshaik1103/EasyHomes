@@ -31,6 +31,7 @@ import MoreIcon from "@mui/icons-material/MoreVert";
 
 import { CUSTOM_THEME_HEX } from "../../contants/contants";
 import HomePage from "../../Pages/HomePage";
+import Service from "../../Pages/Service"
 
 const title = 'Easy Homes'
 const customTheme = createTheme({
