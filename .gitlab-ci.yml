@@ -50,6 +50,12 @@ deploy_develop:
 
 code_quality:
   stage: code_quality
+  image: maven:latest
+  tags:
+    - ugrad
+  artifacts:
+    paths:
+      - target
   variables:
     UPLOAD_QUALITY_REPORT: 'curl -X PUT -H "Authorization: Token $QSCORED_API_KEY" -H "repository-link: $CI_PROJECT_URL" + -H "username: dm341240@dal.ca" -H "Content-Type: mulitpart/form-data" --url "https://qscored.com/api/upload/file.xml?is_open_access=off&version=$CI_PIPELINE_IID&project_name=easyhomes" -F "file=@Designite_output/DesigniteAnalysis.xml"'
   script: 
