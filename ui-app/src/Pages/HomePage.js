@@ -23,7 +23,7 @@ import { Share } from "@mui/icons-material";
 const HomePage = () => {
   const [services, setServices] = useState([]);
   const [properties, setProperties] = useState([]);
-  const [toggle, setToggle] = useState("service");
+  const [toggle, setToggle] = useState("services");
 
   useEffect(() => {
     axios
@@ -42,7 +42,8 @@ const HomePage = () => {
     setToggle(newToggle);
   };
 
-  const RenderService = ({ service },index) => {
+  const RenderService = ({ services },index) => {
+    const blobData= services.images[0]?.image_data ;
     return (
       <Grid item xs={4}>
         <Card>
@@ -54,24 +55,30 @@ const HomePage = () => {
             }
             title="John Dona"
           />
+          <CardMedia
+        component="img"
+        height="194"
+        image={`data:image/jpeg;base64,${blobData}`}
+        alt="Paella dish"
+      />
           <CardContent>
             <div>
-              <p>{service.serviceName}</p>
+              <p>{services.serviceName}</p>
             </div>
             <div>
-              <p>{service.city}</p>
+              <p>{services.city}</p>
             </div>
             <div>
-              <p>{service.country}</p>
+              <p>{services.country}</p>
             </div>
             <div>
-              <p>{service.pincode}</p>
+              <p>{services.pincode}</p>
             </div>
             <div>
-              <p>{service.province}</p>
+              <p>{services.province}</p>
             </div>
             <div>
-              <p>{service.address}</p>
+              <p>{services.address}</p>
             </div>
             <Rating
               name="simple-controlled"
@@ -139,7 +146,7 @@ const HomePage = () => {
           exclusive
           onChange={setToggleView}
         >
-          <ToggleButton value="service" aria-label="service">
+          <ToggleButton value="services" aria-label="services">
             <p style={{ fontWeight: "bold" }}>Service</p>
           </ToggleButton>
           <ToggleButton value="property" aria-label="property">
@@ -154,9 +161,9 @@ const HomePage = () => {
         rowSpacing={1}
         columnSpacing={{ xs: 2, sm: 2, md: 2 }}
       >
-        {toggle == "service" ? 
-        services.map((service, index) => {
-          return <RenderService service={service} />;
+        {toggle == "services" ?
+        services.map((services, index) => {
+          return <RenderService services={services} />;
         })
         :
         properties.map((property, index) => {
