@@ -1,5 +1,4 @@
-import SearchBar from "../Components/SearchBar";
-import { HomeIcon, PlusIcon,AddFavorite } from "../Components/Icons";
+import {AddFavorite} from "../components/Icons"
 import axios from "axios";
 import { useEffect, useState } from "react";
 import {
@@ -136,25 +135,6 @@ const HomePage = () => {
 
   return (
     <div>
-      <div style={{ 
-        display: "flex",
-          justifyContent: "center",
-          alignItems: "center" }}>
-        <ToggleButtonGroup
-          color="primary"
-          value={toggle}
-          exclusive
-          onChange={setToggleView}
-        >
-          <ToggleButton value="services" aria-label="services">
-            <p style={{ fontWeight: "bold" }}>Service</p>
-          </ToggleButton>
-          <ToggleButton value="property" aria-label="property">
-            <p style={{ fontWeight: "bold" }}>Property</p>
-          </ToggleButton>
-        </ToggleButtonGroup>
-      </div>
-
       <Grid
         style={{ padding: "2%" }}
         container

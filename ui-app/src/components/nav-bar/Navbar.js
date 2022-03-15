@@ -1,15 +1,8 @@
 import * as React from "react";
 import PropTypes from "prop-types";
-// import AppBar from '@mui/material/AppBar';
-// import Toolbar from '@mui/material/Toolbar';
-// import Typography from '@mui/material/Typography';
 import CssBaseline from "@mui/material/CssBaseline";
-import Container from "@mui/material/Container";
-import { ThemeProvider, createTheme } from "@mui/material/styles";
-// import IconButton from '@mui/material/IconButton';
-// import MenuIcon from '@mui/icons-material/Menu';
+import { ThemeProvider } from "@mui/material/styles";
 import StarOutlineIcon from '@mui/icons-material/StarOutline';
-import LogoutIcon from '@mui/icons-material/Logout';
 
 // new imports:
 import { styled, alpha } from "@mui/material/styles";
@@ -22,27 +15,14 @@ import InputBase from "@mui/material/InputBase";
 import Badge from "@mui/material/Badge";
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
-import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import MailIcon from "@mui/icons-material/Mail";
-import NotificationsIcon from "@mui/icons-material/Notifications";
 import MoreIcon from "@mui/icons-material/MoreVert";
 
-import { CUSTOM_THEME_HEX } from "../../contants/contants";
+import { customTheme } from '../../utils/theme';
+import { Container } from "react-bootstrap";
 import HomePage from "../../Pages/HomePage";
-import Service from "../../Pages/Service"
-
-const title = 'Easy Homes'
-const customTheme = createTheme({
-  palette: {
-    mode: "dark",
-    primary: {
-      main: '#30336b',
-    },
-  },
-});
-
 function ElevationScroll(props) {
   const { children } = props;
 
@@ -53,22 +33,6 @@ ElevationScroll.propTypes = {
   children: PropTypes.element.isRequired,
 };
 
-function appBarLabel(label) {
-  return (
-    <Toolbar>
-      <IconButton edge="start" color="inherit" aria-label="menu" sx={{ mr: 2 }}>
-        <MenuIcon />
-      </IconButton>
-      <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1 }}>
-        {label}
-      </Typography>
-    </Toolbar>
-  );
-}
-
-
-
-// new changes:
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
   borderRadius: theme.shape.borderRadius,
@@ -110,10 +74,16 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function ElevateAppBar(props) {
+  const title = 'Easy Homes'
+  const navBarTheme = customTheme;
+
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
-  const [favouritesCount, setFavouritesCount] = React.useState(3);
-  const [messagesCount, setMessagesCount] = React.useState(3);
+  const [favouritesCount, setFavouritesCount] = React.useState(0);
+  const [messagesCount, setMessagesCount] = React.useState(0);
+
+  // setFavouritesCount(0);
+  // setMessagesCount(0);
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -175,7 +145,7 @@ export default function ElevateAppBar(props) {
       onClose={handleMobileMenuClose}
     >
       <MenuItem>
-        <IconButton size="large" aria-label={`show ${favouritesCount} new messages`} color="inherit">
+        <IconButton size="large" aria-label={`show ${messagesCount} new messages`} color="inherit">
           <Badge badgeContent={messagesCount} color="error">
             <MailIcon />
           </Badge>
@@ -185,10 +155,10 @@ export default function ElevateAppBar(props) {
       <MenuItem>
         <IconButton
           size="large"
-          aria-label="show 17 favourites"
+          aria-label={`show ${favouritesCount} favourites`}
           color="inherit"
         >
-          <Badge badgeContent={17} color="error">
+          <Badge badgeContent={favouritesCount} color="error">
             <StarOutlineIcon />
           </Badge>
         </IconButton>
@@ -212,30 +182,15 @@ export default function ElevateAppBar(props) {
     <React.Fragment>
       <CssBaseline />
       <ElevationScroll {...props}>
-        <ThemeProvider theme={customTheme}>
+        <ThemeProvider theme={navBarTheme}>
           <AppBar >
-            {/* <Toolbar>
-                            <Typography variant="h6" component="div">
-                                {appBarLabel('Easy Homes')}
-                            </Typography>
-                        </Toolbar> */}
-            <AppBar position="static">
+            <AppBar position="static" enableColorOnDark>
               <Toolbar>
-                {/* <IconButton
-                  size="large"
-                  edge="start"
-                  color="inherit"
-                  aria-label="open drawer"
-                  sx={{ mr: 2 }}
-                >
-                  <MenuIcon />
-                </IconButton> */}
                 <Typography
                   variant="h6"
                   noWrap
                   component="div"
-                  sx={{ display: { xs: "none", sm: "block" } }}
-                >
+                  sx={{ display: { xs: "none", sm: "block" } }}>
                   {title}
                 </Typography>
                 <Search>
@@ -261,8 +216,7 @@ export default function ElevateAppBar(props) {
                   <IconButton
                     size="large"
                     aria-label={`show ${favouritesCount} favourites`}
-                    color="inherit"
-                  >
+                    color="inherit">
                     <Badge badgeContent={favouritesCount} color="error">
                       <StarOutlineIcon />
                     </Badge>
