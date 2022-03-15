@@ -10,9 +10,12 @@ export const appSlice = createSlice({
     reducers: {
         updateUserLoggedInStatus: (state, action) => {
             state.isUserLoggedIn = action.payload.isUserLoggedIn;
+        },
+        authenticateUser: (state, action) => {
+            state.isUserLoggedIn = action.payload.isUserLoggedIn;
         }
     },
 });
 
-export const { updateUserLoggedInStatus } = appSlice.actions;
+export const { updateUserLoggedInStatus, authenticateUser } = appSlice.actions;
 export default appSlice.reducer;
