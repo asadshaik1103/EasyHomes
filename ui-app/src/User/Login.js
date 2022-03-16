@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {useState, Component} from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -13,9 +13,17 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
-import {connect} from 'react-redux';
-import {authenticateUser} from '../services/index';
+// import {connect} from 'react-redux';
+import axios from 'axios';
+// import {authenticateUser} from '../services/index';
 import Alert from '@mui/material/Alert';
+
+import { useSelector, useDispatch } from 'react-redux';
+import { authenticateUser } from '../reducers/app/appSlice';
+// /reducers/app/appSlice
+
+// react should call an login API 
+// this response should give jwttoken
 
 function Copyright(props) {
 
@@ -33,37 +41,88 @@ function Copyright(props) {
 
 const theme = createTheme();
 
-class Login extends Component {
+const Login = (props) => {
+  const dispatch = useDispatch();
+    // constructor(props){
+    //     super(props);
+    //     state = initialState;
+    // }
 
-    constructor(props){
-        super(props);
-        this.state = this.initialState;
-    }
+  // initialState = {
+  //   email:'',password:'', error:''
+  // }
 
-  initialState = {
+  const [initialState, setInitialState] = useState({
     email:'',password:'', error:''
+  });
+
+  const isUserLoggedIn = useSelector(state => state.app.isUserLoggedIn);
+
+  // setInitialState(prevState => ({
+  //   ...prevState,
+  //   email: 'wer@g.com'
+  // }))
+
+  const credentialsChange = event => {
+    // setState({
+    //     [event.target.name] : event.target.value
+    // });
+    setInitialState(prevState => ({
+      ...prevState,
+      [event.target.name]: event.target.value // TODO test whether it is working or not
+    }))
+
   }
 
-  credentialChange = event => {
-    this.setState({
-        [event.target.name] : event.target.value
-    });
-  }
+  const validateUser = () => {
+    // props.authenticateUser(state.email, state.password);
+    // dispatch(authenticateUser({ isUserLoggedIn: true }))
+    console.log("email: ", email);
+    console.log("password: ", password);
 
-  validateUser = () => {
-    this.props.authenticateUser(this.state.email, this.state.password);
-    setTimeout(()=>{
-        if(this.props.auth.isLoggedIn){
-            return this.props.history.push("/");
-        } else {
-            this.setState({"error":"Invalid email and password"});
-        }
-    });
+
+    const data = axios
+    .post('http://localhost:8080/user/authenticate',  {
+      username: email,
+      password: password,
+    },
+   {
+    headers: {
+      "Accept": "application/json",
+      "Content-Type": "application/json",
+    }
+  }).then(function (response) {
+    console.log("res: ", data);
+  })
+console.log(data);
+
+    // http://localhost:8080
+    // axios({
+    //   method: "post",
+    //   url: "http://localhost:8080/user/authenticate",
+    //   data: JSON.stringify({
+    //     email: email, 
+    //     password: password
+    //   }),
+    //   headers:{
+    //     'Content-Type':'text/plain'
+    //   }
+    // }).then(function (response) {
+    //   console.log("res: ", response);
+    // }).catch(err => {
+    //   console.error("err: ", err);
+    // });
+    // setTimeout(()=>{
+    //     if(props.auth.isLoggedIn){
+    //         return props.history.push("/");
+    //     } else {
+    //         setInitialState({"error":"Invalid email and password"});
+    //     }
+    // });
   };
 
 
-    render(){
-        const {email,password, error} = this.state;
+        const {email,password, error} = initialState;
 
 
         return (
@@ -86,7 +145,7 @@ class Login extends Component {
                   <Typography component="h1" variant="h5">
                     Sign in
                   </Typography>
-                  <Box component="form" onChange={this.credentialChange} noValidate sx={{ mt: 1 }}>
+                  <Box component="form" onChange={credentialsChange} noValidate sx={{ mt: 1 }}>
                     <TextField
                       margin="normal"
                       required
@@ -115,9 +174,9 @@ class Login extends Component {
                       type="submit"
                       fullWidth
                       variant="contained"
-                      onClick={this.validateUser}
+                      onClick={validateUser}
                       sx={{ mt: 3, mb: 2 }}
-                      disabled={this.state.email.length===0 || this.state.password.length===0}
+                      disabled={initialState.email.length===0 || initialState.password.length===0}
                     >
                       Sign In
                     </Button>
@@ -140,19 +199,7 @@ class Login extends Component {
             </ThemeProvider>
 
         );
-    }
 }
 
-const mapStateToProps = state => {
-    return {
-        auth:state.auth
-    };
-};
 
-const mapDispatchToProps = dispatch => {
-    return {
-        authenticateUser: (email, password) => dispatch(authenticateUser(email,password))
-    };
-};
-
-export default connect(mapStateToProps,mapDispatchToProps)(Login);
+export default Login;

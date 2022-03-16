@@ -36,6 +36,8 @@ function App() {
 //    dispatch(updateUserLoggedInStatus({ isUserLoggedIn: true }))
 //  }, 3000);
 
+// useSelector -> react hook -> 
+// navigate to 
   const heading = "Welcome to EasyHomes";
   const footer = "Group-24";
 
@@ -48,7 +50,7 @@ function App() {
                <Routes>
                         <Route path="/" element={() => <Welcome heading={heading} footer={footer} /> } />
                         <Route path="/register" element={<Register/>}/>
-                        <Route path="/login" element={<Login/>}/>
+                        <Route path="/login" element={<Login />}/>
                </Routes>
             </Grid>
         </Container>

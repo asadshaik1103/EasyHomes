@@ -6,16 +6,16 @@ import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(path = "api/v1/registration")
+@RequestMapping(path = "user")
 @AllArgsConstructor
 public class RegistrationController {
 
     private RegistrationService registrationService;
 
-    @PostMapping
-    public String register(@RequestBody RegistrationRequest registrationRequest){
-        return registrationService.register(registrationRequest);
-    }
+//    @PostMapping
+//    public String register(@RequestBody RegistrationRequest registrationRequest){
+//        return registrationService.register(registrationRequest);
+//    }
 
     @GetMapping(path = "confirm")
     public String confirm(@RequestParam("token") String token){

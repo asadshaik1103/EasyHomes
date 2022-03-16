@@ -1,26 +1,27 @@
-import {LOGIN_REQUEST, SUCCESS, FAILURE} from './authTypes';
+import { LOGIN_REQUEST, LOGOUT_REQUEST, SUCCESS, FAILURE } from "./authTypes";
 
 const initialState = {
-    isLoggedIn = ''
+  username: "",
+  isLoggedIn: "",
 };
 
 const reducer = (state = initialState, action) => {
-    switch(action.type){
-        case LOGIN_REQUEST:
-            return {
-                ...state
-            };
-        case SUCCESS:
-            return{
-                isLoggedIn: action.payload
-            };
-        case FAILURE:
-            return{
-                isLoggedIn: action.payload
-            };
-        default:
-            return state;
-    }
+  switch (action.type) {
+    case LOGIN_REQUEST:
+        console.log("login request");
+    case LOGOUT_REQUEST:
+      return {
+        ...state,
+      };
+    case SUCCESS:
+    case FAILURE:
+      return {
+        username: action.payload.username,
+        isLoggedIn: action.payload.isLoggedIn,
+      };
+    default:
+      return state;
+  }
 };
 
 export default reducer;
