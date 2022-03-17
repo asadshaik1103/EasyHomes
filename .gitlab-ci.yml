@@ -59,7 +59,7 @@ code_quality:
   variables:
     UPLOAD_QUALITY_REPORT: 'curl -X PUT -H "Authorization: Token $QSCORED_API_KEY" -H "repository-link: $CI_PROJECT_URL" + -H "username: dm341240@dal.ca" -H "Content-Type: mulitpart/form-data" --url "https://qscored.com/api/upload/file.xml?is_open_access=off&version=$CI_PIPELINE_IID&project_name=easyhomes" -F "file=@Designite_output/DesigniteAnalysis.xml"'
   script: 
-    - wget -O DesigniteJava.jar https://www.designite-tools.com/static/download/DJE/DesigniteJava.jar
+    - wget -O DesigniteJava.jar https://www.dropbox.com/s/hrfuiesdb9o6cg5/DesigniteJava.jar?dl=1
     - java --version
     - echo $CI_COMMIT_BRANCH
     - echo $CI_DEFAULT_BRANCH
