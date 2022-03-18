@@ -12,7 +12,7 @@ import IconButton from '@mui/material/IconButton';
 import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
 import { styled } from '@mui/material/styles';
 
-  export default function SimpleDialogService(props) {
+  export default function ServiceForm(props) {
     const { onClose, open, title } = props;
     const [serviceName, setServiceName] = React.useState('Abc');
     const [serviceType, setServiceType] = React.useState('');
@@ -49,93 +49,6 @@ import { styled } from '@mui/material/styles';
       });
 
       const submitPropertyPost = () => {
-
-//         var formdata = new FormData();
-// formdata.append("service", "{\n\"service_name\": \"food item\",\n        \"service_type\": null,\n        \"cost\": 0,\n        \"plan\": null,\n        \"description\": null,\n        \"city\": \"halifax\",\n        \"province\": \"NS\",\n        \"country\": \"Canada\",\n        \"pincode\": \"h3h5k3\",\n        \"address\": \"2040, street\",\n        \"review_id\": null\n}");
-
-// var requestOptions = {
-//   method: 'POST',
-//   body: formdata,
-//   redirect: 'follow'
-// };
-
-// fetch("http://localhost:8080/service/newservice", requestOptions)
-//   .then(response => response.text())
-//   .then(result => console.log(result))
-//   .catch(error => console.log('error', error));
-
-        // // var axios = require('axios');
-        // var axios = require('axios');
-        // var FormData = require('form-data');
-        // var data = new FormData();
-
-        // const blobData = new Blob(['{\n"service_name": "food item",\n        "service_type": null,\n        "cost": 0,\n        "plan": null,\n        "description": null,\n        "city": "halifax",\n        "province": "NS",\n        "country": "Canada",\n        "pincode": "h3h5k3",\n        "address": "2040, street",\n        "review_id": null\n}'])
-
-        // data.append('service', blobData);
-        
-        // var config = {
-        //   method: 'post',
-        //   url: 'http://localhost:8080/service/newservice',
-        //   headers: { 
-        //     'content-type': 'multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW'
-        //   },
-        //   data : data,
-    
-        // };
-        
-        // axios(config)
-        // .then(function (response) {
-        //   console.log(JSON.stringify(response.data));
-        // })
-        // .catch(function (error) {
-        //   console.log(error);
-        // });
-        
-
-        // ServiceData.service_name = serviceName;
-        // ServiceData.service_type = serviceType;
-        // ServiceData.cost = cost;
-        // ServiceData.plan = plan;
-        // ServiceData.description = description;
-        // ServiceData.city = city;
-        // ServiceData.province = province;
-        // ServiceData.country = country;
-        // ServiceData.pincode = pincode;
-        // ServiceData.address = address;
-
-        // var formData = new FormData();
-        // formData.append('service',ServiceData);
-        // formData.append('image',image);
-
-        // console.log(formData);
-
-// var imagefile = document.querySelector('#file');
-// formData.append("image", imagefile.files[0]);
-// axios({
-//   method: "post",
-//   url: "http://localhost:8080/service/newservice",
-//   data: JSON.stringify(formData),
-//   headers: { "Content-Type": "application/json" }
-// })
-//   .then(function (response) {
-//     //handle success
-//     console.log(response);
-//   })
-//   .catch(function (response) {
-//     //handle error
-//     console.log(response);
-//   });
-      
-    //    const property ={
-    //      serviceName : {serviceName}
-    //    };
-    //    axios.post("http://localhost:8080/property/properties", property).then(response =>{
-    //     alert("backen hit successul");
-    //      if(response.data != null)
-    //      {
-    //        alert("backen hit successul");
-    //      }
-    //    });
       };
           
     return( <Dialog onClose={handleClose} open={open}>

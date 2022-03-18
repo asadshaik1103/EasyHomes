@@ -9,7 +9,7 @@ import SpeedDialAction from '@mui/material/SpeedDialAction';
 import { ThemeProvider } from '@mui/material/styles';
 
 import SimpleDialog from '../property/PropertyForm';
-import SimpleDialogService from '../service/ServiceForm';
+import ServiceForm from '../service/ServiceForm';
 import { customTheme } from '../../utils/theme';
 const actions = [
   { icon: <HomeWorkIcon />, name: 'Add a property', id: 'add-property'},
@@ -61,7 +61,7 @@ export default function FabMenu() {
         title="Add Property"
       />
       :
-      <SimpleDialogService
+      <ServiceForm
         open={dialogOpened}
         onClose={setDialogOpened}
         title="Add Service"
