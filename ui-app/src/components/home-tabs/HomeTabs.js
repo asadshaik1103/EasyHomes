@@ -9,7 +9,7 @@ import axios from 'axios';
 
 import { customTheme } from '../../utils/theme';
 import { Avatar, Button, Card, CardActions, CardContent, CardHeader, CardMedia, Chip, Divider, Grid, IconButton, Rating, Stack } from '@mui/material';
-import { AddFavorite } from '../Icons';
+// import { AddFavorite } from '../Icons/';
 import { Share } from '@mui/icons-material';
 import { GET_PROPERTY, GET_SERVICE } from '../../contants/Api';
 
@@ -64,7 +64,7 @@ const RenderProperty = ({ property },index) => {
     </CardContent>
     <CardActions disableSpacing>
       <IconButton aria-label="share">
-        <AddFavorite />
+        {/* <AddFavorite /> */}
       </IconButton>
       <IconButton aria-label="share">
         <Share />
@@ -97,7 +97,7 @@ const RenderService = ({ services },index) => {
         />
         <CardActions disableSpacing style={{justifyContent:'space-between'}}>
         <IconButton aria-label="add to favorites">
-          <AddFavorite />
+          {/* <AddFavorite /> */}
           </IconButton>
           <Rating
             name="simple-controlled"
