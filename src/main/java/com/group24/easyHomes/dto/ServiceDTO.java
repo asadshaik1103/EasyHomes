@@ -17,6 +17,10 @@ public class ServiceDTO {
     private Long service_id;
 
     private String service_name;
+    private String service_type;
+    private int cost;
+    private String plan;
+    private String description;
     private String city;
     private String province;
     private String country;

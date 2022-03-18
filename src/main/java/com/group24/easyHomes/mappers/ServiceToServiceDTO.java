@@ -31,6 +31,10 @@ public class ServiceToServiceDTO  implements Converter<ServiceDTO, Services> {
         services.setService_id(source.getService_id());
         services.setService_name(source.getService_name());
         services.setCity(source.getCity());
+        services.setService_type(source.getService_type());
+        services.setCost(source.getCost());
+        services.setPlan(source.getPlan());
+        services.setDescription(source.getDescription());
         services.setProvince(source.getProvince());
         services.setCountry(source.getCountry());
         services.setPincode(source.getPincode());

@@ -19,6 +19,10 @@ public class Services {
     private Long service_id;
 
     private String service_name;
+    private String service_type;
+    private int cost;
+    private String plan;
+    private String description;
     private String city;
     private String province;
     private String country;
@@ -30,9 +34,13 @@ public class Services {
     @Setter(value = AccessLevel.NONE)
     private Set<ServiceImages> images = new HashSet<>();
 
-    public Services(String service_name, String city, String province, String country, String pincode
-            , String address,Long review_id) {
+    public Services(String service_name,String service_type, int cost,String plan,String description,
+                    String city, String province, String country, String pincode, String address,Long review_id) {
         this.service_name = service_name;
+        this.service_type = service_type;
+        this.cost = cost;
+        this.plan = plan;
+        this.description = description;
         this.city = city;
         this.province = province;
         this.country = country;
