@@ -253,7 +253,7 @@ export default function ElevateAppBar(props) {
         </ThemeProvider>
       </ElevationScroll>
       <Toolbar />
-      <Container fixed><HomePage /></Container>
+      {/* <Container fixed><HomePage /></Container> */}
     </React.Fragment>
   );
 }

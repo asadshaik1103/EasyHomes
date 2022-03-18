@@ -16,6 +16,7 @@ import {
 import { Search, Home, Favorite, Add, Remove } from "@mui/icons-material";
 import styled from "@emotion/styled";
 import axios from "axios";
+import { GET_SERVICE } from "../contants/Api";
 
 const Service = () => {
   var settings = {
@@ -31,7 +32,7 @@ const Service = () => {
 
   useEffect (() => {
     axios
-      .get("http://localhost:8080/property/properties")
+      .get(GET_SERVICE)
       .then((res) => {setService(res.data)})
       .catch();
     },[]);

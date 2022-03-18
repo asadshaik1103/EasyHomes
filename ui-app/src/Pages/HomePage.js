@@ -18,6 +18,7 @@ import {
 } from "@mui/material";
 import "../Styles/HomePageStyle.css";
 import { Share } from "@mui/icons-material";
+import { GET_PROPERTY, GET_SERVICE } from "../contants/Api";
 
 const HomePage = () => {
   const [services, setServices] = useState([]);
@@ -26,12 +27,12 @@ const HomePage = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:8080/service/services")
+      .get(GET_SERVICE)
       .then((res) => setServices(res.data))
       .catch();
     
     axios
-      .get("http://localhost:8080/property/properties")
+      .get(GET_PROPERTY)
       .then((res) => setProperties(res.data))
       .catch();
 
