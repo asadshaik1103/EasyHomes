@@ -56,6 +56,7 @@ export default function FabMenu() {
         open={dialogOpened}
         onClose={handleClose}
         title="Add Property"
+        setDialogOpenState={setDialogOpened}
       />
       <Box sx={getSpeedDialBoxStyles()}>
         <SpeedDial
