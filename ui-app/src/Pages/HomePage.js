@@ -2,11 +2,8 @@ import {AddFavorite} from "../components/Icons"
 import axios from "axios";
 import { useEffect, useState } from "react";
 import {
-  Fab,
   Avatar,
   Rating,
-  ToggleButton,
-  ToggleButtonGroup,
   Card,
   CardHeader,
   CardContent,
@@ -37,10 +34,6 @@ const HomePage = () => {
       .catch();
 
     },[]);
-
-  const setToggleView = (event, newToggle) => {
-    setToggle(newToggle);
-  };
 
   const RenderService = ({ services },index) => {
     const blobData= services.images[0]?.image_data ;

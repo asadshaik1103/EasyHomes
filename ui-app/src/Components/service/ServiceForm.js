@@ -14,7 +14,7 @@ import { styled } from '@mui/material/styles';
 
   export default function ServiceForm(props) {
     const { onClose, open, title } = props;
-    const [serviceName, setServiceName] = React.useState('Abc');
+    const [serviceName, setServiceName] = React.useState('');
     const [serviceType, setServiceType] = React.useState('');
     const [cost, setCost] = React.useState(0);
     const [plan, setPlan] = React.useState('');

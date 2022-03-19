@@ -4,12 +4,7 @@ import "bootstrap";
 import { Button, Carousel, CarouselItem } from "react-bootstrap";
 import React from "react";
 import {
-  FormControl,
-  Icon,
-  InputLabel,
-  MenuItem,
   Rating,
-  Select,
   ToggleButton,
   ToggleButtonGroup,
 } from "@mui/material";
