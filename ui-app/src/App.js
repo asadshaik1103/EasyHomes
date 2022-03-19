@@ -21,7 +21,6 @@ function App() {
     dispatch(updateUserLoggedInStatus({ isUserLoggedIn: true }))
   }, 3000);
 
-
   return (
     <>
     {/* TODO add protected route and lazy load'Home' component after login functionality is completed */}
