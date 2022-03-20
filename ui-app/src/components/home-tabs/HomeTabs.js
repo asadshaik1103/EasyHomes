@@ -6,12 +6,16 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import { ThemeProvider } from '@mui/material/styles';
 import axios from 'axios';
+import { useDispatch } from 'react-redux';
 
 import { customTheme } from '../../utils/theme';
 import { Avatar, Button, Card, CardActions, CardContent, CardHeader, CardMedia, Chip, Divider, Grid, IconButton, Rating, Stack } from '@mui/material';
 // import { AddFavorite } from '../Icons/';
 import { Share } from '@mui/icons-material';
 import { GET_PROPERTY, GET_SERVICE } from '../../contants/Api';
+import Service from '../service/Service';
+import { openModel } from '../../reducers/app/appSlice';
+import {AddFavorite} from '../Icons'
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -64,7 +68,7 @@ const RenderProperty = ({ property },index) => {
     </CardContent>
     <CardActions disableSpacing>
       <IconButton aria-label="share">
-        {/* <AddFavorite /> */}
+        <AddFavorite />
       </IconButton>
       <IconButton aria-label="share">
         <Share />
@@ -76,9 +80,12 @@ const RenderProperty = ({ property },index) => {
 };
 
 
-const RenderService = ({ services },index) => {
-  const blobData= services.images[0]?.image_data ;
+const RenderService = ({ service },index) => {
+  const dispatch = useDispatch();
+  const blobData= service.images[0]?.image_data ;
   return (
+    <>
+    <Service />
     <Grid item xs={4}>
       <Card style={style.ServiceFeed} sx={{ maxWidth: 345 }}>
         <CardHeader
@@ -97,7 +104,7 @@ const RenderService = ({ services },index) => {
         />
         <CardActions disableSpacing style={{justifyContent:'space-between'}}>
         <IconButton aria-label="add to favorites">
-          {/* <AddFavorite /> */}
+          <AddFavorite />
           </IconButton>
           <Rating
             name="simple-controlled"
@@ -106,29 +113,29 @@ const RenderService = ({ services },index) => {
       </CardActions>
         <CardContent style={{paddingTop:'1%'}}>
         <div style={{justifyContent:'space-between',display:'flex',flexDirection:'row'}}>
-        <Typography fontSize={24}  fontWeight='bold'>{services.service_name}</Typography>
-        <Typography fontSize={24}  fontWeight='bold'>${services.cost}</Typography>
+        <Typography fontSize={24}  fontWeight='bold'>{service.service_name}</Typography>
+        <Typography fontSize={24}  fontWeight='bold'>${service.cost}</Typography>
         </div>
-          <Typography >{services.description>100?
-            services.description.substring(0,100)+'...'
-            :services.description}</Typography>
+          <Typography >{service.description>100?
+            service.description.substring(0,100)+'...'
+            :service.description}</Typography>
 
         <Typography fontSize={16}  fontWeight='bold'>Subscription</Typography>
           <Stack direction="row" spacing={1}><Chip size="small" label="Weekly"/>
           <Chip size="small" label="Monthly"/>
           <Chip size="small" label="Yearly"/></Stack>
 
-          <Typography marginTop={2.5} fontSize={16}>{services.address + " ,"+ services.pincode}</Typography>
+          <Typography marginTop={2.5} fontSize={16}>{service.address + " ,"+ service.pincode}</Typography>
           
-          <Typography fontSize={16}>{services.city + ",  " 
-          + services.province + ", " +  services.country} </Typography>
+          <Typography fontSize={16}>{service.city + ",  " 
+          + service.province + ", " +  service.country} </Typography>
         </CardContent>
-
         <CardActions>
-        <Button size="small">Learn More</Button>
+        <Button onClick={()=>dispatch(openModel({ homeDialog:{isOpen:true,service:service}}))} size="small">Learn More</Button>
       </CardActions>
       </Card>
     </Grid>
+    </>
   );
 };
 
@@ -202,8 +209,8 @@ export default function HomeTabs() {
         rowSpacing={1}
         columnSpacing={{ xs: 2, sm: 2, md: 2 }}
       >
-        {services.map((services, index) => {
-          return <RenderService services={services} />;
+        {services.map((service, index) => {
+          return <RenderService service={service} />;
         })
         }
       </Grid>

@@ -55,24 +55,6 @@ const HomePage = () => {
         alt="Paella dish"
       />
           <CardContent>
-            <div>
-              <p>{services.serviceName}</p>
-            </div>
-            <div>
-              <p>{services.city}</p>
-            </div>
-            <div>
-              <p>{services.country}</p>
-            </div>
-            <div>
-              <p>{services.pincode}</p>
-            </div>
-            <div>
-              <p>{services.province}</p>
-            </div>
-            <div>
-              <p>{services.address}</p>
-            </div>
             <Rating
               name="simple-controlled"
               value={1}
