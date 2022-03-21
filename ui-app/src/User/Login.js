@@ -13,11 +13,13 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
+import { authenticateUserData } from '../reducers/app/thunks/appThunk';
 // import {connect} from 'react-redux';
 import axios from 'axios';
 // import {authenticateUser} from '../services/index';
 import Alert from '@mui/material/Alert';
 
+import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { authenticateUser } from '../reducers/app/appSlice';
 // /reducers/app/appSlice
@@ -43,6 +45,7 @@ const theme = createTheme();
 
 const Login = (props) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
     // constructor(props){
     //     super(props);
     //     state = initialState;
@@ -57,7 +60,9 @@ const Login = (props) => {
   });
 
   const isUserLoggedIn = useSelector(state => state.app.isUserLoggedIn);
-
+  if (isUserLoggedIn) {
+    navigate('/dashboard');
+  }
   // setInitialState(prevState => ({
   //   ...prevState,
   //   email: 'wer@g.com'
@@ -74,51 +79,14 @@ const Login = (props) => {
 
   }
 
-  const validateUser = () => {
+  const validateUser = (event) => {
     // props.authenticateUser(state.email, state.password);
     // dispatch(authenticateUser({ isUserLoggedIn: true }))
-    console.log("email: ", email);
-    console.log("password: ", password);
-
-
-    const data = axios
-    .post('http://localhost:8080/user/authenticate',  {
-      username: email,
-      password: password,
-    },
-   {
-    headers: {
-      "Accept": "application/json",
-      "Content-Type": "application/json",
+    if (event) {
+      event.preventDefault()
     }
-  }).then(function (response) {
-    console.log("res: ", data);
-  })
-console.log(data);
-
-    // http://localhost:8080
-    // axios({
-    //   method: "post",
-    //   url: "http://localhost:8080/user/authenticate",
-    //   data: JSON.stringify({
-    //     email: email, 
-    //     password: password
-    //   }),
-    //   headers:{
-    //     'Content-Type':'text/plain'
-    //   }
-    // }).then(function (response) {
-    //   console.log("res: ", response);
-    // }).catch(err => {
-    //   console.error("err: ", err);
-    // });
-    // setTimeout(()=>{
-    //     if(props.auth.isLoggedIn){
-    //         return props.history.push("/");
-    //     } else {
-    //         setInitialState({"error":"Invalid email and password"});
-    //     }
-    // });
+    dispatch(authenticateUserData({email, password}));
+    // navigate('/dashboard');
   };
 
 
@@ -182,14 +150,14 @@ console.log(data);
                     </Button>
                     <Grid container>
                       <Grid item xs>
-                        <Link href="#" variant="body2">
+                        {/* <Link href="#" variant="body2">
                           Forgot password?
-                        </Link>
+                        </Link> */}
                       </Grid>
                       <Grid item>
-                        <Link href="http://localhost:3000/register" variant="body2">
+                        {/* <Link href="http://localhost:3000/register" variant="body2">
                           {"Don't have an account? Sign Up"}
-                        </Link>
+                        </Link> */}
                       </Grid>
                     </Grid>
                   </Box>
