@@ -18,24 +18,118 @@ import IconButton from '@mui/material/IconButton';
 import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
 import { styled } from '@mui/material/styles';
 import axios from 'axios';
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
 
-// const initialValues ={
-//     id:0,
-//     propertyName:'',
-//     propertyType:'',
-//     amenities:'',
-//     bedrooms:0,
-//     bathrooms:0,
-//     parkingInclude:false,
-//     rent:0.0,
-// }
-  export default function SimpleDialog(props) {
-    const { onClose, open, title } = props;
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
+
+// propertyName
+// propertyType
+// bedrooms
+// bathrooms
+// rent
+// base64Images
+export default function SimpleDialog(props) {
+    const { onClose, open, title, setDialogOpenState } = props;
     const [propertyName, setPropertyName] = React.useState('');
     const [propertyType, setPropertyType] = React.useState('');
     const [bedrooms, setBedrooms] = React.useState('');
     const [bathrooms, setBathrooms] = React.useState('');
     const [rent, setRentChange] = React.useState('');
+    //const [submitFile, setSubmitFile] = React.useState({});
+    const[files,setFiles] = React.useState([]);
+    const [base64Data, setBase64Data ] = React.useState('');
+    //const [base64Image, setBase64Image ] = React.useState([]);
+    const [base64Images, setbase64Images] = React.useState([]);
+    const [property, setProperty] = React.useState({});
+    const [snackbar, setSnackBar] = React.useState(false);
+    const [severity, setSeverity] = React.useState('success');
+
+   
+  
+    const handleSnackClose = (event, reason) => {
+      if (reason === 'clickaway') {
+        return;
+      }
+  
+      setSnackBar(false);
+    };
+  
+
+    const initialValues ={
+      id:0,
+      propertyName:'',
+      propertyType:'',
+      address:{
+        location:'',
+        city:'',
+        country:'',
+        province:'',
+        country:'',
+        postal_code:''
+      },
+      amenities:'',
+      bedrooms:0,
+      bathrooms:0,
+      parkingInclude:false,
+      rent:0.0,
+      images:[]
+  }
+
+  const image ={
+    image_data:''
+  }
+  
+    const onFileChange = (e) => {
+      debugger;
+      // const val= e.target.files.map(file => {
+      //   return {
+      //     "image_data": file
+      //   }
+      // });
+
+      for (var i = 0; i < e.target.files.length; i++) {
+        console.log(e.target.files[i]);
+          if (e.target.files[i]) {
+            const reader = new FileReader();
+            reader.onload = _handleReaderLoaded.bind(this);
+            reader.readAsBinaryString(e.target.files[i]);
+            console.log('file uploaded: ', e.target.files[i]);
+          }
+      }       
+    // console.log(base64Images);
+    };
+  
+    // const _handleReaderLoaded = (e) => {
+    //   console.log('file uploaded 2: ', e);
+    //   let binaryString = e.target.result;
+    //   // setBase64Data({
+    //   //   base64Data: btoa(binaryString),
+    //   // });
+    //   setBase64Images({
+        
+    //   });
+    //   const base64Images = [{
+    //     images_data: ""
+    //   },
+    // {
+    //   images_data: ""
+    // }]
+    // };
+
+    const _handleReaderLoaded = e => {
+      //console.log("file uploaded 2: ", e);
+      let binaryString = e.target.result;
+      // setbase64Data(base64String); // <- your binaryString here
+      const newbase64Images = [...base64Images];
+      // newbase64Images[]
+      const base64Image = {
+        image_data: btoa(binaryString) // <- your binaryString here
+      }
+      setbase64Images([...base64Images, base64Image]);
+    };
 
     const [state, setState] = React.useState({
       laundry: true,
@@ -48,6 +142,7 @@ import axios from 'axios';
         [event.target.name]: event.target.checked,
       });
     };
+    
   
     const { laundry, wifi} = state;
 
@@ -55,25 +150,32 @@ import axios from 'axios';
 
     const handlsetParkingIncludedeChange = (event) => {
         setParkingIncluded(event.target.checked);
+        initialValues.parkingInclude = event.target.checked;
     };
 
 
     const handleRentChange = (event) => {
       setRentChange(event.target.value);
+      //initialValues.rent = event.target.value;
     };
     const handleClose = () => {
-        onClose();
+        // onClose();
+        setDialogOpenState();
       };
 
       const handlePropertyTypeChange = (event) => {
         setPropertyType(event.target.value);
+        //initialValues.propertyType = event.target.value;
       };
 
       const handleBedroomsChange = (event) => {
         setBedrooms(event.target.value);
+        //initialValues.bedrooms = event.target.value;
       };
       const handleBathroomsChange = (event) => {
         setBathrooms(event.target.value);
+        //initialValues.bathrooms = event.target.value;
+        console.log(initialValues.bathrooms);
       };
 
       const Input = styled('input')({
@@ -82,27 +184,112 @@ import axios from 'axios';
 
       const handlePropertyNameChange = (event) => {
         setPropertyName(event.target.value);
+        //initialValues.propertyName = event.target.value;
       };
 
-      const submitPropertyPost = () => {
-      //  alert("Property Saved");
-      //  const property ={
-      //    propertyName : {propertyName}
-      //  };
-      //  axios.post("http://localhost:8080/properties/", property).then(response =>{
-      //   alert("backen hit successul");
-      //    if(response.data != null)
-      //    {
-      //      alert("backen hit successul");
-      //    }
-      //  });
+      const submitPropertyPost = (initialValues) => {
+        console.log("initialValues: ", initialValues);
+        console.log();
+        console.log();
+        console.log();
+        console.log();
+        console.log();
+        console.log();
+        console.log();
+        console.log(base64Images);
+       alert("Property Saved");
+       console.log(propertyName);
+       console.log(base64Data);
+       // propertyName
+// propertyType
+// bedrooms
+// bathrooms
+// rent
+// base64Images
+       const property ={
+          "property_name": propertyName,
+          "address":{
+            "location" : "South Park Street",
+            "city": "Halifax",
+            "province":"NS",
+            "country": "Canada",
+            "postal_code": "H3J2K9"
+        },
+          "amenities":"Laundry,Wifi",
+          "property_type":propertyType,
+           "bathrooms": bathrooms,
+           "bedrooms": bedrooms,
+          "parking_included":"true",
+          "rent": rent,
+          "images": [...base64Images]
+       };
 
+      // const form = new FormData();
+      // form.append("property",JSON.stringify(property) );
+      // for (let key of form.keys)
+      //  {
+      //    console.log(key,form.get(key));
+      // }
+    //   for(let i = 0; i< e.target.files.length; i++) {
+    //     formData.append('files', e.target.files[i])
+    // }
+      //files.forEach(file => form.append("file",file));
+      //console.log(files);
+      //form.append("file",files);
+      //console.log(form.values);
+
+      JSON.stringify(property)
+
+      axios({
+        method: 'post',
+        url: 'http://localhost:8080/property/property',
+        data: JSON.stringify(property),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+        })
+        .then(function (response) {
+            setSnackBar(true);
+            setSeverity("success");
+            setDialogOpenState(false);
+            resetForm();
+            console.log(snackbar);
+        })
+        .catch(function (response) {
+            //handle error
+            console.log(response);
+        });
       };
-      
 
-          
-    return( <Dialog onClose={handleClose} open={open}>
+      const handleDialogClose = () => {
+        setDialogOpenState();
+      }
+
+     const isFormValid = () => {
+        return  false;
+        // propertyName && propertyType && bedrooms && bathrooms && rent;
+      }
+
+      // propertyName
+// propertyType
+// bedrooms
+// bathrooms
+// rent
+// base64Images
+      const resetForm = () => {
+        this.setPropertyName('');
+        this.setPropertyType('');
+        this.setBedrooms('');
+        this.setBathrooms('');
+        this.setRentChange('');
+        this.setbase64Images([]);
+      }
+
+      // const 
+       
+    return( <Dialog onBackdropClick={handleDialogClose} onClose={handleClose} open={open}>
         <DialogTitle>{title}</DialogTitle>
+        <form>
         <Container  maxWidth="md">
           <Grid container spacing={2}>
             <Grid item xs={6}>
@@ -272,15 +459,31 @@ import axios from 'axios';
       </Grid>
       <Grid item xs={6}>
       <label htmlFor="icon-button-file">
-        <Input accept="image/*" id="icon-button-file" type="file" />
-        <IconButton color="primary" aria-label="upload picture" component="span">
+      <input
+          type="file"
+          name="image"
+          id="file"
+          accept=".jpg, .jpeg, .png"
+          multiple
+          onChange={onFileChange}
+        />
+        {/* <IconButton color="primary" aria-label="upload picture" component="span">
           <AddAPhotoIcon  fontSize="large"/>
-        </IconButton>
+        </IconButton> */}
       </label>
       </Grid>
       <div style={{ padding: 20 }}></div>
-      <Button variant="contained" onClick={submitPropertyPost}>Post</Button>
+      <Button variant="contained" disabled={!isFormValid} onClick={submitPropertyPost}>Post</Button>
+      <Snackbar open={snackbar} autoHideDuration={6000} onClose={handleSnackClose}>
+          <Alert onClose={handleSnackClose} severity={severity} sx={{ width: '100%' }}>
+            This is a success message!
+          </Alert>
+        </Snackbar>
+        {/* <Alert severity="error">This is an error message!</Alert> */}
+        {/* <Alert severity="success">Property posted successfully</Alert> */}
       </Container>
+      </form>
+    
 
       <div style={{ padding: 20 }}></div>
      

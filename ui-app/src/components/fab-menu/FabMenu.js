@@ -59,6 +59,7 @@ export default function FabMenu() {
         open={dialogOpened}
         onClose={setDialogOpened}
         title="Add Property"
+        setDialogOpenState={setDialogOpened}
       />
       :
       <ServiceForm
