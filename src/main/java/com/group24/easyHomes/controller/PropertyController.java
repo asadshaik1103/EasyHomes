@@ -5,6 +5,7 @@ import com.group24.easyHomes.mappers.PropertyDTOToProperty;
 import com.group24.easyHomes.model.Property;
 import com.group24.easyHomes.model.PropertyImages;
 import com.group24.easyHomes.service.PropertyService;
+import com.group24.easyHomes.model.PropertyListQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +23,7 @@ import java.util.Set;
 public class PropertyController {
 
     @Autowired
-    private PropertyService  service;
+    private PropertyService service;
 
 
     @Autowired
@@ -33,6 +34,13 @@ public class PropertyController {
     {
 
         return new ResponseEntity<>(service.listAll(),HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/properties/filter",consumes = {"application/json"},produces ={"application/json"})
+    public ResponseEntity<List<Property>> filterProperties(@RequestBody PropertyListQuery propertyListQuery)
+    {
+        int addressID = propertyListQuery.getAddress_id();
+        return new ResponseEntity<>(service.filterProperties(addressID),HttpStatus.OK);
     }
 
    @PostMapping(value = "/properties",consumes = {"multipart/form-data"},produces ={"application/json"})

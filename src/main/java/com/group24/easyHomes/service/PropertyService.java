@@ -16,6 +16,11 @@ public class PropertyService {
         return propertyRepository.findAll();
     }
 
+    public List<Property> filterProperties(int keyword)
+    {
+        return propertyRepository.search(keyword); // TODO take the keyword from request body
+    }
+
     public Property addProperty(Property property)
     {
         return propertyRepository.save(property);
