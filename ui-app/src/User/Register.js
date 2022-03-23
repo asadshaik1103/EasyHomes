@@ -1,11 +1,9 @@
-import React, {Component} from 'react';
+import React, { useState } from "react";
 
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
@@ -13,7 +11,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-
+import axios from 'axios';
 
 function Copyright(props) {
   return (
@@ -30,22 +28,40 @@ function Copyright(props) {
 
 const theme = createTheme();
 
-class Register extends Component{
+const Register = (props) => {
 
-    constructor(props){
-            super(props);
-            this.state = this.initialState;
-     }
+  const initialState = {
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+  };
 
-     initialState = {
-        firstName: "",
-        lastName: "",
-        email: "",
-        password: "",
-      };
+  const [user, setUser] = useState(initialState);
+
+  const userChange = (event) => {
+    const { name, value } = event.target;
+    setUser({ ...user, [name]: value });
+  };
 
 
-    render(){
+  const saveUser = () => {
+
+      axios
+      .post('http://localhost:8080/user/register',  {
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+        password: user.password,
+      },
+      {
+        headers: {
+          "Accept": "application/json",
+          "Content-Type": "application/json",
+        }
+      })
+  };
+
         return (
              <ThemeProvider theme={theme}>
                  <Container component="main" maxWidth="xs">
@@ -64,12 +80,14 @@ class Register extends Component{
                      <Typography component="h1" variant="h5">
                        Sign up
                      </Typography>
-                     <Box component="form" noValidate onChange={this.cre} sx={{ mt: 3 }}>
+                     <Box component="form" noValidate onChange={userChange} sx={{ mt: 3 }}>
                        <Grid container spacing={2}>
                          <Grid item xs={12} sm={6}>
                            <TextField
                              autoComplete="given-name"
                              name="firstName"
+                             value={user.firstName}
+                             onChange={userChange}
                              required
                              fullWidth
                              id="firstName"
@@ -84,6 +102,8 @@ class Register extends Component{
                              id="lastName"
                              label="Last Name"
                              name="lastName"
+                             value={user.lastName}
+                             onChange={userChange}
                              autoComplete="family-name"
                            />
                          </Grid>
@@ -94,6 +114,8 @@ class Register extends Component{
                              id="email"
                              label="Email Address"
                              name="email"
+                             value={user.email}
+                             onChange={userChange}
                              autoComplete="email"
                            />
                          </Grid>
@@ -105,6 +127,8 @@ class Register extends Component{
                              label="Password"
                              type="password"
                              id="password"
+                             value={user.password}
+                             onChange={userChange}
                              autoComplete="new-password"
                            />
                          </Grid>
@@ -113,14 +137,15 @@ class Register extends Component{
                        <Button
                          type="submit"
                          fullWidth
-                         variant="contained"
+                         variant="success"
+                         onClick={saveUser}
                          sx={{ mt: 3, mb: 2 }}
                        >
                          Sign Up
                        </Button>
                        <Grid container justifyContent="flex-end">
                          <Grid item>
-                           <Link href="http://localhost:3000/login" variant="body2">
+                           <Link href="login" variant="body2">
                              Already have an account? Sign in
                            </Link>
                          </Grid>
@@ -133,6 +158,6 @@ class Register extends Component{
 
         );
     }
-}
+
 
 export default Register;

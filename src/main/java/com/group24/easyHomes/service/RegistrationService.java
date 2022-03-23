@@ -4,6 +4,7 @@ import com.group24.easyHomes.dto.RegistrationRequest;
 import com.group24.easyHomes.model.AppUser;
 import com.group24.easyHomes.model.AppUserRole;
 import com.group24.easyHomes.model.TokenValidation;
+import com.group24.easyHomes.utils.ConstantUtils;
 import lombok.AllArgsConstructor;
 import org.hibernate.validator.internal.constraintvalidators.bv.EmailValidator;
 import org.springframework.stereotype.Service;
@@ -19,29 +20,28 @@ public class RegistrationService {
     private final TokenValidationService tokenValidationService;
     private final SendMailService sendMailService;
 
-    public String register(RegistrationRequest request) {
-
-        String token =  appUserService.signUpUser(
-                            new AppUser(
-                        request.getFirstName(),
-                        request.getLastName(),
-                        request.getPassword(),
-                        request.getEmail(),
-                        AppUserRole.USER
-                )
-        );
-
-        String link = "http://127.0.0.1:8080/api/v1/registration/confirm?token=" + token;
-
-        String message = "Hello,\n" +
-                "Please verify your email id through following link:\n" +
-                "Link: " +  link + " \n" +
-                "Thank you\n" +
-                "EasyHomes";
-        sendMailService.send(request.getEmail(), message);
-
-        return token;
-    }
+//    public String register(RegistrationRequest request) {
+//
+//        String token =  appUserService.signUpUser(
+//                            new AppUser(
+//                        request.getFirstName(),
+//                        request.getLastName(),
+//                        request.getPassword(),
+//                        request.getEmail()
+//                            )
+//        );
+//
+//        String link = "http://127.0.0.1:8080/api/v1/registration/confirm?token=" + token;
+//
+//        String message = "Hello,\n" +
+//                "Please verify your email id through following link:\n" +
+//                "Link: " +  link + " \n" +
+//                "Thank you\n" +
+//                "EasyHomes";
+//        sendMailService.send(request.getEmail(), message);
+//
+//        return token;
+//    }
 
     @Transactional
     public String confirmToken(String token){

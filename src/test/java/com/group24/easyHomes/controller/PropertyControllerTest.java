@@ -9,22 +9,29 @@ import com.group24.easyHomes.model.Property;
 import com.group24.easyHomes.model.PropertyAddress;
 import com.group24.easyHomes.model.PropertyImages;
 import com.group24.easyHomes.service.PropertyService;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMultipartHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.when;
+import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -36,19 +43,29 @@ import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
-@WebMvcTest(PropertyController.class)
+@SpringBootTest
 public class PropertyControllerTest {
 
+    private MockMvc mockMvc;
+
     @Autowired
-    private MockMvc mvc;
+    private WebApplicationContext context;
+
+    @Autowired
+    private ObjectMapper mapper;
+
+    @Before
+    public void setup() {
+        mockMvc = MockMvcBuilders.webAppContextSetup(context).apply(springSecurity()).build();
+    }
+
+
 
     @MockBean
     private PropertyService service;
 
-    @Autowired
-    private PropertyDTOToProperty propertyDTOToProperty;
-
     @Test
+    @WithMockUser(username = "dv", password = "pwd", authorities = "USER")
     public void getProperties() throws Exception {
 
         Property property1 = new Property();
@@ -58,12 +75,13 @@ public class PropertyControllerTest {
 
         given(service.listAll()).willReturn(allProperties);
 
-        mvc.perform(get("/properties"))
+        mockMvc.perform(get("/properties"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(1)));
     }
 
     @Test
+    @WithMockUser(username = "dv", password = "pwd", authorities = "USER")
     public void addProperty() throws Exception {
 
         PropertyAddress address = new PropertyAddress();
@@ -102,7 +120,7 @@ public class PropertyControllerTest {
                 "This is the file content".getBytes()
         );
         doReturn(propertyResponse).when(service).addProperty(any());
-        mvc.perform(MockMvcRequestBuilders
+        mockMvc.perform(MockMvcRequestBuilders
                         .multipart("/properties")
                         .file(sampleFile)
                         .file(propertyRequest))
@@ -110,22 +128,25 @@ public class PropertyControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "dv", password = "pwd", authorities = "USER")
     public void removeProperty_SUCCESS() throws Exception {
 
         when(service.delete(10)).thenReturn("SUCCESS");
-        mvc.perform(MockMvcRequestBuilders.delete("/properties/{propertyId}", 10))
+        mockMvc.perform(MockMvcRequestBuilders.delete("/properties/{propertyId}", 10))
                 .andExpect(status().isNoContent());
     }
 
     @Test
+    @WithMockUser(username = "dv", password = "pwd", authorities = "USER")
     public void removeProperty_ERROR() throws Exception {
 
         when(service.delete(10)).thenReturn("ERROR");
-        mvc.perform(MockMvcRequestBuilders.delete("/properties/{propertyId}", 10))
+        mockMvc.perform(MockMvcRequestBuilders.delete("/properties/{propertyId}", 10))
                 .andExpect(status().isBadRequest());
     }
 
     @Test
+    @WithMockUser(username = "dv", password = "pwd", authorities = "USER")
     public void updateProperty_ERROR() throws Exception {
 
         PropertyAddress address = new PropertyAddress();
@@ -152,12 +173,13 @@ public class PropertyControllerTest {
                 "        \"rent\":\"500.0\"\n" +
                 "}";
         when(service.updateProperty(10, property)).thenReturn(null);
-        mvc.perform(MockMvcRequestBuilders.put("/properties/10/update", 10).contentType("application/json"))
+        mockMvc.perform(MockMvcRequestBuilders.put("/properties/10/update", 10).contentType("application/json"))
                 .andExpect(status().isBadRequest());
 
     }
 
     @Test
+    @WithMockUser(username = "dv", password = "pwd", authorities = "USER")
     public void updateProperty_SUCCESS() throws Exception {
 
         PropertyAddress address = new PropertyAddress();
@@ -186,7 +208,7 @@ public class PropertyControllerTest {
                 "}";
 
         when(service.updateProperty(10,property)).thenReturn(property);
-        mvc.perform(MockMvcRequestBuilders.put("/properties/10/update", 10)
+        mockMvc.perform(MockMvcRequestBuilders.put("/properties/10/update", 10)
                         .contentType("application/json").content(propertyRequest.getBytes()))
                 .andExpect(status().isNoContent());
     }

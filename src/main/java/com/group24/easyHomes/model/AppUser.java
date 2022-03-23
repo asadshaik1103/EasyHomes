@@ -37,26 +37,36 @@ public class AppUser implements UserDetails {
     private String password;
     private String email;
 
-    @Enumerated(EnumType.STRING)
-    private AppUserRole appUserRole;
+//    @Enumerated(EnumType.STRING)
+//    private AppUserRole role;
     private Boolean locked = false;
     private Boolean enabled = false;
+
+    @ManyToOne
+    @JoinColumn(name = "role_id")
+    private AppUserRole appUserRole;
 
     public AppUser(String firstName,
                    String lastName,
                    String password,
-                   String email,
-                   AppUserRole appUserRole) {
+                   String email
+//                   AppUserRole appUserRole
+                   ) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.password = password;
         this.email = email;
-        this.appUserRole = appUserRole;
+//        this.appUserRole = appUserRole;
     }
 
+//    public Collection<? extends GrantedAuthority> getAuthorities() {
+//        SimpleGrantedAuthority authority = new SimpleGrantedAuthority(appUserRole.name());
+//        return Collections.singletonList(authority);
+//    }
+
+    @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        SimpleGrantedAuthority authority = new SimpleGrantedAuthority(appUserRole.name());
-        return Collections.singletonList(authority);
+        return null;
     }
 
     public String getPassword() {
@@ -89,5 +99,13 @@ public class AppUser implements UserDetails {
 
     public boolean isEnabled() {
         return enabled;
+    }
+
+    public AppUserRole getRole() {
+        return appUserRole;
+    }
+
+    public void setRole(AppUserRole role) {
+        this.appUserRole = role;
     }
 }

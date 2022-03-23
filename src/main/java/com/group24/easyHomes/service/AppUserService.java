@@ -33,19 +33,19 @@ public class AppUserService implements UserDetailsService {
     }
 
     public String signUpUser(AppUser appUser){
-        boolean userExists = appUserRepository.findByEmail(appUser.getUsername()).isPresent();
-        if(userExists){
-            return "email has been taken.";
-        }
-        String encodedPassword = bCryptPasswordEncoder.encode(appUser.getPassword());
-
-        appUser.setPassword(encodedPassword);
-
-        appUserRepository.save(appUser);
+        boolean userExists = appUserRepository.findByEmail(appUser.getEmail()).isPresent();
+//        if(userExists){
+//            return "email has been taken.";
+//        }
+//        String encodedPassword = bCryptPasswordEncoder.encode(appUser.getPassword());
+//
+//        appUser.setPassword(encodedPassword);
+//
+//        appUserRepository.save(appUser);
 
         String token = UUID.randomUUID().toString();
 
-        TokenValidation tokenValidation = new TokenValidation(token, LocalDateTime.now(), LocalDateTime.now().plusMinutes(5),appUser);
+        TokenValidation tokenValidation = new TokenValidation(token, LocalDateTime.now(), LocalDateTime.now().plusMinutes(60*24),appUser);
 
         tokenValidationService.storeToken(tokenValidation);
 
