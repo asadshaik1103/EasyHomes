@@ -1,29 +1,14 @@
-import { Box, fontWeight } from "@mui/system";
-import { useEffect, useState } from "react";
 import "bootstrap";
-import { Button, Carousel, CarouselItem } from "react-bootstrap";
+import { Button, Carousel } from "react-bootstrap";
 import React from "react";
 import {
   Dialog,
   Rating,
-  ToggleButton,
-  ToggleButtonGroup,
 } from "@mui/material";
-import { Search, Home, Favorite, Add, Remove } from "@mui/icons-material";
-import styled from "@emotion/styled";
-import axios from "axios";
-import { GET_SERVICE } from "../../contants/Api";
 import { useDispatch,useSelector } from 'react-redux';
 import { openModel } from '../../reducers/app/appSlice';
 
 const Service = () => {
-  var settings = {
-    dots: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-  };
 
   const dispatch = useDispatch();
 

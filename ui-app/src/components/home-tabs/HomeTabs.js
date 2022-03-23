@@ -9,7 +9,7 @@ import axios from 'axios';
 import { useDispatch } from 'react-redux';
 
 import { customTheme } from '../../utils/theme';
-import { Avatar, Button, Card, CardActions, CardContent, CardHeader, CardMedia, Chip, Divider, Grid, IconButton, Rating, Stack } from '@mui/material';
+import { Avatar, Button, Card, CardActions, CardContent, CardHeader, CardMedia, Chip, Grid, IconButton, Rating, Stack } from '@mui/material';
 // import { AddFavorite } from '../Icons/';
 import { Share } from '@mui/icons-material';
 import { GET_PROPERTY, GET_SERVICE } from '../../contants/Api';

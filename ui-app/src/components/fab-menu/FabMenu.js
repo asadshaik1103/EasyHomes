@@ -54,7 +54,7 @@ export default function FabMenu() {
 
   return (
     <ThemeProvider theme={fabMenuTheme}>
-      {dialog == 'add-property' ?
+      {dialog === 'add-property' ?
       <SimpleDialog
         open={dialogOpened}
         onClose={setDialogOpened}

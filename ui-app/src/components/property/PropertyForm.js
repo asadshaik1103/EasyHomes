@@ -14,9 +14,6 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import InputAdornment from '@mui/material/InputAdornment';
 import FormLabel from '@mui/material/FormLabel';
-import IconButton from '@mui/material/IconButton';
-import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
-import { styled } from '@mui/material/styles';
 import axios from 'axios';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
@@ -32,18 +29,15 @@ const Alert = React.forwardRef(function Alert(props, ref) {
 // rent
 // base64Images
 export default function SimpleDialog(props) {
-    const { onClose, open, title, setDialogOpenState } = props;
+    const { open, title, setDialogOpenState } = props;
     const [propertyName, setPropertyName] = React.useState('');
     const [propertyType, setPropertyType] = React.useState('');
     const [bedrooms, setBedrooms] = React.useState('');
     const [bathrooms, setBathrooms] = React.useState('');
     const [rent, setRentChange] = React.useState('');
     //const [submitFile, setSubmitFile] = React.useState({});
-    const[files,setFiles] = React.useState([]);
-    const [base64Data, setBase64Data ] = React.useState('');
     //const [base64Image, setBase64Image ] = React.useState([]);
     const [base64Images, setbase64Images] = React.useState([]);
-    const [property, setProperty] = React.useState({});
     const [snackbar, setSnackBar] = React.useState(false);
     const [severity, setSeverity] = React.useState('success');
 
@@ -65,7 +59,6 @@ export default function SimpleDialog(props) {
       address:{
         location:'',
         city:'',
-        country:'',
         province:'',
         country:'',
         postal_code:''
@@ -76,10 +69,6 @@ export default function SimpleDialog(props) {
       parkingInclude:false,
       rent:0.0,
       images:[]
-  }
-
-  const image ={
-    image_data:''
   }
   
     const onFileChange = (e) => {
@@ -123,7 +112,6 @@ export default function SimpleDialog(props) {
       //console.log("file uploaded 2: ", e);
       let binaryString = e.target.result;
       // setbase64Data(base64String); // <- your binaryString here
-      const newbase64Images = [...base64Images];
       // newbase64Images[]
       const base64Image = {
         image_data: btoa(binaryString) // <- your binaryString here
@@ -178,10 +166,6 @@ export default function SimpleDialog(props) {
         console.log(initialValues.bathrooms);
       };
 
-      const Input = styled('input')({
-        display: 'none',
-      });
-
       const handlePropertyNameChange = (event) => {
         setPropertyName(event.target.value);
         //initialValues.propertyName = event.target.value;
@@ -199,7 +183,7 @@ export default function SimpleDialog(props) {
         console.log(base64Images);
        alert("Property Saved");
        console.log(propertyName);
-       console.log(base64Data);
+      //  console.log(base64Data);
        // propertyName
 // propertyType
 // bedrooms

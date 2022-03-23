@@ -21,7 +21,7 @@ import MailIcon from "@mui/icons-material/Mail";
 import MoreIcon from "@mui/icons-material/MoreVert";
 
 import { customTheme } from '../../utils/theme';
-import { Container } from "react-bootstrap";
+
 function ElevationScroll(props) {
   const { children } = props;
 
@@ -78,8 +78,8 @@ export default function ElevateAppBar(props) {
 
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
-  const [favouritesCount, setFavouritesCount] = React.useState(0);
-  const [messagesCount, setMessagesCount] = React.useState(0);
+  const [favouritesCount, setFavouritesCount] = React.useState(0); // eslint-disable-line
+  const [messagesCount, setMessagesCount] = React.useState(0); // eslint-disable-line
 
   // setFavouritesCount(0);
   // setMessagesCount(0);
