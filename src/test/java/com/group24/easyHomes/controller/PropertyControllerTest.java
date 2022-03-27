@@ -75,7 +75,7 @@ public class PropertyControllerTest {
 
         given(service.listAll()).willReturn(allProperties);
 
-        mockMvc.perform(get("/properties"))
+        mockMvc.perform(get("/property/properties"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(1)));
     }
@@ -121,7 +121,7 @@ public class PropertyControllerTest {
         );
         doReturn(propertyResponse).when(service).addProperty(any());
         mockMvc.perform(MockMvcRequestBuilders
-                        .multipart("/properties")
+                        .multipart("/property/properties")
                         .file(sampleFile)
                         .file(propertyRequest))
                 .andExpect(status().isCreated());
@@ -132,7 +132,7 @@ public class PropertyControllerTest {
     public void removeProperty_SUCCESS() throws Exception {
 
         when(service.delete(10)).thenReturn("SUCCESS");
-        mockMvc.perform(MockMvcRequestBuilders.delete("/properties/{propertyId}", 10))
+        mockMvc.perform(MockMvcRequestBuilders.delete("/property/properties/{propertyId}", 10))
                 .andExpect(status().isNoContent());
     }
 
@@ -141,7 +141,7 @@ public class PropertyControllerTest {
     public void removeProperty_ERROR() throws Exception {
 
         when(service.delete(10)).thenReturn("ERROR");
-        mockMvc.perform(MockMvcRequestBuilders.delete("/properties/{propertyId}", 10))
+        mockMvc.perform(MockMvcRequestBuilders.delete("/property/properties/{propertyId}", 10))
                 .andExpect(status().isBadRequest());
     }
 
@@ -173,7 +173,7 @@ public class PropertyControllerTest {
                 "        \"rent\":\"500.0\"\n" +
                 "}";
         when(service.updateProperty(10, property)).thenReturn(null);
-        mockMvc.perform(MockMvcRequestBuilders.put("/properties/10/update", 10).contentType("application/json"))
+        mockMvc.perform(MockMvcRequestBuilders.put("/property/properties/10/update", 10).contentType("application/json"))
                 .andExpect(status().isBadRequest());
 
     }
@@ -208,7 +208,7 @@ public class PropertyControllerTest {
                 "}";
 
         when(service.updateProperty(10,property)).thenReturn(property);
-        mockMvc.perform(MockMvcRequestBuilders.put("/properties/10/update", 10)
+        mockMvc.perform(MockMvcRequestBuilders.put("/property/properties/10/update", 10)
                         .contentType("application/json").content(propertyRequest.getBytes()))
                 .andExpect(status().isNoContent());
     }
