@@ -38,22 +38,21 @@ public class  ServiceController {
 //        return (Services) serviceRepository.findById(serviceId).orElseThrow(RuntimeException::new);
 //    }
 
-    @PostMapping(value = "/services",consumes = {"multipart/form-data"},produces ={"application/json"})
-    public ResponseEntity<Services> addService(@RequestPart("service") @Valid ServiceDTO serviceDTO,
-                                               @RequestPart("file")  MultipartFile[] files){
-        try{
-            Set<ServiceImages> serviceImages = new HashSet<>();
+    @PostMapping(value = "/services",consumes = {"application/json"},produces ={"application/json"})
+    public ResponseEntity<Services> addService(@RequestBody ServiceDTO serviceDTO)
+{
+        try {
             Services services = serviceToServiceDTO.convert(serviceDTO);
-
-            for(MultipartFile file:files)
+            if(services.getImages()!= null)
             {
-                String fileName = StringUtils.cleanPath(file.getOriginalFilename());
-                ServiceImages image = new ServiceImages(fileName, file.getContentType(), file.getBytes());
-                services.addImage(image);
+                for(ServiceImages serviceImages : services.getImages())
+                {
+                services.addImage(serviceImages);
+                }
             }
             service.addService(services);
             return new ResponseEntity<>(services,HttpStatus.CREATED) ;
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }

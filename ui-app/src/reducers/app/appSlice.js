@@ -5,6 +5,10 @@ const initialState = {
     homeDialog:{
         isOpen:false,
         service:null,
+    },
+    homeDialogProperty:{
+        isOpen:false,
+        property:null,
     }
 }
 
@@ -16,12 +20,14 @@ export const appSlice = createSlice({
             state.isUserLoggedIn = action.payload.isUserLoggedIn;
         },
         openModel: (state,action) => {
-            console.log("fdsahkjfsdhj",action.payload.homeDialog)
             state.homeDialog.isOpen = action.payload.homeDialog.isOpen;
             state.homeDialog.service = action.payload.homeDialog.service;
+        },openModelProperty: (state,action) => {
+            state.homeDialogProperty.isOpen = action.payload.homeDialogProperty.isOpen;
+            state.homeDialogProperty.property = action.payload.homeDialogProperty.property;
         }
     },
 });
 
-export const { updateUserLoggedInStatus,openModel } = appSlice.actions;
+export const { updateUserLoggedInStatus,openModel, openModelProperty } = appSlice.actions;
 export default appSlice.reducer;

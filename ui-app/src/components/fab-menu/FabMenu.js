@@ -66,6 +66,7 @@ export default function FabMenu() {
         open={dialogOpened}
         onClose={setDialogOpened}
         title="Add Service"
+        setDialogOpenState={setDialogOpened}
       />
       }
 

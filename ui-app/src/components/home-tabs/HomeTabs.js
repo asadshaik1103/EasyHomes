@@ -10,12 +10,11 @@ import { useDispatch } from 'react-redux';
 
 import { customTheme } from '../../utils/theme';
 import { Avatar, Button, Card, CardActions, CardContent, CardHeader, CardMedia, Chip, Grid, IconButton, Rating, Stack } from '@mui/material';
-// import { AddFavorite } from '../Icons/';
-import { Share } from '@mui/icons-material';
 import { GET_PROPERTY, GET_SERVICE } from '../../contants/Api';
 import Service from '../service/Service';
-import { openModel } from '../../reducers/app/appSlice';
+import { openModel,openModelProperty } from '../../reducers/app/appSlice';
 import {AddFavorite} from '../Icons'
+import Property from "../property/Property";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -38,10 +37,12 @@ function TabPanel(props) {
 }
 
 const RenderProperty = ({ property },index) => {
-
+  const dispatch = useDispatch();
   const blobData= property.images[0]?.image_data ;
 
   return (
+      <>
+        <Property />
     <Grid item xs={4}>
      <Card style={style.ServiceFeed} sx={{ maxWidth: 345 }}>
     <CardHeader
@@ -50,32 +51,44 @@ const RenderProperty = ({ property },index) => {
           R
         </Avatar>
       }
-      title={property.property_name}
-      subheader= "POSETD DATE WILL BE HERE"
-    />
+      title="John Dona"
+      subheader= "7th March 2022"    />
     <CardMedia
       component="img"
       height="194"
       image={`data:image/jpeg;base64,${blobData}`}
-      alt="Paella dish"
     />
-    <CardContent>
-      <Typography variant="body2" color="text.secondary">
-        This impressive paella is a perfect party dish and a fun meal to cook
-        together with your guests. Add 1 cup of frozen peas along with the mussels,
-        if you like.
-      </Typography>
-    </CardContent>
-    <CardActions disableSpacing>
-      <IconButton aria-label="share">
+          <CardActions disableSpacing style={{justifyContent:'space-between'}}>
+          <IconButton aria-label="add to favorites">
         <AddFavorite />
       </IconButton>
-      <IconButton aria-label="share">
-        <Share />
-      </IconButton>
-    </CardActions>
-  </Card>
+              <Rating
+                  name="simple-controlled"
+                  value={1}
+              />
+            </CardActions>
+            <CardContent style={{paddingTop:'1%'}}>
+              <div style={{justifyContent:'space-between',display:'flex',flexDirection:'row'}}>
+                <Typography fontSize={24}  fontWeight='bold'>{property.property_name}</Typography>
+                <Typography fontSize={24}  fontWeight='bold'>${property.rent}</Typography>
+              </div>
+              <Typography >{"Amenities: "+property.amenities}</Typography>
+              <Typography >{"Bathrooms: "+property.bathrooms}</Typography>
+              <Typography >{"Bedrooms: "+property.bedrooms}</Typography>
+              <Typography >Parking: {property.parking_included?"Available":"Not available"}</Typography>
+
+              <Typography marginTop={2.5} fontSize={16}>{property.address.location + " ,"+ property.address.postal_code}</Typography>
+
+              <Typography fontSize={16}>{property.address.city + ",  "
+                  + property.address.province + ", " +  property.address.country} </Typography>
+            </CardContent>
+            <CardActions>
+              <Button onClick={()=>dispatch(openModelProperty({ homeDialogProperty:{isOpen:true,property:property}}))}
+                      size="small">Learn More</Button>
+            </CardActions>
+          </Card>
     </Grid>
+      </>
   );
 };
 
