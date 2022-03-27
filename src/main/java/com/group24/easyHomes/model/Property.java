@@ -38,10 +38,6 @@ public class Property {
     @Setter(value = AccessLevel.NONE)
     private Set<PropertyImages> images = new HashSet<>();
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "property",orphanRemoval=true)
-    @Setter(value = AccessLevel.NONE)
-    private Set<PropertyReview> reviws = new HashSet<>();
-
     //TODO Add user(owner) details
  /*   @JoinColumn(name="address_id")
     @OneToOne(cascade = CascadeType.ALL)
@@ -68,10 +64,5 @@ public class Property {
    public void  addImage(PropertyImages image){
         image.setProperty(this);
         this.images.add(image);
-    }
-
-    public void  addReview(PropertyReview review){
-        review.setProperty(this);
-        this.reviws.add(review);
     }
 }
