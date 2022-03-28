@@ -8,6 +8,7 @@ import com.group24.easyHomes.mappers.PropertyDTOToProperty;
 import com.group24.easyHomes.model.Property;
 import com.group24.easyHomes.model.PropertyAddress;
 import com.group24.easyHomes.model.PropertyImages;
+import com.group24.easyHomes.model.PropertyListQuery;
 import com.group24.easyHomes.service.PropertyService;
 import org.junit.Before;
 import org.junit.Test;
@@ -200,6 +201,99 @@ public class PropertyControllerTest {
                         .contentType("application/json").content(propertyRequest.getBytes()))
                 .andExpect(status().isNoContent());
     }
+
+    // add test for filter properties with end point /property/properties/filter
+    @Test
+    @WithMockUser(username = "dv", password = "pwd", authorities = "USER")
+    public void filterProperties_SUCCESS() throws Exception {
+
+        PropertyAddress address = new PropertyAddress();
+        address.setLocation("University Street");
+        address.setCity("Halifax");
+        address.setCountry("Canada");
+        address.setProvince("NS");
+        address.setPostal_code("H2Y8IK");
+        Property property = new Property("Apt 605 Iris Apartments",
+                address, "Laundry", "1 BHK", true, 500.0, 1, 1);
+        List<Property> properties = new ArrayList<>();
+        properties.add(property);
+        PropertyListQuery query = new PropertyListQuery();
+        query.setProperty_name("Apt 605 Iris Apartments");
+        query.setProperty_type("1 BHK");
+        query.setNumberOfBedrooms(1);
+        query.setCity("Halifax");
+        query.setProvince("NS");
+        query.setCountry("Canada");
+
+        when(service.filterProperties(query)).thenReturn(properties);
+        mockMvc.perform(MockMvcRequestBuilders.post("/property/properties/filter")
+                        .contentType("application/json")
+                        .content("{\"property_name\":\"Killam\",\"property_type\":\"1 BHK\",\"numberOfBedroom\":2,\"city\":\"Halifax\",\"province\":\"NS\",\"country\":\"Canada\"}"))
+                .andExpect(status().isOk());
+    }
+
+//    // use mock mvc to test filter properties with request body
+//    @Test
+//    @WithMockUser(username = "dv", password = "pwd", authorities = "USER")
+//    public void filterProperties_SUCCESS_withRequestBody_withNullValues() throws Exception {
+//
+//        PropertyAddress address = new PropertyAddress();
+//        address.setLocation("University Street");
+//        address.setCity("Halifax");
+//        address.setCountry("Canada");
+//        address.setProvince("NS");
+//        address.setPostal_code("H2Y8IK");
+//        Property property = new Property("Apt 605 Iris Apartments",
+//                address, "Laundry", "1 BHK", true, 500.0, 1, 1);
+//        List<Property> properties = new ArrayList<>();
+//        properties.add(property);
+//        PropertyListQuery query = new PropertyListQuery();
+//        query.setProperty_name("Apt 605 Iris Apartments");
+//        query.setProperty_type("1 BHK");
+//        query.setNumberOfBedrooms(1);
+//        query.setCity("Halifax");
+//        query.setProvince("NS");
+//        query.setCountry("Canada");
+//
+//        when(service.filterProperties(query)).thenReturn(properties);
+//        mockMvc.perform(MockMvcRequestBuilders.post("/property/properties/filter")
+//                .contentType("application/json")
+//                .content("{\"property_type\":\"1 BHK\",\"amenities\":\"Laundry\",\"parking_included\":\"true\",\"city\":null,\"province\":null,\"country\":null}"))
+//                .andExpect(status().isOk());
+//    }
+//
+//    // use mock mvc to test filter properties with request body
+//    @Test
+//    @WithMockUser(username = "dv", password = "pwd", authorities = "USER")
+//    public void filterProperties_SUCCESS_withRequestBody_withEmptyValues() throws Exception {
+//
+//        PropertyAddress address = new PropertyAddress();
+//        address.setLocation("University Street");
+//        address.setCity("Halifax");
+//        address.setCountry("Canada");
+//        address.setProvince("NS");
+//        address.setPostal_code("H2Y8IK");
+//        Property property = new Property("Apt 605 Iris Apartments",
+//                address, "Laundry", "1 BHK", true, 500.0, 1, 1);
+//        List<Property> properties = new ArrayList<>();
+//        properties.add(property);
+//        PropertyListQuery query = new PropertyListQuery();
+//        query.setProperty_name("Apt 605 Iris Apartments");
+//        query.setProperty_type("1 BHK");
+//        query.setNumberOfBedrooms(1);
+//        query.setCity("Halifax");
+//        query.setProvince("NS");
+//        query.setCountry("Canada");
+//
+//        when(service.filterProperties(query)).thenReturn(properties);
+//        mockMvc.perform(MockMvcRequestBuilders.post("/property/properties/filter")
+//                .contentType("application/json")
+//                .content("{\"property_type\":\"1 BHK\",\"amenities\":\"Laundry\",\"parking_included\":\"true\",\"city\":\"\",\"province\":\"\",\"country\":\"\"}"))
+//                .andExpect(status().isOk());
+//    }
+//
+//
+
 }
 
 

@@ -34,8 +34,8 @@ public class PropertyController {
     @PostMapping(value = "/properties/filter",consumes = {"application/json"},produces ={"application/json"})
     public ResponseEntity<List<Property>> filterProperties(@RequestBody PropertyListQuery propertyListQuery)
     {
-        int addressID = propertyListQuery.getAddress_id();
-        return new ResponseEntity<>(service.filterProperties(addressID),HttpStatus.OK);
+        return new ResponseEntity<>(service.filterProperties(propertyListQuery),HttpStatus.OK);
+//        return new ResponseEntity<>(service.filterProperties(addressID),HttpStatus.OK);
     }
 
     @GetMapping("/{propertyID}/properties")

@@ -31,6 +31,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/user")
+@CrossOrigin(origins="*")
 @AllArgsConstructor
 public class AppUserResourceImpl {
 
