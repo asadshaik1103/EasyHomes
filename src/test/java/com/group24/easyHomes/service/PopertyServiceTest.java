@@ -68,7 +68,7 @@ public class PopertyServiceTest {
 
     @Test
     public void addProperty() /*throws PropertyAlreadyExistsException*/
- {
+    {
         when(propertyRepository.save(any())).thenReturn(property1);
         propertyService.addProperty(property1);
         verify(propertyRepository, times(1)).save(any());

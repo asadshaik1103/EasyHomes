@@ -9,6 +9,7 @@ import SpeedDialAction from '@mui/material/SpeedDialAction';
 import { ThemeProvider } from '@mui/material/styles';
 
 import SimpleDialog from '../property/PropertyForm';
+import ServiceForm from '../service/ServiceForm';
 import { customTheme } from '../../utils/theme';
 const actions = [
   { icon: <HomeWorkIcon />, name: 'Add a property', id: 'add-property'},
@@ -17,16 +18,17 @@ const actions = [
 
 export default function FabMenu() {
   const [open, setOpen] = React.useState(false);
+  const [dialog,setDialog] = React.useState('');
   const handleOpen = () => {
     setOpen(true);
   }
   const handleClose = () => {
-
     setOpen(false);
 
   }
 
   const handleOperation = (id) => {
+    setDialog(id)
     setDialogOpened(true);
   }
 
@@ -52,12 +54,24 @@ export default function FabMenu() {
 
   return (
     <ThemeProvider theme={fabMenuTheme}>
+      {dialog === 'add-property' ?
       <SimpleDialog
         open={dialogOpened}
-        onClose={handleClose}
+        onClose={setDialogOpened}
         title="Add Property"
         setDialogOpenState={setDialogOpened}
       />
+      :
+      <ServiceForm
+        open={dialogOpened}
+        onClose={setDialogOpened}
+        title="Add Service"
+        setDialogOpenState={setDialogOpened}
+      />
+      }
+
+<div style={{position:'sticky',display:'flex',flexDirection:'row',justifyContent:'flex-end',bottom:'25px'}}>
+  
       <Box sx={getSpeedDialBoxStyles()}>
         <SpeedDial
           ariaLabel="Add"
@@ -85,6 +99,7 @@ export default function FabMenu() {
           ))}
         </SpeedDial>
       </Box>
+      </div>
     </ThemeProvider>
   );
 }
