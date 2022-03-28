@@ -20,6 +20,7 @@ import java.util.Set;
 
 @RestController
 @RequestMapping(value = "/service",produces = "application/json")
+@CrossOrigin(origins = "*", maxAge = 3600)
 public class  ServiceController {
 
     @Autowired
