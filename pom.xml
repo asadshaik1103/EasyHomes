@@ -14,9 +14,11 @@
 	<name>easyHomes</name>
 	<description>Demo project for Spring Boot</description>
 	<properties>
+		<maven.compiler.source>11</maven.compiler.source>
+		<maven.compiler.target>11</maven.compiler.target>
 		<java.version>11</java.version>
 		<frontend-maven-plugin.version>1.6</frontend-maven-plugin.version>
-		<node.version>v14.17.4</node.version>
+		<node.version>v16.14.1</node.version>
 		<yarn.version>v1.22.11</yarn.version>
 	</properties>
 	<dependencies>
