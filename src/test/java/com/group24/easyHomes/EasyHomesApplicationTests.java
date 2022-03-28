@@ -5,5 +5,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
 class EasyHomesApplicationTests {
+    @Test
+    void contextLoads() {
+    }
 
 }
