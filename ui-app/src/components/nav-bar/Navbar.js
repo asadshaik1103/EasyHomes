@@ -21,7 +21,6 @@ import MailIcon from "@mui/icons-material/Mail";
 import MoreIcon from "@mui/icons-material/MoreVert";
 
 import { customTheme } from '../../utils/theme';
-
 function ElevationScroll(props) {
   const { children } = props;
 
@@ -252,7 +251,6 @@ export default function ElevateAppBar(props) {
         </ThemeProvider>
       </ElevationScroll>
       <Toolbar />
-      {/* <Container fixed><HomePage /></Container> */}
     </React.Fragment>
   );
 }

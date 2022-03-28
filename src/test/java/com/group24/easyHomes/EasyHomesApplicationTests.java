@@ -5,8 +5,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.test.context.SpringBootTest;
 
 class EasyHomesApplicationTests {
-    @Test
-    void contextLoads() {
-    }
 
+        @Test
+        void contextLoads() {
+        }
 }

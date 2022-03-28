@@ -50,9 +50,7 @@ public class Services {
     }
 
     public Services()
-    {
-
-    }
+    {}
 
     public void  addImage(ServiceImages image){
         image.setService(this);

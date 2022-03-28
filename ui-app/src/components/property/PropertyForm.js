@@ -209,7 +209,7 @@ export default function SimpleDialog(props) {
         console.log(base64Images);
        alert("Property Saved");
        console.log(propertyName);
-      //  console.log(base64Data);
+       console.log(base64Data);
        // propertyName
 // propertyType
 // bedrooms

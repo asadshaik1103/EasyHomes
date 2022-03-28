@@ -34,4 +34,3 @@ build/
 
 # misc
 .DS_Store
-ui-app/package-lock.json

@@ -1,8 +1,6 @@
 package com.group24.easyHomes.mappers;
 
-import com.group24.easyHomes.dto.PropertyDTO;
 import com.group24.easyHomes.dto.ServiceDTO;
-import com.group24.easyHomes.model.Property;
 import com.group24.easyHomes.model.Services;
 import com.sun.istack.Nullable;
 import lombok.Synchronized;

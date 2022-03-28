@@ -2,7 +2,6 @@ package com.group24.easyHomes.mappers;
 
 import com.group24.easyHomes.dto.ServiceImageDTO;
 import com.group24.easyHomes.model.ServiceImages;
-import com.group24.easyHomes.model.Services;
 import com.sun.istack.Nullable;
 import lombok.Synchronized;
 import org.springframework.core.convert.converter.Converter;
