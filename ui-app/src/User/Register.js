@@ -1,12 +1,9 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
 
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
@@ -14,9 +11,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-
-import { registerUser } from "../services/index";
-
+import axios from 'axios';
 
 function Copyright(props) {
   return (
@@ -34,8 +29,6 @@ function Copyright(props) {
 const theme = createTheme();
 
 const Register = (props) => {
-  const [show, setShow] = useState(false);
-  const [message, setMessage] = useState("");
 
   const initialState = {
     firstName: "",
@@ -51,22 +44,22 @@ const Register = (props) => {
     setUser({ ...user, [name]: value });
   };
 
-  const dispatch = useDispatch();
 
   const saveUser = () => {
-    dispatch(registerUser(user))
-      .then((response) => {
-        setShow(true);
-        setMessage(response.message);
-//        resetRegisterForm();
-        setTimeout(() => {
-          setShow(false);
-          props.history.push("/login");
-        }, 2000);
+
+      axios
+      .post('http://localhost:8080/user/register',  {
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+        password: user.password,
+      },
+      {
+        headers: {
+          "Accept": "application/json",
+          "Content-Type": "application/json",
+        }
       })
-      .catch((error) => {
-        console.log(error);
-      });
   };
 
         return (
@@ -152,7 +145,7 @@ const Register = (props) => {
                        </Button>
                        <Grid container justifyContent="flex-end">
                          <Grid item>
-                           <Link href="http://localhost:3000/login" variant="body2">
+                           <Link href="login" variant="body2">
                              Already have an account? Sign in
                            </Link>
                          </Grid>

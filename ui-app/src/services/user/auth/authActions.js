@@ -1,14 +1,14 @@
 import * as AT from "./authTypes";
-import axios from "axios";
+//import axios from "axios";
 
-const AUTH_URL = "http://localhost:8080";
+//const AUTH_URL = "http://localhost:8080";
 
 export const authenticateUser = (email, password) => async (dispatch) => {
   // dispatch(loginRequest());
-  const cred = {
-    email: email,
-    password: password,
-  };
+//  const cred = {
+//    email: email,
+//    password: password,
+//  };
 
   // try {
     // const response = axios.post(AUTH_URL, {
@@ -41,11 +41,11 @@ export const logoutUser = () => {
   };
 };
 
-const loginRequest = () => {
-  return {
-    type: AT.LOGIN_REQUEST,
-  };
-};
+//const loginRequest = () => {
+//  return {
+//    type: AT.LOGIN_REQUEST,
+//  };
+//};
 
 const logoutRequest = () => {
   return {
@@ -60,9 +60,9 @@ const success = (isLoggedIn) => {
   };
 };
 
-const failure = () => {
-  return {
-    type: AT.FAILURE,
-    payload: false,
-  };
-};
+//const failure = () => {
+//  return {
+//    type: AT.FAILURE,
+//    payload: false,
+//  };
+//};

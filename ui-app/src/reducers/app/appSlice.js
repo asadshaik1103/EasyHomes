@@ -2,8 +2,8 @@ import { createSlice } from '@reduxjs/toolkit';
 import { authenticateUserData } from './thunks/appThunk';
 
 const initialState = {
-    isUserLoggedIn: false
-}
+  isUserLoggedIn: false,
+};
 
 export const appSlice = createSlice({
     name: 'app',

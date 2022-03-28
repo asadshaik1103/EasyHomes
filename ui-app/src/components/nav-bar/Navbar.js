@@ -84,8 +84,8 @@ export default function ElevateAppBar(props) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [filterAnchorEl, setFilterAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
-  const [favouritesCount, setFavouritesCount] = React.useState(0);
-  const [messagesCount, setMessagesCount] = React.useState(0);
+  const [favouritesCount, setFavouritesCount] = React.useState(0); // eslint-disable-line
+  const [messagesCount, setMessagesCount] = React.useState(0); // eslint-disable-line
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
