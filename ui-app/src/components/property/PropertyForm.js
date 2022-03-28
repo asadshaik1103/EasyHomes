@@ -14,8 +14,6 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import InputAdornment from '@mui/material/InputAdornment';
 import FormLabel from '@mui/material/FormLabel';
-import IconButton from '@mui/material/IconButton';
-import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
 import { styled } from '@mui/material/styles';
 import axios from 'axios';
 import Snackbar from '@mui/material/Snackbar';
@@ -41,11 +39,16 @@ export default function SimpleDialog(props) {
     //const [submitFile, setSubmitFile] = React.useState({});
     const[files,setFiles] = React.useState([]);
     const [base64Data, setBase64Data ] = React.useState('');
-    //const [base64Image, setBase64Image ] = React.useState([]);
+    const [propertyLocation, setPropertyLocation ] = React.useState('');
+    const [city, setCity ] = React.useState('');
+    const [province, setProvince ] = React.useState('');
+    const [country, setCountry ] = React.useState('');
+    const [postalCode, setPostalCode ] = React.useState('');
     const [base64Images, setbase64Images] = React.useState([]);
     const [property, setProperty] = React.useState({});
     const [snackbar, setSnackBar] = React.useState(false);
     const [severity, setSeverity] = React.useState('success');
+    const [disabled, setDisabled] = React.useState(false);
 
    
   
@@ -150,13 +153,31 @@ export default function SimpleDialog(props) {
 
     const handlsetParkingIncludedeChange = (event) => {
         setParkingIncluded(event.target.checked);
-        initialValues.parkingInclude = event.target.checked;
     };
 
 
     const handleRentChange = (event) => {
       setRentChange(event.target.value);
-      //initialValues.rent = event.target.value;
+    };
+
+    const handlePropertyLocationChange = (event) => {
+      setPropertyLocation(event.target.value);
+    };
+
+    const handleCityChange = (event) => {
+      setCity(event.target.value);
+    };
+
+    const handleProvinceChange = (event) => {
+      setProvince(event.target.value);
+    };
+
+    const handleCountryChange = (event) => {
+      setCountry(event.target.value);
+    };
+
+    const handlePostalCodeChange = (event) => {
+      setPostalCode(event.target.value);
     };
     const handleClose = () => {
         // onClose();
@@ -187,15 +208,15 @@ export default function SimpleDialog(props) {
         //initialValues.propertyName = event.target.value;
       };
 
+      const disablePostButton = () => {
+        return (propertyName === null || propertyName === ''|| propertyType === null || propertyType === ''
+        ||propertyLocation === null || propertyLocation === ''|| city === null || city === ''|| province == null || 
+        province === ''|| country === null || country === '' || postalCode  === null || postalCode  ==='' )
+      };
+    
+
       const submitPropertyPost = (initialValues) => {
         console.log("initialValues: ", initialValues);
-        console.log();
-        console.log();
-        console.log();
-        console.log();
-        console.log();
-        console.log();
-        console.log();
         console.log(base64Images);
        alert("Property Saved");
        console.log(propertyName);
@@ -209,19 +230,20 @@ export default function SimpleDialog(props) {
        const property ={
           "property_name": propertyName,
           "address":{
-            "location" : "South Park Street",
-            "city": "Halifax",
-            "province":"NS",
-            "country": "Canada",
-            "postal_code": "H3J2K9"
+            "location" : propertyLocation,
+            "city": city,
+            "province":province,
+            "country": country,
+            "postal_code": postalCode
         },
-          "amenities":"Laundry,Wifi",
-          "property_type":propertyType,
-           "bathrooms": bathrooms,
-           "bedrooms": bedrooms,
-          "parking_included":"true",
-          "rent": rent,
-          "images": [...base64Images]
+
+        "amenities": "" + (laundry ? "Laundry" : "") + "," +(wifi ? "Wifi" : ""),
+        "property_type":propertyType,
+        "bathrooms": bathrooms,
+        "bedrooms": bedrooms,
+        "parking_included":parkingIncluded,
+        "rent": rent,
+        "images": [...base64Images]
        };
 
       // const form = new FormData();
@@ -301,6 +323,7 @@ export default function SimpleDialog(props) {
                 value={propertyName}
                 onChange={handlePropertyNameChange}
                 fullWidth
+                size="small"
               />
             </Grid>
             <Grid item xs={6}>
@@ -314,10 +337,12 @@ export default function SimpleDialog(props) {
                 label="Property Type"
                 value={propertyType}
                 onChange={handlePropertyTypeChange}
+                size="small"
                 >
-                <MenuItem value={1}>One</MenuItem>
-                <MenuItem value={2}>Two</MenuItem>
-                <MenuItem value={3}>Three</MenuItem>
+                <MenuItem value={1}>1 BHK</MenuItem>
+                <MenuItem value={2}>2 BHK</MenuItem>
+                <MenuItem value={3}>3 BHK</MenuItem>
+                <MenuItem value={3}>4 House</MenuItem>
                 </Select>
               </FormControl>
             </Grid>
@@ -332,6 +357,7 @@ export default function SimpleDialog(props) {
                 label="Bedrooms"
                 value={bedrooms}
                 onChange={handleBedroomsChange}
+                size="small"
                 >
                 <MenuItem value={1}>One</MenuItem>
                 <MenuItem value={2}>Two</MenuItem>
@@ -350,6 +376,7 @@ export default function SimpleDialog(props) {
                 label="Bathrooms"
                 value={bathrooms}
                 onChange={handleBathroomsChange}
+                size="small"
                 >
                 <MenuItem value={1}>One</MenuItem>
                 <MenuItem value={2}>Two</MenuItem>
@@ -373,6 +400,7 @@ export default function SimpleDialog(props) {
                 onChange={handleRentChange}
                 startAdornment={<InputAdornment position="start">$</InputAdornment>}
                 label="Rent"
+                size="small"
               />
             </FormControl>
             </Grid>
@@ -410,6 +438,9 @@ export default function SimpleDialog(props) {
                 id="propertyLocation"
                 name="propertyLocation"
                 label="Property Location"
+                size="small"
+                value={propertyLocation}
+                onChange={handlePropertyLocationChange}
                 fullWidth
               />
           </Grid>
@@ -419,6 +450,9 @@ export default function SimpleDialog(props) {
                 id="city"
                 name="city"
                 label="City"
+                size="small"
+                value={city}
+                onChange={handleCityChange}
                 fullWidth
               />
           </Grid>
@@ -428,6 +462,9 @@ export default function SimpleDialog(props) {
                 id="province"
                 name="province"
                 label="Province"
+                size="small"
+                value={province}
+                onChange={handleProvinceChange}
                 fullWidth
               />
           </Grid>
@@ -437,6 +474,9 @@ export default function SimpleDialog(props) {
                 id="country"
                 name="country"
                 label="Country"
+                size="small"
+                value={country}
+                onChange={handleCountryChange}
                 fullWidth
               />
           </Grid>
@@ -446,6 +486,9 @@ export default function SimpleDialog(props) {
                 id="postalCode"
                 name="postalCode"
                 label="Postal Code"
+                size="small"
+                value={postalCode}
+                onChange={handlePostalCodeChange}
                 fullWidth
               />
           </Grid>
@@ -473,7 +516,7 @@ export default function SimpleDialog(props) {
       </label>
       </Grid>
       <div style={{ padding: 20 }}></div>
-      <Button variant="contained" disabled={!isFormValid} onClick={submitPropertyPost}>Post</Button>
+      <Button variant="contained" disabled={disablePostButton()} onClick={submitPropertyPost}>Post</Button>
       <Snackbar open={snackbar} autoHideDuration={6000} onClose={handleSnackClose}>
           <Alert onClose={handleSnackClose} severity={severity} sx={{ width: '100%' }}>
             This is a success message!

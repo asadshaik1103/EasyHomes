@@ -7,17 +7,11 @@ import com.group24.easyHomes.model.PropertyImages;
 import com.group24.easyHomes.service.PropertyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
-import javax.validation.Valid;
-import java.io.IOException;
-import java.util.HashSet;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
-import java.util.Set;
 
 @RestController
 @RequestMapping(value = "/property")
@@ -33,7 +27,6 @@ public class PropertyController {
     @GetMapping("/properties")
     public ResponseEntity<List<Property>> list()
     {
-
         return new ResponseEntity<>(service.listAll(),HttpStatus.OK);
     }
 
@@ -43,7 +36,7 @@ public class PropertyController {
         return new ResponseEntity<>(service.getProperty(propertyID),HttpStatus.OK);
     }
 
-   @PostMapping(value = "/properties",consumes = {"multipart/form-data"},produces ={"application/json"})
+   /*@PostMapping(value = "/properties",consumes = {"multipart/form-data"},produces ={"application/json"})
     public ResponseEntity<Property> addProperty(@RequestPart("property") @Valid PropertyDTO propertyDTO,
                                                 @RequestPart("file")  MultipartFile[] files) {
         try {
@@ -67,10 +60,9 @@ public class PropertyController {
 
          }
     }
-
+*/
     @PostMapping(value = "/property",consumes = {"application/json"},produces ={"application/json"})
-    public ResponseEntity<Property> addPropertyOne(@RequestBody PropertyDTO propertyDTO
-            /*,@RequestPart("file")  MultipartFile file*/) {
+    public ResponseEntity<Property> addPropertyOne(@RequestBody PropertyDTO propertyDTO) {
         try {
 
             Property property = propertyDTOToProperty.convert(propertyDTO);
@@ -81,15 +73,6 @@ public class PropertyController {
                     property.addImage(propertyImages);
                 }
             }
-
-            /*for(MultipartFile file:files)3
-            {
-                String fileName = StringUtils.cleanPath(file.getOriginalFilename());
-                PropertyImages image = new PropertyImages(fileName, file.getContentType(), file.getBytes());
-                property.addImage(image);
-                //image.setProperty(property);
-           }*/
-
             service.addProperty(property);
             return new ResponseEntity<>(property,HttpStatus.CREATED) ;
         } catch (Exception e) {
