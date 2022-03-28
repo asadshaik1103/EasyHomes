@@ -23,5 +23,6 @@ public class PropertyDTO {
     boolean parking_included;
     double rent ;
     private PropertyAddressDTO address;
-    private Set<PropertyImageDTO> images = new HashSet<>();
+    //private Set<PropertyImageDTO> images = new HashSet<>();
+    private Set<PropertyImageDTO> images ;
 }

@@ -7,25 +7,20 @@ import com.group24.easyHomes.model.PropertyImages;
 import com.group24.easyHomes.service.PropertyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
-import javax.validation.Valid;
-import java.io.IOException;
-import java.util.HashSet;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
-import java.util.Set;
 
 
 @RestController
-@RequestMapping(value = "/property",produces = "application/json")
+@RequestMapping(value = "/property")
+@CrossOrigin(origins = "*", maxAge = 3600)
 public class PropertyController {
 
     @Autowired
     private PropertyService  service;
-
 
     @Autowired
     private PropertyDTOToProperty propertyDTOToProperty;
@@ -33,11 +28,16 @@ public class PropertyController {
     @GetMapping("/properties")
     public ResponseEntity<List<Property>> list()
     {
-
         return new ResponseEntity<>(service.listAll(),HttpStatus.OK);
     }
 
-   @PostMapping(value = "/properties",consumes = {"multipart/form-data"},produces ={"application/json"})
+    @GetMapping("/{propertyID}/properties")
+    public ResponseEntity<Property> getProperty(@PathVariable int propertyID)
+    {
+        return new ResponseEntity<>(service.getProperty(propertyID),HttpStatus.OK);
+    }
+
+   /*@PostMapping(value = "/properties",consumes = {"multipart/form-data"},produces ={"application/json"})
     public ResponseEntity<Property> addProperty(@RequestPart("property") @Valid PropertyDTO propertyDTO,
                                                 @RequestPart("file")  MultipartFile[] files) {
         try {
@@ -61,6 +61,28 @@ public class PropertyController {
 
          }
     }
+*/
+    @PostMapping(value = "/property",consumes = {"application/json"},produces ={"application/json"})
+    public ResponseEntity<Property> addPropertyOne(@RequestBody PropertyDTO propertyDTO) {
+        try {
+
+            Property property = propertyDTOToProperty.convert(propertyDTO);
+            if(property.getImages()!= null)
+            {
+                for(PropertyImages propertyImages : property.getImages())
+                {
+                    property.addImage(propertyImages);
+                }
+            }
+            service.addProperty(property);
+            return new ResponseEntity<>(property,HttpStatus.CREATED) ;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(null,HttpStatus.BAD_REQUEST) ;
+
+        }
+    }
+
 
     @DeleteMapping(value = "/properties/{propertyId}")
     public ResponseEntity<HttpStatus>  removeProperty(@PathVariable int propertyId)

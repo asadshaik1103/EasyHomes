@@ -4,6 +4,7 @@ import com.group24.easyHomes.dto.PropertyDTO;
 import com.group24.easyHomes.model.Property;
 import com.sun.istack.Nullable;
 import lombok.Synchronized;
+//import org.jetbrains.annotations.Nullable;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
