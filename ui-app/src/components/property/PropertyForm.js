@@ -30,7 +30,7 @@ const Alert = React.forwardRef(function Alert(props, ref) {
 // rent
 // base64Images
 export default function SimpleDialog(props) {
-    const { onClose, open, title, setDialogOpenState } = props;
+    const { open, title, setDialogOpenState } = props;
     const [propertyName, setPropertyName] = React.useState('');
     const [propertyType, setPropertyType] = React.useState('');
     const [bedrooms, setBedrooms] = React.useState('');
@@ -45,7 +45,6 @@ export default function SimpleDialog(props) {
     const [country, setCountry ] = React.useState('');
     const [postalCode, setPostalCode ] = React.useState('');
     const [base64Images, setbase64Images] = React.useState([]);
-    const [property, setProperty] = React.useState({});
     const [snackbar, setSnackBar] = React.useState(false);
     const [severity, setSeverity] = React.useState('success');
     const [disabled, setDisabled] = React.useState(false);
@@ -68,7 +67,6 @@ export default function SimpleDialog(props) {
       address:{
         location:'',
         city:'',
-        country:'',
         province:'',
         country:'',
         postal_code:''
@@ -79,10 +77,6 @@ export default function SimpleDialog(props) {
       parkingInclude:false,
       rent:0.0,
       images:[]
-  }
-
-  const image ={
-    image_data:''
   }
   
     const onFileChange = (e) => {
@@ -126,7 +120,6 @@ export default function SimpleDialog(props) {
       //console.log("file uploaded 2: ", e);
       let binaryString = e.target.result;
       // setbase64Data(base64String); // <- your binaryString here
-      const newbase64Images = [...base64Images];
       // newbase64Images[]
       const base64Image = {
         image_data: btoa(binaryString) // <- your binaryString here
@@ -198,10 +191,6 @@ export default function SimpleDialog(props) {
         //initialValues.bathrooms = event.target.value;
         console.log(initialValues.bathrooms);
       };
-
-      const Input = styled('input')({
-        display: 'none',
-      });
 
       const handlePropertyNameChange = (event) => {
         setPropertyName(event.target.value);

@@ -2,8 +2,16 @@ import { createSlice } from '@reduxjs/toolkit';
 import { authenticateUserData } from './thunks/appThunk';
 
 const initialState = {
-  isUserLoggedIn: false,
-};
+    isUserLoggedIn: false,
+    homeDialog:{
+        isOpen:false,
+        service:null,
+    },
+    homeDialogProperty:{
+        isOpen:false,
+        property:null,
+    }
+}
 
 export const appSlice = createSlice({
     name: 'app',
@@ -18,6 +26,13 @@ export const appSlice = createSlice({
         logoutUser: (state, action) => {
             localStorage.removeItem("token");
             state.isUserLoggedIn = action.payload.isUserLoggedIn;
+        },
+        openModel: (state,action) => {
+            state.homeDialog.isOpen = action.payload.homeDialog.isOpen;
+            state.homeDialog.service = action.payload.homeDialog.service;
+        },openModelProperty: (state,action) => {
+            state.homeDialogProperty.isOpen = action.payload.homeDialogProperty.isOpen;
+            state.homeDialogProperty.property = action.payload.homeDialogProperty.property;
         }
     },
     extraReducers: (builder) => {
@@ -38,5 +53,6 @@ export const appSlice = createSlice({
     },
 });
 
-export const { updateUserLoggedInStatus, authenticateUser, logoutUser } = appSlice.actions;
+export const { updateUserLoggedInStatus, authenticateUser, logoutUser, openModel, openModelProperty } = appSlice.actions;
+
 export default appSlice.reducer;
