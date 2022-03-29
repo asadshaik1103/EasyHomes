@@ -23,8 +23,8 @@ public class ImageDTOToImage implements Converter<PropertyImageDTO, PropertyImag
         }
         final PropertyImages image = new PropertyImages();
         image.setId(source.getId());
-        image.setName(source.getName());
-        image.setType(source.getType());
+//        image.setName(source.getName());
+//        image.setType(source.getType());
         image.setImage_data(source.getImage_data());
        /* if(source.getPropertyId() != null)
         {
