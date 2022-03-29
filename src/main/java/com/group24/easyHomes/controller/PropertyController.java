@@ -1,9 +1,12 @@
 package com.group24.easyHomes.controller;
 
 import com.group24.easyHomes.dto.PropertyDTO;
+import com.group24.easyHomes.dto.PropertyListQuery;
 import com.group24.easyHomes.mappers.PropertyDTOToProperty;
+import com.group24.easyHomes.model.AppUser;
 import com.group24.easyHomes.model.Property;
 import com.group24.easyHomes.model.PropertyImages;
+import com.group24.easyHomes.repository.AppUserRepository;
 import com.group24.easyHomes.service.PropertyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,6 +25,9 @@ public class PropertyController {
     private PropertyService  service;
 
     @Autowired
+    private AppUserRepository userRepository;
+
+    @Autowired
     private PropertyDTOToProperty propertyDTOToProperty;
 
     @GetMapping("/properties")
@@ -34,6 +40,13 @@ public class PropertyController {
     public ResponseEntity<Property> getProperty(@PathVariable int propertyID)
     {
         return new ResponseEntity<>(service.getProperty(propertyID),HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/properties/filter",consumes = {"application/json"},produces ={"application/json"})
+    public ResponseEntity<List<Property>> filterProperties(@RequestBody PropertyListQuery propertyListQuery)
+    {
+        return new ResponseEntity<>(service.filterProperties(propertyListQuery),HttpStatus.OK);
+//        return new ResponseEntity<>(service.filterProperties(addressID),HttpStatus.OK);
     }
 
    /*@PostMapping(value = "/properties",consumes = {"multipart/form-data"},produces ={"application/json"})
@@ -66,6 +79,13 @@ public class PropertyController {
         try {
 
             Property property = propertyDTOToProperty.convert(propertyDTO);
+            AppUser user = userRepository.getById(propertyDTO.getUser_id());
+            String name = null ;
+            if( user!= null)
+            {
+                name = user.getFirstName() + " " + user.getLastName();
+            }
+            property.setUser_name(name);
             if(property.getImages()!= null)
             {
                 for(PropertyImages propertyImages : property.getImages())

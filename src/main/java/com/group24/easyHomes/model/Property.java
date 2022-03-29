@@ -32,6 +32,7 @@ public class Property {
     boolean parking_included = false;
     double rent =0.0;
     private long user_id;
+    private String user_name;
 
     @NotNull
     @JoinColumn(name="address_id")

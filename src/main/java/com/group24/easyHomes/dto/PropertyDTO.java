@@ -23,6 +23,7 @@ public class PropertyDTO {
     boolean parking_included;
     double rent ;
     private long user_id;
+    private String user_name;
     private PropertyAddressDTO address;
     //private Set<PropertyImageDTO> images = new HashSet<>();
     private Set<PropertyImageDTO> images ;

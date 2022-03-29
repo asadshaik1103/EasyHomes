@@ -74,8 +74,6 @@ export default function SimpleDialog(props) {
   }
   
     const onFileChange = (e) => {
-      debugger;
-
       for (var i = 0; i < e.target.files.length; i++) {
         console.log(e.target.files[i]);
           if (e.target.files[i]) {
@@ -173,6 +171,7 @@ export default function SimpleDialog(props) {
     
 
       const submitPropertyPost = (initialValues) => {
+        console.log(propertyType);
        const property ={
          "user_id": localStorage.getItem("userId"),
           "property_name": propertyName,

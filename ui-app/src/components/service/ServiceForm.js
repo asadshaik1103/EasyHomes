@@ -66,6 +66,7 @@ import { POST_SERVICE } from "../../contants/Api";
 
       const submitServicePost = (initialValues) => {
         const postData = {
+          "user_id": localStorage.getItem("userId"),
           'service_name': serviceName,
           'service_type': serviceType,
           'cost': cost,
