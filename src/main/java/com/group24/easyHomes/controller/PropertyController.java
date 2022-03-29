@@ -1,7 +1,6 @@
 package com.group24.easyHomes.controller;
 
 import com.group24.easyHomes.dto.PropertyDTO;
-import com.group24.easyHomes.dto.PropertyListQuery;
 import com.group24.easyHomes.mappers.PropertyDTOToProperty;
 import com.group24.easyHomes.model.AppUser;
 import com.group24.easyHomes.model.Property;
