@@ -13,6 +13,7 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -45,7 +46,7 @@ public class PopertyServiceTest {
         address1.setProvince("NS");
         address1.setPostal_code("H2Y8IK");
         property1 = new Property("Apt 605 Iris Apartments",
-                address1, "Laundry", "1 BHK", true, 500.0, 1, 1);
+                address1, "Laundry", "1 BHK", true, 500.0, 1, 1,1);
         PropertyAddress address2 = new PropertyAddress();
         address2.setLocation("Robie Street");
         address2.setCity("Halifax");
@@ -53,7 +54,7 @@ public class PopertyServiceTest {
         address2.setProvince("NS");
         address2.setPostal_code("H2Y8IK");
         property2 = new Property("Apt 607 Killam Apartments",
-                address2, "Laundry", "1 BHK", true, 500.0, 1, 1);
+                address2, "Laundry", "1 BHK", true, 500.0, 1, 1,2);
 
 
         propertyList.add(property1);
