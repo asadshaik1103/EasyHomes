@@ -42,12 +42,12 @@ public class PropertyController {
         return new ResponseEntity<>(service.getProperty(propertyID),HttpStatus.OK);
     }
 
-    @GetMapping(value = "/properties/filter",consumes = {"application/json"},produces ={"application/json"})
+  /*  @GetMapping(value = "/properties/filter",consumes = {"application/json"},produces ={"application/json"})
     public ResponseEntity<List<Property>> filterProperties(@RequestBody PropertyListQuery propertyListQuery)
     {
         return new ResponseEntity<>(service.filterProperties(propertyListQuery),HttpStatus.OK);
 //        return new ResponseEntity<>(service.filterProperties(addressID),HttpStatus.OK);
-    }
+    }*/
 
    /*@PostMapping(value = "/properties",consumes = {"multipart/form-data"},produces ={"application/json"})
     public ResponseEntity<Property> addProperty(@RequestPart("property") @Valid PropertyDTO propertyDTO,
