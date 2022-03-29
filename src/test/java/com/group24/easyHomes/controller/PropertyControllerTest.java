@@ -49,7 +49,7 @@ public class PropertyControllerTest {
     public void setup() {
         mockMvc = MockMvcBuilders.webAppContextSetup(context).apply(springSecurity()).build();
     }
-    
+
     @MockBean
     private PropertyService service;
 
@@ -81,7 +81,8 @@ public class PropertyControllerTest {
         address.setPostal_code("H2Y8IK");
         Property propertyResponse = new Property("Apt 605 Iris Apartments",
                 address, "Laundry", "1 BHK", true, 500.0, 1, 1,1);
-        String property = "{" + "\"property_name\": \"Apt 605 Iris Apartments\",\n" +
+        String property = "{" +  "\"user_id\": 1,\n"+
+                "\"property_name\": \"Apt 605 Iris Apartments\",\n" +
                 "        \"address\":{\n" +
                 "            \"location\" : \"University Street\",\n" +
                 "            \"city\": \"Halifax\",\n" +
