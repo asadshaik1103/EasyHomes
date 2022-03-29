@@ -2,31 +2,22 @@
 package com.group24.easyHomes.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.group24.easyHomes.dto.PropertyAddressDTO;
-import com.group24.easyHomes.dto.PropertyDTO;
-import com.group24.easyHomes.mappers.PropertyDTOToProperty;
 import com.group24.easyHomes.model.Property;
 import com.group24.easyHomes.model.PropertyAddress;
-import com.group24.easyHomes.model.PropertyImages;
 import com.group24.easyHomes.service.PropertyService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.MediaType;
-import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockMultipartHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
-
 import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
@@ -58,13 +49,11 @@ public class PropertyControllerTest {
     public void setup() {
         mockMvc = MockMvcBuilders.webAppContextSetup(context).apply(springSecurity()).build();
     }
-
-
-
+    
     @MockBean
     private PropertyService service;
 
-    @Test
+   @Test
     @WithMockUser(username = "dv", password = "pwd", authorities = "USER")
     public void getProperties() throws Exception {
 
@@ -80,7 +69,7 @@ public class PropertyControllerTest {
                 .andExpect(jsonPath("$", hasSize(1)));
     }
 
-   /* @Test
+   @Test
     @WithMockUser(username = "dv", password = "pwd", authorities = "USER")
     public void addProperty() throws Exception {
 
@@ -91,7 +80,7 @@ public class PropertyControllerTest {
         address.setProvince("NS");
         address.setPostal_code("H2Y8IK");
         Property propertyResponse = new Property("Apt 605 Iris Apartments",
-                address, "Laundry", "1 BHK", true, 500.0, 1, 1);
+                address, "Laundry", "1 BHK", true, 500.0, 1, 1,1);
         String property = "{" + "\"property_name\": \"Apt 605 Iris Apartments\",\n" +
                 "        \"address\":{\n" +
                 "            \"location\" : \"University Street\",\n" +
@@ -108,11 +97,11 @@ public class PropertyControllerTest {
                 "        \"rent\":\"500.0\"\n" +
                 "}";
 
-        doReturn(propertyResponse).when(service).addProperty(any());
-        mockMvc.perform(MockMvcRequestBuilders.post("/property/property")
-                        .contentType(MediaType.APPLICATION_JSON))
+        doReturn(propertyResponse).when(service).addProperty(any(Property.class));
+        mockMvc.perform(post("/property/property")
+                        .contentType(MediaType.APPLICATION_JSON).content(property.getBytes()))
                 .andExpect(status().isCreated());
-    }*/
+    }
 
 
     @Test
@@ -144,7 +133,7 @@ public class PropertyControllerTest {
         address.setProvince("NS");
         address.setPostal_code("H2Y8IK");
         Property property = new Property("Apt 605 Iris Apartments",
-                address, "Laundry", "1 BHK", true, 500.0, 1, 1);
+                address, "Laundry", "1 BHK", true, 500.0, 1, 1,1);
         String propertyRequest = "{" + "\"property_name\": \"Apt 605 Iris Apartments\",\n" +
                 "        \"address\":{\n" +
                 "            \"location\" : \"University Street\",\n" +
@@ -177,7 +166,7 @@ public class PropertyControllerTest {
         address.setProvince("NS");
         address.setPostal_code("H2Y8IK");
         Property property = new Property("Apt 605 Iris Apartments",
-                address, "Laundry", "1 BHK", true, 500.0, 1, 1);
+                address, "Laundry", "1 BHK", true, 500.0, 1, 1,1);
 
         String propertyRequest = "{" + "\"property_name\": \"Apt 605 Iris Apartments\",\n" +
                 "        \"address\":{\n" +
@@ -202,8 +191,3 @@ public class PropertyControllerTest {
     }
 }
 
-
-/*package com.group24.easyHomes.controller;
-public class PropertyControllerTest {
-
-}*/
