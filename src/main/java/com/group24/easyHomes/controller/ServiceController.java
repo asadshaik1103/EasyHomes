@@ -56,13 +56,6 @@ public class  ServiceController {
                 name = user.getFirstName() + " " + user.getLastName();
             }
             services.setUser_name(name);
-            if(services.getImages()!= null)
-            {
-                for(ServiceImages serviceImages : services.getImages())
-                {
-                services.addImage(serviceImages);
-                }
-            }
             service.addService(services);
             return new ResponseEntity<>(services,HttpStatus.CREATED) ;
         } catch (Exception e) {

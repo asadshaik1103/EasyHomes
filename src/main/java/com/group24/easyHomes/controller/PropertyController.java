@@ -54,13 +54,6 @@ public class PropertyController {
                 name = user.getFirstName() + " " + user.getLastName();
             }
             property.setUser_name(name);
-            if(property.getImages()!= null)
-            {
-                for(PropertyImages propertyImages : property.getImages())
-                {
-                    property.addImage(propertyImages);
-                }
-            }
             service.addProperty(property);
             return new ResponseEntity<>(property,HttpStatus.CREATED) ;
         } catch (Exception e) {

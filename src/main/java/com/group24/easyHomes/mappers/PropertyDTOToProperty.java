@@ -31,6 +31,7 @@ public class PropertyDTOToProperty  implements Converter<PropertyDTO, Property> 
         property.setProperty_id(source.getProperty_id());
         property.setAddress(addressDTOToAddress.convert(source.getAddress()));
         property.setProperty_name(source.getProperty_name());
+        property.setProperty_type(source.getProperty_type());
         property.setAmenities(source.getAmenities());
         property.setBathrooms(source.getBathrooms());
         property.setBedrooms(source.getBedrooms());
@@ -40,7 +41,7 @@ public class PropertyDTOToProperty  implements Converter<PropertyDTO, Property> 
 
         if (source.getImages() != null && source.getImages().size() > 0){
             source.getImages()
-                    .forEach(image -> property.getImages().add(imageDTOToImage.convert(image)));
+                    .forEach(image -> property.addImage(imageDTOToImage.convert(image)));
         }
 
         return property;

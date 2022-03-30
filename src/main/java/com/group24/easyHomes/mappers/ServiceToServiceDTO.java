@@ -42,7 +42,7 @@ public class ServiceToServiceDTO  implements Converter<ServiceDTO, Services> {
 
         if (source.getImages() != null && source.getImages().size() > 0){
             source.getImages()
-                    .forEach(image -> services.getImages().add(imageDTOToImage.convert(image)));
+                    .forEach(image -> services.addImage(imageDTOToImage.convert(image)));
         }
 
         return services;
