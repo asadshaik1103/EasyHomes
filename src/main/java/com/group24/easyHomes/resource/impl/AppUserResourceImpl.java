@@ -38,14 +38,18 @@ public class AppUserResourceImpl {
     private final AppUserService appUserService;
     private final TokenValidationService tokenValidationService;
     private final SendMailService sendMailService;
+
     private static Logger log = LoggerFactory.getLogger(AppUserResourceImpl.class);
 
     @Autowired
     private AuthenticationManager authenticationManager;
+
     @Autowired
     private JwtTokenProvider tokenProvider;
+
     @Autowired
     private AppUserRoleRepository roleRepository;
+
     @Autowired
     private AppUserRepository userRepository;
 
@@ -91,7 +95,7 @@ public class AppUserResourceImpl {
                 String email = user.getEmail();
                 jsonObject.put("name", authentication.getName());
                 jsonObject.put("authorities", authentication.getAuthorities());
-                jsonObject.put("userId", userRepository.findByEmail(email).get().getId());
+                 jsonObject.put("userId", userRepository.findByEmail(email).get().getId());
                 jsonObject.put("token", tokenProvider.createToken(email, userRepository.findByEmail(email).get().getRole()));
                 return new ResponseEntity<String>(jsonObject.toString(), HttpStatus.OK);
             }
