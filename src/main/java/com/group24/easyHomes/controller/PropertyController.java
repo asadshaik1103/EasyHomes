@@ -6,6 +6,7 @@ import com.group24.easyHomes.model.AppUser;
 import com.group24.easyHomes.model.Property;
 import com.group24.easyHomes.model.PropertyImages;
 import com.group24.easyHomes.repository.AppUserRepository;
+import com.group24.easyHomes.service.AppUserService;
 import com.group24.easyHomes.service.PropertyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,7 +25,7 @@ public class PropertyController {
     private PropertyService  service;
 
     @Autowired
-    private AppUserRepository userRepository;
+    private AppUserService userService;
 
     @Autowired
     private PropertyDTOToProperty propertyDTOToProperty;
@@ -41,44 +42,12 @@ public class PropertyController {
         return new ResponseEntity<>(service.getProperty(propertyID),HttpStatus.OK);
     }
 
-  /*  @GetMapping(value = "/properties/filter",consumes = {"application/json"},produces ={"application/json"})
-    public ResponseEntity<List<Property>> filterProperties(@RequestBody PropertyListQuery propertyListQuery)
-    {
-        return new ResponseEntity<>(service.filterProperties(propertyListQuery),HttpStatus.OK);
-//        return new ResponseEntity<>(service.filterProperties(addressID),HttpStatus.OK);
-    }*/
-
-   /*@PostMapping(value = "/properties",consumes = {"multipart/form-data"},produces ={"application/json"})
-    public ResponseEntity<Property> addProperty(@RequestPart("property") @Valid PropertyDTO propertyDTO,
-                                                @RequestPart("file")  MultipartFile[] files) {
-        try {
-
-            Set<PropertyImages> propertyImages = new HashSet<>();
-            Property property = propertyDTOToProperty.convert(propertyDTO);
-
-            for(MultipartFile file:files)
-            {
-                String fileName = StringUtils.cleanPath(file.getOriginalFilename());
-                PropertyImages image = new PropertyImages(fileName, file.getContentType(), file.getBytes());
-                property.addImage(image);
-                //image.setProperty(property);
-            }
-
-            service.addProperty(property);
-            return new ResponseEntity<>(property,HttpStatus.CREATED) ;
-         } catch (IOException e) {
-            e.printStackTrace();
-            return new ResponseEntity<>(null,HttpStatus.BAD_REQUEST) ;
-
-         }
-    }
-*/
     @PostMapping(value = "/property",consumes = {"application/json"},produces ={"application/json"})
-    public ResponseEntity<Property> addPropertyOne(@RequestBody PropertyDTO propertyDTO) {
+    public ResponseEntity<Property> addProperty(@RequestBody PropertyDTO propertyDTO) {
         try {
 
             Property property = propertyDTOToProperty.convert(propertyDTO);
-            AppUser user = userRepository.getById(propertyDTO.getUser_id());
+            AppUser user = userService.getById(propertyDTO.getUser_id());
             String name = null ;
             if( user!= null)
             {
@@ -118,37 +87,5 @@ public class PropertyController {
             return new ResponseEntity<>(service.updateProperty(propertyId,property),HttpStatus.NO_CONTENT);
 
     }
-/*
-    @PatchMapping(value = "/properties/{propertyId}")
-    public ResponseEntity<Property>  updateProperty(@PathVariable int propertyId, @RequestBody Map<Object,Object> fields)
-    {
-        Property property = service.getProperty(propertyId);
-        fields.forEach((k,v) ->
-        {
-            Field field = ReflectionUtils.findField(Property.class,(String) k);
-            if(field != null)
-            {
-                field.setAccessible(true);
-                ReflectionUtils.setField(field,property,v);
-
-            }
-        });
-        service.addProperty(property);
-        return new ResponseEntity<Property>(property,HttpStatus.OK);
-    }
-
-
-       @PatchMapping(value = "/properties/address/{addressID}" ,consumes = {"application/json"})
-        public void updatePropertyAddress(@PathVariable int addressID, @RequestBody PropertyAddressDTO addressDTO)
-        {
-            PropertyAddress existingAddress =  addressRepository.findById(addressID).get();
-            System.out.println(existingAddress.getLocation());
-
-            PropertyAddress updatedAddress = addressService.convertDTOToEntity(addressDTO);
-            //System.out.println(propertyAddress.getLocation());
-            existingAddress = updatedAddress;
-            addressRepository.save(existingAddress);
-            //return new ResponseEntity<PropertyAddress>(address, HttpStatus.OK);
-        }*/
 
 }

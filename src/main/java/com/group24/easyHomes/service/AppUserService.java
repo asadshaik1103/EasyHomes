@@ -28,8 +28,9 @@ public class AppUserService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        String errorMessage = String.format(USER_NOT_FOUND_MSG, email);
         return appUserRepository.findByEmail(email)
-                .orElseThrow(() -> new UsernameNotFoundException(String.format(USER_NOT_FOUND_MSG,email)));
+                .orElseThrow(() -> new UsernameNotFoundException(errorMessage));
     }
 
     public String signUpUser(AppUser appUser){
@@ -45,7 +46,10 @@ public class AppUserService implements UserDetailsService {
 
         String token = UUID.randomUUID().toString();
 
-        TokenValidation tokenValidation = new TokenValidation(token, LocalDateTime.now(), LocalDateTime.now().plusMinutes(60*24),appUser);
+        final int  duration = 24 * 60;
+        LocalDateTime currentTime = LocalDateTime.now();
+        LocalDateTime expiryTime = LocalDateTime.now().plusMinutes(duration);
+        TokenValidation tokenValidation = new TokenValidation(token, currentTime, expiryTime,appUser);
 
         tokenValidationService.storeToken(tokenValidation);
 
@@ -54,6 +58,10 @@ public class AppUserService implements UserDetailsService {
 
     public int enableAppUser(String email) {
         return appUserRepository.enableAppUser(email);
+    }
+
+    public AppUser getById(long id){
+        return appUserRepository.findById(id).get();
     }
 
 

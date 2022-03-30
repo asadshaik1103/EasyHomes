@@ -1,4 +1,4 @@
-package com.group24.easyHomes.dto;
+package com.group24.easyHomes.mappers;
 
 import lombok.Getter;
 import lombok.Setter;
