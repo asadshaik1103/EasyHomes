@@ -17,7 +17,6 @@ import NavBar from './components/nav-bar/Navbar';
 import HomeTabs from './components/home-tabs/HomeTabs';
 import FabMenu from './components/fab-menu/FabMenu';
 
-import NavigationBar from './components/nav-bar/NavigationBar';
 import Welcome from './components/nav-bar/Welcome';
 import Login from './User/Login';
 import Register from './User/Register';
@@ -37,6 +36,7 @@ import VideoCallWebRTC from './components/video-call/VideoCallWebRTC';
 
 const isLogin = () => {
   return !!localStorage.getItem("token");
+  // return true;
 }
 
 const Public = () => <Login />;
@@ -68,8 +68,9 @@ function App() {
   const footer = "Group-24";
 
   useEffect(() => {
+    // http://localhost:8080/
     // console.log('App.js: useEffect: isUserLoggedIn: ', isUserLoggedIn);
-    axios.get('/properties')
+    axios.get('8080/property/properties')
       .then(res => {
         const persons = res.data;
         console.log('App.js: useEffect: axios.get: success', persons);

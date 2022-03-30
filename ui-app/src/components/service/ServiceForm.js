@@ -11,7 +11,7 @@ import Select from '@mui/material/Select';
 import IconButton from '@mui/material/IconButton';
 import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
 import axios from 'axios';
-import { POST_SERVICE } from "../../contants/Api";
+import { POST_SERVICE } from "../../constants/Api";
 
   export default function ServiceForm(props) {
     const { open, title, setDialogOpenState } = props;

@@ -11,6 +11,8 @@ import { IconButton } from '@mui/material';
 import ArrowCircleRightOutlinedIcon from '@mui/icons-material/ArrowCircleRightOutlined';
 import ArrowCircleLeftOutlinedIcon from '@mui/icons-material/ArrowCircleLeftOutlined';
 import ManageSearchIcon from '@mui/icons-material/ManageSearch';
+import axios from 'axios';
+
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
   textAlign: 'center',
@@ -72,9 +74,21 @@ export default function Filter({ setChecked, checked }) {
     country: '',
   });
 
-  const handleSearch = () => {
-    console.log('searching: ', filterParams);
+  const handleSearch = (event) => {
+    if (event) {
+      event.preventDefault();
+    }
+    console.log('searching: ', event);
     setChecked(!checked);
+    // call filter properties API with request body
+    axios.post('http://localhost:8080/properties/filter', filterParams)
+      .then(res => {
+        console.log('filter: axios.post: success', res);
+        // this.setState({ persons });
+      }
+    ).catch(err => {
+      console.log('filter: axios.post: error', err);
+    });
   };
 
   const handleArrowButtonClick = () => {
@@ -122,7 +136,7 @@ export default function Filter({ setChecked, checked }) {
           {...getFilterTextFieldsProps(option)}
         />))
       }
-      <Button disabled={disableSearchButton()} variant="contained" onClick={handleSearch}>Search</Button>
+      <Button disabled={disableSearchButton()} variant="contained" onClick={(e) => { handleSearch(e) }}>Search</Button>
     </Box>
   };
   return (

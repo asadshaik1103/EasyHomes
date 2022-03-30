@@ -10,7 +10,7 @@ import { useDispatch } from 'react-redux';
 
 import { customTheme } from '../../utils/theme';
 import { Avatar, Button, Card, CardActions, CardContent, CardHeader, CardMedia, Chip, Grid, IconButton, Rating, Stack } from '@mui/material';
-import { GET_PROPERTY, GET_SERVICE } from '../../contants/Api';
+import { GET_PROPERTY, GET_SERVICE } from '../../constants/Api';
 import Service from '../service/Service';
 import { openModel,openModelProperty } from '../../reducers/app/appSlice';
 import {AddFavorite} from '../Icons'
