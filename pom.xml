@@ -217,7 +217,6 @@
 						<configuration>
 							<nodeVersion>${node.version}</nodeVersion>
 							<yarnVersion>${yarn.version}</yarnVersion>
-							<workingDirectory>ui-app/src</workingDirectory>
 						</configuration>
 					</execution>
 					<execution>

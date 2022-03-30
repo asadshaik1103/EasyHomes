@@ -20,6 +20,13 @@ export const appSlice = createSlice({
         updateUserLoggedInStatus: (state, action) => {
             state.isUserLoggedIn = action.payload.isUserLoggedIn;
         },
+        authenticateUser: (state, action) => {
+            state.isUserLoggedIn = action.payload.isUserLoggedIn;
+        },
+        logoutUser: (state, action) => {
+            localStorage.removeItem("token");
+            state.isUserLoggedIn = action.payload.isUserLoggedIn;
+        },
         openModel: (state,action) => {
             state.homeDialog.isOpen = action.payload.homeDialog.isOpen;
             state.homeDialog.service = action.payload.homeDialog.service;
@@ -28,10 +35,6 @@ export const appSlice = createSlice({
             state.homeDialogProperty.property = action.payload.homeDialogProperty.property;
         }
     },
-    authenticateUser: (state, action) => {
-      state.isUserLoggedIn = action.payload.isUserLoggedIn;
-    },
-  },{
   extraReducers: (builder) => {
     builder.addCase(authenticateUserData.pending, (state) => {
       console.log("pending", state);
@@ -50,5 +53,5 @@ export const appSlice = createSlice({
   },
 });
 
-export const { updateUserLoggedInStatus,openModel, openModelProperty } = appSlice.actions;
+export const { updateUserLoggedInStatus, authenticateUser, logoutUser, openModel, openModelProperty } = appSlice.actions;
 export default appSlice.reducer;
