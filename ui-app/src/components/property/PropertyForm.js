@@ -43,6 +43,8 @@ export default function SimpleDialog(props) {
     const [severity, setSeverity] = React.useState('success');
     const [disabled, setDisabled] = React.useState(false);
 
+    const images = [];
+
    
   
     const handleSnackClose = (event, reason) => {
@@ -94,7 +96,9 @@ export default function SimpleDialog(props) {
       const base64Image = {
         image_data: btoa(binaryString)
       }
-      setbase64Images([...base64Images, base64Image]);
+      images.push(base64Image)
+      setbase64Images(images);
+      // setbase64Images([...base64Images, base64Image]);
     };
 
     const [state, setState] = React.useState({
@@ -260,10 +264,11 @@ export default function SimpleDialog(props) {
                 onChange={handlePropertyTypeChange}
                 size="small"
                 >
-                <MenuItem value={1}>1 BHK</MenuItem>
-                <MenuItem value={2}>2 BHK</MenuItem>
-                <MenuItem value={3}>3 BHK</MenuItem>
-                <MenuItem value={3}>4 House</MenuItem>
+                <MenuItem value={"1 BHK"}>1 BHK</MenuItem>
+                <MenuItem value={"2 BHK"}>2 BHK</MenuItem>
+                <MenuItem value={"3 BHK"}>3 BHK</MenuItem>
+                <MenuItem value={"4 BHK"}>4 BHK</MenuItem>
+                <MenuItem value={"Townhouse"}>TownHouse</MenuItem>
                 </Select>
               </FormControl>
             </Grid>
