@@ -98,7 +98,7 @@ public class PopertyServiceTest {
 
         Property propertyReturned = propertyService.getProperty(Constants.propertyID);
         assertNotNull(propertyReturned);
-        verify(propertyRepository, times(1)).findById(any());
+        verify(propertyRepository, times(2)).findById(any());
         verify(propertyRepository, never()).findAll();
     }
 

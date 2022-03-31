@@ -4,8 +4,6 @@ import com.group24.easyHomes.dto.PropertyDTO;
 import com.group24.easyHomes.mappers.PropertyDTOToProperty;
 import com.group24.easyHomes.model.AppUser;
 import com.group24.easyHomes.model.Property;
-import com.group24.easyHomes.model.PropertyImages;
-import com.group24.easyHomes.repository.AppUserRepository;
 import com.group24.easyHomes.service.AppUserService;
 import com.group24.easyHomes.service.PropertyService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +34,7 @@ public class PropertyController {
         return new ResponseEntity<>(service.listAll(),HttpStatus.OK);
     }
 
-    @GetMapping("/{propertyID}/properties")
+    @GetMapping("/{propertyID}")
     public ResponseEntity<Property> getProperty(@PathVariable int propertyID)
     {
         return new ResponseEntity<>(service.getProperty(propertyID),HttpStatus.OK);

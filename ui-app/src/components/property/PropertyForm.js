@@ -353,7 +353,7 @@ export default function SimpleDialog(props) {
         </Container>
         <div style={{ padding: 20 }}></div>
         <Container  maxWidth="md">
-          <Grid item xs={6}> <Typography variant="h4" gutterBottom component="div">
+          <Grid item xs={6}> <Typography variant="h6" gutterBottom component="div">
           Property Address
           </Typography>
           </Grid>
@@ -422,8 +422,8 @@ export default function SimpleDialog(props) {
       </Container>
       <Container  maxWidth="md">
       <div style={{ padding: 20 }}></div>  
-      <Grid item xs={6}> <Typography variant="h4" gutterBottom component="div">
-          Add Images
+      <Grid item xs={6}> <Typography variant="h6" gutterBottom component="div">
+          Upload Images
       </Typography>
       </Grid>
       <Grid item xs={6}>
