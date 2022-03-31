@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 import { authenticateUserData } from "./thunks/appThunks";
 
 const initialState = {
@@ -20,6 +20,13 @@ export const appSlice = createSlice({
         updateUserLoggedInStatus: (state, action) => {
             state.isUserLoggedIn = action.payload.isUserLoggedIn;
         },
+        authenticateUser: (state, action) => {
+            state.isUserLoggedIn = action.payload.isUserLoggedIn;
+        },
+        logoutUser: (state, action) => {
+            localStorage.removeItem("token");
+            state.isUserLoggedIn = action.payload.isUserLoggedIn;
+        },
         openModel: (state,action) => {
             state.homeDialog.isOpen = action.payload.homeDialog.isOpen;
             state.homeDialog.service = action.payload.homeDialog.service;
@@ -28,27 +35,25 @@ export const appSlice = createSlice({
             state.homeDialogProperty.property = action.payload.homeDialogProperty.property;
         }
     },
-    authenticateUser: (state, action) => {
-      state.isUserLoggedIn = action.payload.isUserLoggedIn;
+    extraReducers: (builder) => {
+        builder.addCase(authenticateUserData.pending, (state) => {
+            console.log('pending', state);
+        });
+        builder.addCase(authenticateUserData.fulfilled, (state, { payload }) => {
+            if (payload.token) {
+                state.isUserLoggedIn = true;
+                state.token = payload.token;
+                localStorage.setItem('token', payload.token);
+                localStorage.setItem('userId', payload.userId);
+            }
+        });
+        builder.addCase(authenticateUserData.rejected, (state, { payload }) => {
+            console.log('rejected: ', payload);
+            console.log('rejected');
+        });
     },
-  },{
-  extraReducers: (builder) => {
-    builder.addCase(authenticateUserData.pending, (state) => {
-      console.log("pending", state);
-    });
-    builder.addCase(authenticateUserData.fulfilled, (state, { payload }) => {
-      if (payload.token) {
-        state.isUserLoggedIn = true;
-        state.token = payload.token;
-        localStorage.setItem("token", payload.token);
-      }
-    });
-    builder.addCase(authenticateUserData.rejected, (state, { payload }) => {
-      console.log("rejected: ", payload);
-      console.log("rejected");
-    });
-  },
 });
 
-export const { updateUserLoggedInStatus,openModel, openModelProperty } = appSlice.actions;
+export const { updateUserLoggedInStatus, authenticateUser, logoutUser, openModel, openModelProperty } = appSlice.actions;
+
 export default appSlice.reducer;

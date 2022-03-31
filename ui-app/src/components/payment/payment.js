@@ -1,0 +1,105 @@
+import *  as React from "react";
+import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js"; 
+import axios from 'axios';
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
+
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
+
+ 
+export default function Payment(props) {
+     const{ service } = props;
+    const [billingDetails, setBillingDetails] = React.useState("");
+    const [succeeded, setSucceeded] = React.useState(false);
+    const [paypalErrorMessage, setPaypalErrorMessage] = React.useState("");
+    const [orderID, setOrderID] = React.useState(false);
+
+    const handleSnackClose = (event, reason) => {
+      if (reason === 'clickaway') {
+        return;
+      }
+  
+      setSucceeded(false);
+    };
+    
+
+    const createOrder = (data, actions) => {
+        return actions.order
+          .create({
+            purchase_units: [
+              {
+                amount: {
+                  // value: service?.cost,
+                  value:"0.5",
+                },
+              },
+            ],
+            application_context: {
+              shipping_preference: "NO_SHIPPING",
+            },
+          })
+          .then((orderID) => {
+            setOrderID(orderID);
+            return orderID;
+          });
+      };
+
+    const onApprove = (data, actions) => {
+        return actions.order.capture().then(function (details) {
+          const {payer} = details;
+          setBillingDetails(payer);
+          setSucceeded(true);
+
+          //alert("Payment Sucessful");
+          const paymentDetails ={
+            "user_id":localStorage.getItem("userId"),
+            "amount":service?.cost,
+            "service_id":service?.service_id
+          };
+          JSON.stringify(paymentDetails)
+          axios({
+            method: 'post',
+            url: 'http://localhost:8080/payment/addPayment',
+            data: JSON.stringify(paymentDetails),
+            headers: {
+              'Content-Type': 'application/json'
+            }
+            })
+            .then(function (response) {
+            })
+            .catch(function (response) {
+                //handle error
+                console.log(response);
+            });
+
+            <Snackbar open={succeeded} autoHideDuration={6000} onClose={handleSnackClose}>
+            <Alert onClose={handleSnackClose} severity="success" sx={{ width: '100%' }}>
+              Payment Sucessful!
+            </Alert>
+          </Snackbar>
+    
+
+        })
+      };
+    // handles payment errors
+    const onError = (data,actions)=>{
+       setPaypalErrorMessage("Something went wrong with your payment");
+    }
+
+
+    const initialOptions = {
+        "client-id": "test",
+        "currency": "CAD",
+        "intent": "capture",
+    };
+    
+    return ( 
+        <PayPalScriptProvider options={initialOptions}> 
+            <PayPalButtons style={{ layout: "vertical" }} 
+            createOrder={createOrder} onApprove={onApprove} 
+            /> 
+        </PayPalScriptProvider> 
+    ); 
+}

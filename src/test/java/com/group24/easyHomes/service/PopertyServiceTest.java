@@ -1,6 +1,7 @@
 
 package com.group24.easyHomes.service;
 
+import com.group24.easyHomes.controller.Constants;
 import com.group24.easyHomes.repository.PropertyRepository;
 import com.group24.easyHomes.model.Property;
 import com.group24.easyHomes.model.PropertyAddress;
@@ -13,6 +14,7 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -45,7 +47,7 @@ public class PopertyServiceTest {
         address1.setProvince("NS");
         address1.setPostal_code("H2Y8IK");
         property1 = new Property("Apt 605 Iris Apartments",
-                address1, "Laundry", "1 BHK", true, 500.0, 1, 1);
+                address1, "Laundry", "1 BHK", true, Constants.propertyRent,  Constants.noOfBedrooms_1, Constants.noOfBathrooms_1,Constants.propertyID);
         PropertyAddress address2 = new PropertyAddress();
         address2.setLocation("Robie Street");
         address2.setCity("Halifax");
@@ -53,7 +55,8 @@ public class PopertyServiceTest {
         address2.setProvince("NS");
         address2.setPostal_code("H2Y8IK");
         property2 = new Property("Apt 607 Killam Apartments",
-                address2, "Laundry", "1 BHK", true, 500.0, 1, 1);
+                address2, "Laundry", "1 BHK", true,
+                Constants.propertyRent, Constants.noOfBedrooms_1, Constants.noOfBathrooms_1,Constants.propertyID);
 
 
         propertyList.add(property1);
@@ -67,7 +70,7 @@ public class PopertyServiceTest {
     }
 
     @Test
-    public void addProperty() /*throws PropertyAlreadyExistsException*/
+    public void addProperty()
     {
         when(propertyRepository.save(any())).thenReturn(property1);
         propertyService.addProperty(property1);
@@ -88,14 +91,14 @@ public class PopertyServiceTest {
     @Test
     public void getPropertyByIdTest() throws Exception {
         Property property = new Property();
-        property.setProperty_id(4);
+        property.setProperty_id(Constants.propertyID);
         Optional<Property> propertyOptional = Optional.of(property);
 
         when(propertyRepository.findById(any())).thenReturn(propertyOptional);
 
-        Property propertyReturned = propertyService.getProperty(4);
+        Property propertyReturned = propertyService.getProperty(Constants.propertyID);
         assertNotNull(propertyReturned);
-        verify(propertyRepository, times(1)).findById(any());
+        verify(propertyRepository, times(2)).findById(any());
         verify(propertyRepository, never()).findAll();
     }
 
