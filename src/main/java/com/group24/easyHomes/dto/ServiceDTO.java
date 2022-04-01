@@ -23,6 +23,7 @@ public class ServiceDTO {
     private String province;
     private String country;
     private String pincode;
+    private long user_id;
     private String address;
     private Long review_id;
     private Set<ServiceImageDTO> images = new HashSet<>();

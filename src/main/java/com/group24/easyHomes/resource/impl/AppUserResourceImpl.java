@@ -31,7 +31,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/user")
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins="*")
 @AllArgsConstructor
 public class AppUserResourceImpl {
 
@@ -95,6 +95,7 @@ public class AppUserResourceImpl {
                 String email = user.getEmail();
                 jsonObject.put("name", authentication.getName());
                 jsonObject.put("authorities", authentication.getAuthorities());
+                 jsonObject.put("userId", userRepository.findByEmail(email).get().getId());
                 jsonObject.put("token", tokenProvider.createToken(email, userRepository.findByEmail(email).get().getRole()));
                 return new ResponseEntity<String>(jsonObject.toString(), HttpStatus.OK);
             }

@@ -8,10 +8,8 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';  
-import IconButton from '@mui/material/IconButton';
-import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
 import axios from 'axios';
-import { POST_SERVICE } from "../../contants/Api";
+import { POST_SERVICE } from "../../constants/Api";
 
   export default function ServiceForm(props) {
     const { open, title, setDialogOpenState } = props;
@@ -66,6 +64,7 @@ import { POST_SERVICE } from "../../contants/Api";
 
       const submitServicePost = (initialValues) => {
         const postData = {
+          "user_id": localStorage.getItem("userId"),
           'service_name': serviceName,
           'service_type': serviceType,
           'cost': cost,
@@ -248,8 +247,8 @@ import { POST_SERVICE } from "../../contants/Api";
       </Container>
       <Container  maxWidth="md">
       <div style={{ padding: 20 }}></div>  
-      <Grid item xs={6}> <Typography variant="h4" gutterBottom component="div">
-          Add Images
+      <Grid item xs={6}> <Typography variant="h6" gutterBottom component="div">
+          Upload Images
       </Typography>
       </Grid>
       <Grid item xs={6}>
@@ -262,9 +261,6 @@ import { POST_SERVICE } from "../../contants/Api";
           multiple
           onChange={onFileChange}
         />
-        <IconButton color="primary" aria-label="upload picture" component="span">
-          <AddAPhotoIcon  fontSize="large"/>
-        </IconButton>
       </label>
       </Grid>
       <div style={{ padding: 20 }}>

@@ -38,10 +38,11 @@ public class ServiceToServiceDTO  implements Converter<ServiceDTO, Services> {
         services.setPincode(source.getPincode());
         services.setAddress(source.getAddress());
         services.setReview_id(source.getReview_id());
+        services.setUser_id(source.getUser_id());
 
         if (source.getImages() != null && source.getImages().size() > 0){
             source.getImages()
-                    .forEach(image -> services.getImages().add(imageDTOToImage.convert(image)));
+                    .forEach(image -> services.addImage(imageDTOToImage.convert(image)));
         }
 
         return services;

@@ -1,6 +1,6 @@
 import { createTheme } from '@mui/material/styles';
 
-import { CUSTOM_THEME_HEX, CUSTOM_THEME_HEX_SECONDARY } from '../contants/contants';
+import { CUSTOM_THEME_HEX, CUSTOM_THEME_HEX_SECONDARY } from '../constants/constants';
 export const customTheme = createTheme({
   palette: {
     primary: {
