@@ -19,6 +19,12 @@ import Alert from "@mui/material/Alert";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 
+import { authenticateUser } from '../reducers/app/appSlice';
+// /reducers/app/appSlice
+
+// react should call an login API 
+// this response should give jwttoken
+
 function Copyright(props) {
   return (
     <Typography
