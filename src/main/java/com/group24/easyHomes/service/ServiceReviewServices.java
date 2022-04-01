@@ -73,13 +73,5 @@ public class ServiceReviewServices {
         }
     }
 
-    public List<ServiceReview> getreviewbyservice(Long serviceID){
-
-        Optional<Services> servicesOptional = serviceRepository.findById(serviceID);
-
-            Services services = servicesOptional.get();
-            return services.getReviews().stream().toList();
-
-
-    }
+    
 }
