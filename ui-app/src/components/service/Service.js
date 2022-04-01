@@ -9,18 +9,36 @@ import { useDispatch,useSelector } from 'react-redux';
 import { openModel } from '../../reducers/app/appSlice';
 import { Container } from "react-bootstrap";
 import Payment from "../payment/payment";
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
+import { deepCompareObjects } from "../../utils/common-utils";
+
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 const Service = () => {
 
   const dispatch = useDispatch();
   const [launchPayPal, setLaunchPayPal ] = React.useState(false);
+  const [succeeded, setSucceeded] = React.useState(false);
+  const [toastContent, setToastContent] = React.useState('');
+
+  const handleSnackClose = () => {
+    setSucceeded(false);
+  }
+
+  const handleDialogClose = () => {
+    setLaunchPayPal(false);
+    dispatch(openModel({ homeDialog:{isOpen:false,service:null} }))
+  }
 
 
   const isOpen = useSelector(state => state.app.homeDialog.isOpen)
   const service = useSelector(state => state.app.homeDialog.service)
 
   return (
-      <Dialog fullWidth maxWidth='md' open={isOpen} onClose={()=>dispatch(openModel({ homeDialog:{isOpen:false,service:null} }))}>
+      <Dialog fullWidth maxWidth='md' open={isOpen} onClose={() => handleDialogClose() }>
     <div
     style={{
       padding: "5%",
@@ -72,11 +90,16 @@ const Service = () => {
               justifyContent: "center"
             }
           }>
-          {launchPayPal?<Payment service={service} />:<div/>}
+          {launchPayPal?<Payment service={service} setToastMessage={setSucceeded} />:<div/>}
           </Container> 
           <h3>Reviews</h3>
         </div>
        </div>
+       <Snackbar open={succeeded} autoHideDuration={6000} onClose={handleSnackClose}>
+        <Alert onClose={handleSnackClose} severity="success" sx={{ width: '100%' }}>
+          Payment Sucessful!
+        </Alert>
+          </Snackbar>
     </Dialog>
     
   );

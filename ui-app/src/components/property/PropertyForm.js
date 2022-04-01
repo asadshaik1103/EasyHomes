@@ -18,6 +18,7 @@ import { styled } from '@mui/material/styles';
 import axios from 'axios';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
+import { setToastContent } from "../../reducers/app/appSlice";
 
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -25,7 +26,7 @@ const Alert = React.forwardRef(function Alert(props, ref) {
 
 
 export default function SimpleDialog(props) {
-    const { open, title, setDialogOpenState } = props;
+    const { open, title, setDialogOpenState, setToastMessage } = props;
     const [propertyName, setPropertyName] = React.useState('');
     const [propertyType, setPropertyType] = React.useState('');
     const [bedrooms, setBedrooms] = React.useState('');
@@ -210,6 +211,8 @@ export default function SimpleDialog(props) {
             setSeverity("success");
             setDialogOpenState(false);
             resetForm();
+            setToastMessage(true);
+            setToastContent("Property added successfully!");
             console.log(snackbar);
         })
         .catch(function (response) {
