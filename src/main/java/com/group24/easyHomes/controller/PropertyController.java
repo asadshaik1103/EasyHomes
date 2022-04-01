@@ -6,6 +6,7 @@ import com.group24.easyHomes.model.AppUser;
 import com.group24.easyHomes.model.Property;
 import com.group24.easyHomes.service.AppUserService;
 import com.group24.easyHomes.service.PropertyService;
+import com.group24.easyHomes.model.PropertyListQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 
@@ -20,7 +21,7 @@ import java.util.List;
 public class PropertyController {
 
     @Autowired
-    private PropertyService  service;
+    private PropertyService service;
 
     @Autowired
     private AppUserService userService;
@@ -32,6 +33,12 @@ public class PropertyController {
     public ResponseEntity<List<Property>> list()
     {
         return new ResponseEntity<>(service.listAll(),HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/properties/filter",consumes = {"application/json"},produces ={"application/json"})
+    public ResponseEntity<List<Property>> filterProperties(@RequestBody PropertyListQuery propertyListQuery)
+    {
+        return new ResponseEntity<>(service.filterProperties(propertyListQuery),HttpStatus.OK);
     }
 
     @GetMapping("/{propertyID}")

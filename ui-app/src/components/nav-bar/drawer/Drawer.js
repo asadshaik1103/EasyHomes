@@ -65,7 +65,7 @@ const list = () => (
                 <Button onClick={toggleDrawer(true)}>test</Button>
                 <SwipeableDrawer
                     anchor={anchor}
-                    open={state['drawerOpened']}
+                    open={true}
                     onClose={toggleDrawer(false)}
                     onOpen={toggleDrawer(true)}
                 >
