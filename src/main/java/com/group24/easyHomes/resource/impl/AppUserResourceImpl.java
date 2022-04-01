@@ -31,7 +31,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/user")
-@CrossOrigin(origins = "https://easthomes-develop.herokuapp.com:3000")
+@CrossOrigin(origins = "*")
 @AllArgsConstructor
 public class AppUserResourceImpl {
 
@@ -64,7 +64,7 @@ public class AppUserResourceImpl {
 
             String token =  appUserService.signUpUser(savedUser);
 
-            String link = "https://easthomes-develop.herokuapp.com:8080/user/confirm?token=" + token;
+            String link = "/user/confirm?token=" + token;
 
             String message = "Hello,\n" +
                     "Please verify your email id through following link:\n" +
