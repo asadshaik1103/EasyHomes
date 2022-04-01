@@ -19,7 +19,6 @@ public class ServiceReviewDTO {
     private String review_subject;
     private String review_description;
     private int review_rating = 0;
-    private String review_given_time;
     private long service_id;
 
     

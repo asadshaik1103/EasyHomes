@@ -7,6 +7,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.Date;
 
 @Getter
 @Setter
@@ -27,8 +28,14 @@ public class ServiceReview {
     private String review_description;
     @Column(name = "review_rating")
     private int review_rating = 0;
-    @Column(name = "review_given_time")
-    private String review_given_time;
+    @Column(nullable = false, updatable = false)
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date posted_on;
+    @PrePersist
+    protected void onCreate() {
+        this.posted_on = new Date();
+    }
+
 
     @ManyToOne
     @JoinColumn(name = "service_id")
@@ -39,13 +46,12 @@ public class ServiceReview {
 
     }
 
-    public ServiceReview(int review_id, String user_id, String review_subject, String review_description, int review_rating, String review_given_time, Services services) {
+    public ServiceReview(int review_id, String user_id, String review_subject, String review_description, int review_rating, Services services) {
         this.review_id = review_id;
         this.user_id = user_id;
         this.review_subject = review_subject;
         this.review_description = review_description;
         this.review_rating = review_rating;
-        this.review_given_time = review_given_time;
         this.services = services;
     }
 

@@ -34,7 +34,6 @@ public class SReviewDTOtoSReview implements Converter<ServiceReviewDTO, ServiceR
         review.setReview_description(source.getReview_description());
         review.setReview_subject(source.getReview_subject());
         review.setUser_id(source.getUser_id());
-        review.setReview_given_time(source.getReview_given_time());
 
         return review;
     }
