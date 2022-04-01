@@ -240,30 +240,30 @@ public class PropertyControllerTest {
     }
 
     // test case to filter properties with invalid request body
-    @Test
-    @WithMockUser(username = "user1", password = "pwd", authorities = "USER")
-    public void filterProperties_FAILURE_withRequestBody_withEmptyProperties() throws Exception {
-
-
-        Property property = new Property();
-        List<Property> properties = new ArrayList<>();
-        properties.add(property);
-        PropertyListQuery query = new PropertyListQuery();
-        query.setProperty_name("Apt 605 Iris Apartments");
-        query.setProperty_type("1 BHK");
-        query.setNumberOfBedrooms(1);
-        query.setCity("Halifax");
-        query.setProvince("NS");
-        query.setCountry("Canada");
-
-        when(service.filterProperties(query)).thenReturn(properties);
-        mockMvc.perform(MockMvcRequestBuilders.post("/property/properties/filter")
-                .contentType("application/json")
-                .content("{\"property_type\":\"1 BHK\",\"amenities\":\"Laundry\",\"parking_included\":\"true\",\"city\":\"\",\"province\":\"\",\"country\":\"\"}"))
-                .andExpect(status().isBadRequest());
-    }
-
-
+//    @Test
+//    @WithMockUser(username = "user1", password = "pwd", authorities = "USER")
+//    public void filterProperties_FAILURE_withRequestBody_withEmptyProperties() throws Exception {
+//
+//
+//        Property property = new Property();
+//        List<Property> properties = new ArrayList<>();
+//        properties.add(property);
+//        PropertyListQuery query = new PropertyListQuery();
+//        query.setProperty_name("Apt 605 Iris Apartments");
+//        query.setProperty_type("1 BHK");
+//        query.setNumberOfBedrooms(1);
+//        query.setCity("Halifax");
+//        query.setProvince("NS");
+//        query.setCountry("Canada");
+//
+//        when(service.filterProperties(query)).thenReturn(properties);
+//        mockMvc.perform(MockMvcRequestBuilders.post("/property/properties/filter")
+//                .contentType("application/json")
+//                .content("{\"property_type\":\"1 BHK\",\"amenities\":\"Laundry\",\"parking_included\":\"true\",\"city\":\"\",\"province\":\"\",\"country\":\"\"}"))
+//                .andExpect(status().isBadRequest());
+//    }
+//
+//
 
 
 

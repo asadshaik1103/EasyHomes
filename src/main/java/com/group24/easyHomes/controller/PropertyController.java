@@ -35,7 +35,6 @@ public class PropertyController {
     public ResponseEntity<List<Property>> filterProperties(@RequestBody PropertyListQuery propertyListQuery)
     {
         return new ResponseEntity<>(service.filterProperties(propertyListQuery),HttpStatus.OK);
-//        return new ResponseEntity<>(service.filterProperties(addressID),HttpStatus.OK);
     }
 
     @GetMapping("/{propertyID}/properties")

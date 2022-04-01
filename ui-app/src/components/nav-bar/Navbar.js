@@ -22,8 +22,10 @@ import MoreIcon from "@mui/icons-material/MoreVert";
 import { customTheme } from '../../utils/theme';
 import { logoutUser } from '../../reducers/app/appSlice';
 
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from 'react-router-dom';
+
+import { filterProperties, filterServices } from '../../reducers/app/thunks/appThunk';
 function ElevationScroll(props) {
   const { children } = props;
 
@@ -89,6 +91,8 @@ export default function ElevateAppBar(props) {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const currentTab = useSelector(state => state.app.currentTab);
   // setFavouritesCount(0);
   // setMessagesCount(0);
 
@@ -227,6 +231,17 @@ export default function ElevateAppBar(props) {
                   <StyledInputBase
                     placeholder="Search…"
                     inputProps={{ "aria-label": "search" }}
+                    onChange={(e) => { 
+                      if (currentTab === 0) {
+                        if (e.target.value.length > 2) {
+                          dispatch(filterProperties({filterParams: {property_name: e.target.value}}));
+                        }
+                      } else {
+                        if (e.target.value.length > 2) {
+                          dispatch(filterServices({filterParams: {service_name: e.target.value}}));
+                        }
+                      }
+                    }}
                   />
                 </Search>
                 <Box sx={{ flexGrow: 1 }} />

@@ -11,7 +11,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class PropertyService {
@@ -27,47 +29,6 @@ public class PropertyService {
         return propertyRepository.findAll();
     }
 
-//    public List<Property> filterProperties(PropertyListQuery query)
-//    {
-//        Property property = new Property();
-//        property.setProperty_name(query.getProperty_name());
-//        property.setProperty_type(query.getProperty_type());
-//        property.setBedrooms(query.getNumberOfBedrooms());
-//        System.out.println(" property name " + query.getProperty_name());
-//        // print property object's fields
-//        System.out.println("property name " + property.getProperty_name());
-//        System.out.println("property type " + property.getProperty_type());
-//        System.out.println("number of bedrooms " + property.getBedrooms());
-//
-//        // use CriteriaBuilder to create filter properties
-//        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
-//        CriteriaQuery<Property> criteriaQuery = criteriaBuilder.createQuery(Property.class);
-//        Root<Property> root = criteriaQuery.from(Property.class);
-//
-//        Path<String> propertyName = root.get("property_name");
-//        Path<String> propertyType = root.get("property_type");
-//        Path<Integer> bedrooms = root.get("bedrooms");
-//
-//        List<Predicate> predicates = new ArrayList<>();
-//
-//        if(query.getProperty_name() != null)
-//        {
-//            predicates.add(criteriaBuilder.like(propertyName, query.getProperty_name()));
-//        }
-//        if(query.getProperty_type() != null)
-//        {
-//            predicates.add(criteriaBuilder.like(propertyType, query.getProperty_type()));
-//        }
-//
-//        criteriaQuery.select(root).where(predicates.toArray(new Predicate[predicates.size()]));
-//
-//        // execute query
-//        return entityManager.createQuery(criteriaQuery).getResultList();
-//
-////        return propertyRepository.findAll(Example.of(property));
-////        return propertyRepository.findByPropertyListQuery(query.getProperty_name(), query.getProperty_type(),
-////                query.getNumberOfBedrooms(), query.getCity(), query.getProvince(), query.getCountry());
-//    }
 
     public List<Property> filterProperties(PropertyListQuery propertyListQuery) {
 
@@ -86,17 +47,20 @@ public class PropertyService {
 
                 List<Predicate> predicates = new ArrayList<Predicate>();
 
-                if (searchCriteria.getProperty_name()!= null && !searchCriteria.getProperty_name().isEmpty()) {
-                    predicates.add(cb.equal(root.get("property_name"), searchCriteria.getProperty_name().toLowerCase()));
+                HashMap<String, Object> propertiesMap = new HashMap<String, Object>();
+                propertiesMap.put("property_name", searchCriteria.getProperty_name());
+                propertiesMap.put("amneties", searchCriteria.getAmenities());
+                propertiesMap.put("property_type", searchCriteria.getProperty_type());
+                propertiesMap.put("city", searchCriteria.getCity());
+                propertiesMap.put("province", searchCriteria.getProvince());
+                propertiesMap.put("country", searchCriteria.getCountry());
+
+                for(Map.Entry<String, Object> entry : propertiesMap.entrySet()) {
+                    if (entry.getValue() != null && !entry.getValue().equals("")) {
+                        predicates.add(cb.equal(root.get(entry.getKey()), ((String) entry.getValue()).toLowerCase()));
+                    }
                 }
 
-                if (searchCriteria.getAmenities() != null && !searchCriteria.getAmenities().isEmpty()) {
-                    predicates.add(cb.equal(root.get("amenities"), searchCriteria.getAmenities().toLowerCase()));
-                }
-
-                if (searchCriteria.getProperty_type() != null && !searchCriteria.getProperty_type().isEmpty()) {
-                    predicates.add(cb.equal(root.get("property_type"), searchCriteria.getProperty_type().toLowerCase()));
-                }
 
                 if (searchCriteria.getNumberOfBedrooms() != null) {
                     predicates.add(cb.equal(root.get("bedrooms"), searchCriteria.getNumberOfBedrooms()));
