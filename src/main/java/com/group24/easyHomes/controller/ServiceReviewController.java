@@ -21,10 +21,6 @@ public class ServiceReviewController {
     private SReviewDTOtoSReview sReviewDTOtoSReview;
 
 
-    @GetMapping(value = "/services/{serviceID}/reviews")
-    public ResponseEntity<List<ServiceReview>> list(@PathVariable Long serviceID){
-        return new ResponseEntity<List<ServiceReview>>(serviceReviewServices.getreviewbyservice(serviceID),HttpStatus.OK);
-    }
 
 
 

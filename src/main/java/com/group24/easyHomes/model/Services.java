@@ -29,7 +29,6 @@ public class Services {
     private String country;
     private String pincode;
     private String address;
-    private Long review_id;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "service")
     @Setter(value = AccessLevel.NONE)
@@ -53,7 +52,6 @@ public class Services {
         this.country = country;
         this.pincode = pincode;
         this.address = address;
-        this.review_id = review_id;
     }
 
     public Services()
