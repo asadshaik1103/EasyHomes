@@ -86,7 +86,9 @@ public class PropertyService {
 
     public Property getProperty(Integer id)
     {
+        if(propertyRepository.findById(id).isPresent())
         return propertyRepository.findById(id).get();
+        return null;
     }
 
 

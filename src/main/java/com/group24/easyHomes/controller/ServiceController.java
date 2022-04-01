@@ -3,6 +3,7 @@ package com.group24.easyHomes.controller;
 import com.group24.easyHomes.dto.ServiceDTO;
 import com.group24.easyHomes.mappers.ServiceToServiceDTO;
 import com.group24.easyHomes.model.*;
+import com.group24.easyHomes.repository.AppUserRepository;
 import com.group24.easyHomes.service.ServicesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -28,6 +29,9 @@ public class  ServiceController {
     @Autowired
     private ServiceToServiceDTO serviceToServiceDTO;
 
+    @Autowired
+    private AppUserRepository userRepository;
+
     @GetMapping("/services")
     public ResponseEntity<List<Services>> list(){
         return new ResponseEntity<>(service.listAll(), HttpStatus.OK);
@@ -43,13 +47,13 @@ public class  ServiceController {
 {
         try {
             Services services = serviceToServiceDTO.convert(serviceDTO);
-            if(services.getImages()!= null)
+            AppUser user = userRepository.getById(serviceDTO.getUser_id());
+            String name = null ;
+            if( user!= null)
             {
-                for(ServiceImages serviceImages : services.getImages())
-                {
-                services.addImage(serviceImages);
-                }
+                name = user.getFirstName() + " " + user.getLastName();
             }
+            services.setUser_name(name);
             service.addService(services);
             return new ResponseEntity<>(services,HttpStatus.CREATED) ;
         } catch (Exception e) {

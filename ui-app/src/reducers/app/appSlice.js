@@ -53,6 +53,7 @@ export const appSlice = createSlice({
                 state.isUserLoggedIn = true;
                 state.token = payload.token;
                 localStorage.setItem('token', payload.token);
+                localStorage.setItem('userId', payload.userId);
             }
         });
         builder.addCase(authenticateUserData.rejected, (state, { payload }) => {

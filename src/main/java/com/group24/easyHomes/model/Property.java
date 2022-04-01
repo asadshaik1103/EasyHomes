@@ -1,9 +1,11 @@
 package com.group24.easyHomes.model;
 
 import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -28,6 +30,8 @@ public class Property {
     private int bathrooms =0;
     boolean parking_included = false;
     double rent =0.0;
+    private long user_id;
+    private String user_name;
 
     @NotNull
     @JoinColumn(name="address_id")
@@ -38,14 +42,17 @@ public class Property {
     @Setter(value = AccessLevel.NONE)
     private Set<PropertyImages> images = new HashSet<>();
 
-    //TODO Add user(owner) details
- /*   @JoinColumn(name="address_id")
-    @OneToOne(cascade = CascadeType.ALL)
-    private PropertyAddress address;
-*/
+    @Column(nullable = false, updatable = false)
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date posted_on;
+
+    @PrePersist
+    protected void onCreate() {
+        this.posted_on = new Date();
+    }
 
     public Property(String property_name,PropertyAddress address,String amenities, String property_type,
-                    boolean parking_included, double rent,int bedrooms,int bathrooms) {
+                    boolean parking_included, double rent,int bedrooms,int bathrooms, long user_id) {
         this.property_name = property_name;
         this.address = address;
         this.amenities = amenities;
@@ -54,6 +61,7 @@ public class Property {
         this.rent = rent;
         this.bedrooms =bedrooms;
         this.bathrooms = bathrooms;
+        this.user_id = user_id;
     }
 
     public Property()

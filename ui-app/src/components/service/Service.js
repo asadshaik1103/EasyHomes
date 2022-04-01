@@ -7,10 +7,14 @@ import {
 } from "@mui/material";
 import { useDispatch,useSelector } from 'react-redux';
 import { openModel } from '../../reducers/app/appSlice';
+import { Container } from "react-bootstrap";
+import Payment from "../payment/payment";
 
 const Service = () => {
 
   const dispatch = useDispatch();
+  const [launchPayPal, setLaunchPayPal ] = React.useState(false);
+
 
   const isOpen = useSelector(state => state.app.homeDialog.isOpen)
   const service = useSelector(state => state.app.homeDialog.service)
@@ -47,9 +51,29 @@ const Service = () => {
           <h4> {'$'+service?.cost}</h4>
           <Rating name="simple-controlled" value={1} />
           <h5>{service?.description}</h5>
+          <div style={
+            {
+              display:"flex",
+              width:"100%",
+              justifyContent: "space-between"
+            }
+          }>
           <Button >
             Schedule Meeting
           </Button>
+          <Button onClick ={() => {setLaunchPayPal(true)}} >
+            Buy Service
+          </Button>
+          </div>
+          <Container style={
+            {
+              marginTop:"1%",
+              display:"flex",
+              justifyContent: "center"
+            }
+          }>
+          {launchPayPal?<Payment service={service} />:<div/>}
+          </Container> 
           <h3>Reviews</h3>
         </div>
        </div>
