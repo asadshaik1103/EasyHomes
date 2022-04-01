@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 import { authenticateUserData } from "./thunks/appThunks";
 
 const initialState = {
@@ -35,23 +35,25 @@ export const appSlice = createSlice({
             state.homeDialogProperty.property = action.payload.homeDialogProperty.property;
         }
     },
-  extraReducers: (builder) => {
-    builder.addCase(authenticateUserData.pending, (state) => {
-      console.log("pending", state);
-    });
-    builder.addCase(authenticateUserData.fulfilled, (state, { payload }) => {
-      if (payload.token) {
-        state.isUserLoggedIn = true;
-        state.token = payload.token;
-        localStorage.setItem("token", payload.token);
-      }
-    });
-    builder.addCase(authenticateUserData.rejected, (state, { payload }) => {
-      console.log("rejected: ", payload);
-      console.log("rejected");
-    });
-  },
+    extraReducers: (builder) => {
+        builder.addCase(authenticateUserData.pending, (state) => {
+            console.log('pending', state);
+        });
+        builder.addCase(authenticateUserData.fulfilled, (state, { payload }) => {
+            if (payload.token) {
+                state.isUserLoggedIn = true;
+                state.token = payload.token;
+                localStorage.setItem('token', payload.token);
+                localStorage.setItem('userId', payload.userId);
+            }
+        });
+        builder.addCase(authenticateUserData.rejected, (state, { payload }) => {
+            console.log('rejected: ', payload);
+            console.log('rejected');
+        });
+    },
 });
 
 export const { updateUserLoggedInStatus, authenticateUser, logoutUser, openModel, openModelProperty } = appSlice.actions;
+
 export default appSlice.reducer;

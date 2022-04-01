@@ -23,12 +23,7 @@ const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
-// propertyName
-// propertyType
-// bedrooms
-// bathrooms
-// rent
-// base64Images
+
 export default function SimpleDialog(props) {
     const { open, title, setDialogOpenState } = props;
     const [propertyName, setPropertyName] = React.useState('');
@@ -36,7 +31,6 @@ export default function SimpleDialog(props) {
     const [bedrooms, setBedrooms] = React.useState('');
     const [bathrooms, setBathrooms] = React.useState('');
     const [rent, setRentChange] = React.useState('');
-    //const [submitFile, setSubmitFile] = React.useState({});
     const[files,setFiles] = React.useState([]);
     const [base64Data, setBase64Data ] = React.useState('');
     const [propertyLocation, setPropertyLocation ] = React.useState('');
@@ -48,6 +42,8 @@ export default function SimpleDialog(props) {
     const [snackbar, setSnackBar] = React.useState(false);
     const [severity, setSeverity] = React.useState('success');
     const [disabled, setDisabled] = React.useState(false);
+
+    const images = [];
 
    
   
@@ -80,13 +76,6 @@ export default function SimpleDialog(props) {
   }
   
     const onFileChange = (e) => {
-      debugger;
-      // const val= e.target.files.map(file => {
-      //   return {
-      //     "image_data": file
-      //   }
-      // });
-
       for (var i = 0; i < e.target.files.length; i++) {
         console.log(e.target.files[i]);
           if (e.target.files[i]) {
@@ -96,35 +85,20 @@ export default function SimpleDialog(props) {
             console.log('file uploaded: ', e.target.files[i]);
           }
       }       
-    // console.log(base64Images);
     };
   
-    // const _handleReaderLoaded = (e) => {
-    //   console.log('file uploaded 2: ', e);
-    //   let binaryString = e.target.result;
-    //   // setBase64Data({
-    //   //   base64Data: btoa(binaryString),
-    //   // });
-    //   setBase64Images({
-        
-    //   });
-    //   const base64Images = [{
-    //     images_data: ""
-    //   },
-    // {
-    //   images_data: ""
-    // }]
-    // };
-
     const _handleReaderLoaded = e => {
-      //console.log("file uploaded 2: ", e);
       let binaryString = e.target.result;
+      const newbase64Images = [...base64Images];
+      
       // setbase64Data(base64String); // <- your binaryString here
       // newbase64Images[]
       const base64Image = {
-        image_data: btoa(binaryString) // <- your binaryString here
+        image_data: btoa(binaryString)
       }
-      setbase64Images([...base64Images, base64Image]);
+      images.push(base64Image)
+      setbase64Images(images);
+      // setbase64Images([...base64Images, base64Image]);
     };
 
     const [state, setState] = React.useState({
@@ -179,22 +153,18 @@ export default function SimpleDialog(props) {
 
       const handlePropertyTypeChange = (event) => {
         setPropertyType(event.target.value);
-        //initialValues.propertyType = event.target.value;
       };
 
       const handleBedroomsChange = (event) => {
         setBedrooms(event.target.value);
-        //initialValues.bedrooms = event.target.value;
       };
       const handleBathroomsChange = (event) => {
         setBathrooms(event.target.value);
-        //initialValues.bathrooms = event.target.value;
         console.log(initialValues.bathrooms);
       };
 
       const handlePropertyNameChange = (event) => {
         setPropertyName(event.target.value);
-        //initialValues.propertyName = event.target.value;
       };
 
       const disablePostButton = () => {
@@ -205,18 +175,9 @@ export default function SimpleDialog(props) {
     
 
       const submitPropertyPost = (initialValues) => {
-        console.log("initialValues: ", initialValues);
-        console.log(base64Images);
-       alert("Property Saved");
-       console.log(propertyName);
-       console.log(base64Data);
-       // propertyName
-// propertyType
-// bedrooms
-// bathrooms
-// rent
-// base64Images
+        console.log(propertyType);
        const property ={
+         "user_id": localStorage.getItem("userId"),
           "property_name": propertyName,
           "address":{
             "location" : propertyLocation,
@@ -234,21 +195,6 @@ export default function SimpleDialog(props) {
         "rent": rent,
         "images": [...base64Images]
        };
-
-      // const form = new FormData();
-      // form.append("property",JSON.stringify(property) );
-      // for (let key of form.keys)
-      //  {
-      //    console.log(key,form.get(key));
-      // }
-    //   for(let i = 0; i< e.target.files.length; i++) {
-    //     formData.append('files', e.target.files[i])
-    // }
-      //files.forEach(file => form.append("file",file));
-      //console.log(files);
-      //form.append("file",files);
-      //console.log(form.values);
-
       JSON.stringify(property)
 
       axios({
@@ -275,29 +221,19 @@ export default function SimpleDialog(props) {
       const handleDialogClose = () => {
         setDialogOpenState();
       }
-
-     const isFormValid = () => {
-        return  false;
-        // propertyName && propertyType && bedrooms && bathrooms && rent;
-      }
-
-      // propertyName
-// propertyType
-// bedrooms
-// bathrooms
-// rent
-// base64Images
       const resetForm = () => {
-        this.setPropertyName('');
-        this.setPropertyType('');
-        this.setBedrooms('');
-        this.setBathrooms('');
-        this.setRentChange('');
-        this.setbase64Images([]);
-      }
-
-      // const 
-       
+       setPropertyName('');
+        setPropertyType('');
+        setBedrooms('');
+        setBathrooms('');
+        setRentChange('');
+        setPropertyLocation('');
+        setCity('');
+        setProvince('');
+        setCountry('');
+        setPostalCode('');
+        setbase64Images([]);
+      }       
     return( <Dialog onBackdropClick={handleDialogClose} onClose={handleClose} open={open}>
         <DialogTitle>{title}</DialogTitle>
         <form>
@@ -328,10 +264,11 @@ export default function SimpleDialog(props) {
                 onChange={handlePropertyTypeChange}
                 size="small"
                 >
-                <MenuItem value={1}>1 BHK</MenuItem>
-                <MenuItem value={2}>2 BHK</MenuItem>
-                <MenuItem value={3}>3 BHK</MenuItem>
-                <MenuItem value={3}>4 House</MenuItem>
+                <MenuItem value={"1 BHK"}>1 BHK</MenuItem>
+                <MenuItem value={"2 BHK"}>2 BHK</MenuItem>
+                <MenuItem value={"3 BHK"}>3 BHK</MenuItem>
+                <MenuItem value={"4 BHK"}>4 BHK</MenuItem>
+                <MenuItem value={"Townhouse"}>TownHouse</MenuItem>
                 </Select>
               </FormControl>
             </Grid>
@@ -416,7 +353,7 @@ export default function SimpleDialog(props) {
         </Container>
         <div style={{ padding: 20 }}></div>
         <Container  maxWidth="md">
-          <Grid item xs={6}> <Typography variant="h4" gutterBottom component="div">
+          <Grid item xs={6}> <Typography variant="h6" gutterBottom component="div">
           Property Address
           </Typography>
           </Grid>
@@ -485,8 +422,8 @@ export default function SimpleDialog(props) {
       </Container>
       <Container  maxWidth="md">
       <div style={{ padding: 20 }}></div>  
-      <Grid item xs={6}> <Typography variant="h4" gutterBottom component="div">
-          Add Images
+      <Grid item xs={6}> <Typography variant="h6" gutterBottom component="div">
+          Upload Images
       </Typography>
       </Grid>
       <Grid item xs={6}>
@@ -499,18 +436,15 @@ export default function SimpleDialog(props) {
           multiple
           onChange={onFileChange}
         />
-        {/* <IconButton color="primary" aria-label="upload picture" component="span">
-          <AddAPhotoIcon  fontSize="large"/>
-        </IconButton> */}
       </label>
       </Grid>
       <div style={{ padding: 20 }}></div>
       <Button variant="contained" disabled={disablePostButton()} onClick={submitPropertyPost}>Post</Button>
-      <Snackbar open={snackbar} autoHideDuration={6000} onClose={handleSnackClose}>
+      {/* <Snackbar open={snackbar} autoHideDuration={6000} onClose={handleSnackClose}>
           <Alert onClose={handleSnackClose} severity={severity} sx={{ width: '100%' }}>
             This is a success message!
           </Alert>
-        </Snackbar>
+        </Snackbar> */}
         {/* <Alert severity="error">This is an error message!</Alert> */}
         {/* <Alert severity="success">Property posted successfully</Alert> */}
       </Container>

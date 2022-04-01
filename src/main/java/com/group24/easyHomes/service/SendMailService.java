@@ -1,6 +1,6 @@
 package com.group24.easyHomes.service;
 
-import com.group24.easyHomes.dto.EmailConfig;
+import com.group24.easyHomes.mappers.EmailConfig;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -29,10 +30,21 @@ public class Services {
     private String pincode;
     private String address;
     private Long review_id;
+    private Long user_id;
+    private String user_name;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "service")
     @Setter(value = AccessLevel.NONE)
     private Set<ServiceImages> images = new HashSet<>();
+
+    @Column(nullable = false, updatable = false)
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date posted_on;
+
+    @PrePersist
+    protected void onCreate() {
+        this.posted_on = new Date();
+    }
 
     public Services(String service_name,String service_type, int cost,String plan,String description,
                     String city, String province, String country, String pincode, String address,Long review_id) {
