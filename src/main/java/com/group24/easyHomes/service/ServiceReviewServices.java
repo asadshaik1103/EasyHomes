@@ -1,5 +1,6 @@
 package com.group24.easyHomes.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import com.group24.easyHomes.dto.ServiceReviewDTO;
@@ -8,6 +9,7 @@ import com.group24.easyHomes.model.ServiceReview;
 import com.group24.easyHomes.model.Services;
 import com.group24.easyHomes.repository.ServiceRepository;
 
+import com.group24.easyHomes.repository.ServiceReviewRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +22,9 @@ public class ServiceReviewServices {
 
     @Autowired
     private SReviewDTOtoSReview sReviewDTOtoSReview;
+
+    @Autowired
+    private ServiceReviewRepository serviceReviewRepository;
 
     public ServiceReview saveOrUpdateReview(ServiceReviewDTO serviceReviewDTO){
         Services services = serviceRepository.findById(serviceReviewDTO.getService_id()).get();
@@ -66,5 +71,15 @@ public class ServiceReviewServices {
                 serviceRepository.save(services);
             }
         }
+    }
+
+    public List<ServiceReview> getreviewbyservice(Long serviceID){
+
+        Optional<Services> servicesOptional = serviceRepository.findById(serviceID);
+
+            Services services = servicesOptional.get();
+            return services.getReviews().stream().toList();
+
+
     }
 }

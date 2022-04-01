@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 public class ServiceReviewController {
 
@@ -19,6 +21,10 @@ public class ServiceReviewController {
     private SReviewDTOtoSReview sReviewDTOtoSReview;
 
 
+    @GetMapping(value = "/services/{serviceID}/reviews")
+    public ResponseEntity<List<ServiceReview>> list(@PathVariable Long serviceID){
+        return new ResponseEntity<List<ServiceReview>>(serviceReviewServices.getreviewbyservice(serviceID),HttpStatus.OK);
+    }
 
 
 
