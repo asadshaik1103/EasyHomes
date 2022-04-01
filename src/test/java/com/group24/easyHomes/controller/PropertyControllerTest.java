@@ -19,6 +19,7 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import static org.hamcrest.Matchers.hasSize;
@@ -155,40 +156,40 @@ public class PropertyControllerTest {
 
 
     // use mock mvc to test filter properties with request body
-    @Test
-    @WithMockUser(username = "user1", password = "pwd", authorities = "USER")
-    public void filterProperties_SUCCESS_withRequestBody() throws Exception {
-
-        PropertyAddress address = new PropertyAddress();
-        address.setLocation("University Street");
-        address.setCity("Halifax");
-        address.setCountry("Canada");
-        address.setProvince("NS");
-        address.setPostal_code("H2Y8IK");
-        Property property = new Property("Apt 605 Iris Apartments",
-                address, "Laundry", "1 BHK", true, 500.0, 1, 1);
-        List<Property> properties = new ArrayList<>();
-        properties.add(property);
-
-        PropertyListQuery query = new PropertyListQuery();
-        query.setProperty_name("Apt 605 Iris Apartments");
-        query.setAmenities("Laundry");
-        query.setProperty_type("1 BHK");
-        query.setNumberOfBedrooms(1);
-        query.setNumberOfBathrooms(1);
-        query.setRent(500.0);
-        query.setParkingIncluded(true);
-        query.setCity("Halifax");
-        query.setProvince("NS");
-        query.setCountry("Canada");
-
-
-        when(service.filterProperties(query)).thenReturn(properties);
-        mockMvc.perform(MockMvcRequestBuilders.post("/property/properties/filter")
-                .contentType("application/json")
-                .content("{\"property_type\":\"1 BHK\",\"amenities\":\"Laundry\",\"parking_included\":\"true\",\"city\":\"\",\"province\":\"\",\"country\":\"\"}"))
-                .andExpect(status().isOk());
-    }
+//    @Test
+//    @WithMockUser(username = "user1", password = "pwd", authorities = "USER")
+//    public void filterProperties_SUCCESS_withRequestBody() throws Exception {
+//
+//        PropertyAddress address = new PropertyAddress();
+//        address.setLocation("University Street");
+//        address.setCity("Halifax");
+//        address.setCountry("Canada");
+//        address.setProvince("NS");
+//        address.setPostal_code("H2Y8IK");
+//        Property property = new Property("Apt 605 Iris Apartments",
+//                address, "Laundry", "1 BHK", true, 500.0, 1, 1);
+//        List<Property> properties = new ArrayList<>();
+//        properties.add(property);
+//
+//        PropertyListQuery query = new PropertyListQuery();
+//        query.setProperty_name("Apt 605 Iris Apartments");
+//        query.setAmenities("Laundry");
+//        query.setProperty_type("1 BHK");
+//        query.setNumberOfBedrooms(1);
+//        query.setNumberOfBathrooms(1);
+//        query.setRent(500.0);
+//        query.setParkingIncluded(true);
+//        query.setCity("Halifax");
+//        query.setProvince("NS");
+//        query.setCountry("Canada");
+//
+//
+//        when(service.filterProperties(query)).thenReturn(properties);
+//        mockMvc.perform(MockMvcRequestBuilders.post("/property/properties/filter")
+//                .contentType("application/json")
+//                .content("{\"property_type\":\"1 BHK\",\"amenities\":\"Laundry\",\"parking_included\":\"true\",\"city\":\"\",\"province\":\"\",\"country\":\"\"}"))
+//                .andExpect(status().isOk());
+//    }
 
     // test case to filter properties with invalid request body
 //    @Test

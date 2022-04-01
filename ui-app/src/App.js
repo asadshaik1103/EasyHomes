@@ -29,17 +29,13 @@ import { IconButton } from '@mui/material';
 import ArrowCircleRightOutlinedIcon from '@mui/icons-material/ArrowCircleRightOutlined';
 import ArrowCircleLeftOutlinedIcon from '@mui/icons-material/ArrowCircleLeftOutlined';
 
-////////video call component ////////
-import VideoCallWebRTC from './components/video-call/VideoCallWebRTC';
-
-/////video call component ////////
-
 const isLogin = () => {
   return !!localStorage.getItem("token");
   // return true;
 }
 
 const Public = () => <Login />;
+const PublicRegister = () => <Register />;
 const Private = () => <Dashboard />;
 // const Login = () => <div>login</div>;
 
@@ -53,6 +49,11 @@ function PublicOutlet() {
   return !auth ? <Outlet /> : <Navigate to="/dashboard" />;
 }
 
+function PublicRegisterOutlet() {
+  const auth = isLogin();
+  return !auth ? <Outlet /> : <Navigate to="/register" />;
+}
+
 function PrivateRoute({ children }) {
   const auth = useAuth();
   return auth ? children : <Navigate to="/login" />;
@@ -64,31 +65,21 @@ function useAuth() {
 
 
 function App() {
-  const heading = "Welcome to EasyHomes";
-  const footer = "Group-24";
-
-  useEffect(() => {
-    // http://localhost:8080/
-    // console.log('App.js: useEffect: isUserLoggedIn: ', isUserLoggedIn);
-    axios.get('8080/property/properties')
-      .then(res => {
-        const persons = res.data;
-        console.log('App.js: useEffect: axios.get: success', persons);
-        // this.setState({ persons });
-      })
-  }, []);
-
   return (
-      <Routes>
-        <Route path="/dashboard" element={<PrivateOutlet />}>
-          <Route path="" element={<Private />} />
-        </Route>
-        <Route path="login" element={<PublicOutlet />}>
-          <Route path="" element={<Public />} />
-        </Route>
-        <Route path="" element={<Navigate to="/login" />} />
-        <Route path="*" element={<Navigate to="/login" />} />
-      </Routes>
+    <Routes>
+      <Route path="/dashboard" element={<PrivateOutlet />}>
+        <Route path="" element={<Private />} />
+      </Route>
+      <Route path="login" element={<PublicOutlet />}>
+        <Route path="" element={<Public />} />
+      </Route>
+      <Route path="register" element={<PublicRegisterOutlet />}>
+        <Route path="" element={<PublicRegister />} />
+      </Route>
+      <Route path="" element={<Navigate to="/login" />} />
+      <Route path="*" element={<Navigate to="/login" />} />
+    </Routes>
+
   );
 }
 
