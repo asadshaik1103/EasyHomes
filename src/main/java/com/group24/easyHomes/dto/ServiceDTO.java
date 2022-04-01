@@ -26,6 +26,5 @@ public class ServiceDTO {
     private String country;
     private String pincode;
     private String address;
-    private Long review_id;
     private Set<ServiceImageDTO> images = new HashSet<>();
 }
