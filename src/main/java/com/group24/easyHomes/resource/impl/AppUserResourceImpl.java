@@ -64,7 +64,7 @@ public class AppUserResourceImpl {
 
             String token =  appUserService.signUpUser(savedUser);
 
-            String link = "http://localhost:8080/user/confirm?token=" + token;
+            String link = "https://easthomes-develop.herokuapp.com/user/confirm?token=" + token;
 
             String message = "Hello,\n" +
                     "Please verify your email id through following link:\n" +

@@ -1,12 +1,12 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { FILTER_PROPERTY, FILTER_SERVICE, GET_PROPERTY, GET_SERVICE } from '../../../constants/Api';
+import { AUTH_USER, FILTER_PROPERTY, FILTER_SERVICE, GET_PROPERTY, GET_SERVICE } from '../../../constants/Api';
 export const authenticateUserData = createAsyncThunk(
   'app/login',
   async (payload) => {
     console.log('arg1 test: ', payload.email, payload.password);
     const response = await axios
-      .post('http://localhost:8080/user/authenticate',  {
+      .post(AUTH_USER,  {
         email: payload.email,
         password: payload.password,
       },
