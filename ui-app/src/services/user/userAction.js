@@ -1,7 +1,8 @@
 import * as UT from "./userTypes";
 import axios from "axios";
+import { REST_USER } from "../../constants/Api";
 
-const REGISTER_URL = "http://easthomes-develop.herokuapp.com:8081/rest/user/register";
+const REGISTER_URL = REST_USER;
 
 export const fetchUsers = () => {
   return (dispatch) => {

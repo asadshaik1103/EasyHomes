@@ -1,7 +1,11 @@
-export const URL = "http://localhost:8080";
+export const URL = "https://easthomes-develop.herokuapp.com";
 export const GET_SERVICE = URL + '/service/services';
 export const POST_SERVICE = URL + '/service/services';
 export const GET_PROPERTY = URL + '/property/properties';
 export const POST_PROPERTY = URL + '/property/properties';
 export const FILTER_PROPERTY = URL + '/property/properties/filter';
 export const FILTER_SERVICE = URL + '/service/services/filter';
+export const POST_PAYMENT = '/payment/addPayment';
+export const AUTH_USER = '/user/authenticate';
+export const REGISTER_USER = "/user/register";
+export const REST_USER = "/rest/user/register";

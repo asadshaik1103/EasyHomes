@@ -12,6 +12,7 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import axios from 'axios';
+import { REGISTER_USER } from "../constants/Api";
 
 function Copyright(props) {
   return (
@@ -48,7 +49,7 @@ const Register = (props) => {
   const saveUser = () => {
 
       axios
-      .post('https://easthomes-develop.herokuapp.com:8080/user/register',  {
+      .post(REGISTER_USER,  {
         firstName: user.firstName,
         lastName: user.lastName,
         email: user.email,
