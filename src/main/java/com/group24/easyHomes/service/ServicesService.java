@@ -36,7 +36,9 @@ public class ServicesService {
 
     public Services getService(Long id)
     {
-        return serviceRepository.findById(id).get();
+        if(serviceRepository.findById(id).isPresent())
+            return serviceRepository.findById(id).get();
+        return null;
     }
 
 
