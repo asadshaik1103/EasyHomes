@@ -18,6 +18,7 @@ import { styled } from '@mui/material/styles';
 import axios from 'axios';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
+import { POST_PROPERTY } from "../../constants/Api";
 
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -199,7 +200,7 @@ export default function SimpleDialog(props) {
 
       axios({
         method: 'post',
-        url: 'http://localhost:8080/property/property',
+        url: POST_PROPERTY,
         data: JSON.stringify(property),
         headers: {
           'Content-Type': 'application/json'

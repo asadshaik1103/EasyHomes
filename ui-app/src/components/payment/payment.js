@@ -1,6 +1,9 @@
 import *  as React from "react";
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js"; 
 import axios from 'axios';
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
+import { POST_PAYMENT } from "../../constants/Api";
 
 export default function Payment(props) {
      const{ service, setToastMessage } = props;
@@ -53,7 +56,7 @@ export default function Payment(props) {
           JSON.stringify(paymentDetails)
           axios({
             method: 'post',
-            url: 'http://localhost:8080/payment/addPayment',
+            url: POST_PAYMENT,
             data: JSON.stringify(paymentDetails),
             headers: {
               'Content-Type': 'application/json'
