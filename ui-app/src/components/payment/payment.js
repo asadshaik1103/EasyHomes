@@ -3,6 +3,7 @@ import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 import axios from 'axios';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
+import { POST_PAYMENT } from "../../constants/Api";
 
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -61,7 +62,7 @@ export default function Payment(props) {
           JSON.stringify(paymentDetails)
           axios({
             method: 'post',
-            url: 'http://localhost:8080/payment/addPayment',
+            url: POST_PAYMENT,
             data: JSON.stringify(paymentDetails),
             headers: {
               'Content-Type': 'application/json'

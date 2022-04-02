@@ -15,7 +15,7 @@ import {
 } from "@mui/material";
 import "../Styles/HomePageStyle.css";
 import { Share } from "@mui/icons-material";
-import { GET_PROPERTY, GET_SERVICE } from "../contants/Api";
+import { GET_PROPERTY, GET_SERVICE } from "../constants/Api";
 
 const HomePage = () => {
   const [services, setServices] = useState([]);
