@@ -1,31 +1,20 @@
-import { Box, fontWeight } from "@mui/system";
-import { useEffect, useState } from "react";
 import "bootstrap";
-import { Button, Carousel, CarouselItem } from "react-bootstrap";
+import { Button, Carousel } from "react-bootstrap";
 import React from "react";
 import {
   Dialog,
   Rating,
-  ToggleButton,
-  ToggleButtonGroup,
 } from "@mui/material";
-import { Search, Home, Favorite, Add, Remove } from "@mui/icons-material";
-import styled from "@emotion/styled";
-import axios from "axios";
-import { GET_SERVICE } from "../../contants/Api";
 import { useDispatch,useSelector } from 'react-redux';
 import { openModel } from '../../reducers/app/appSlice';
+import { Container } from "react-bootstrap";
+import Payment from "../payment/payment";
 
 const Service = () => {
-  var settings = {
-    dots: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-  };
 
   const dispatch = useDispatch();
+  const [launchPayPal, setLaunchPayPal ] = React.useState(false);
+
 
   const isOpen = useSelector(state => state.app.homeDialog.isOpen)
   const service = useSelector(state => state.app.homeDialog.service)
@@ -36,7 +25,7 @@ const Service = () => {
     style={{
       padding: "5%",
     }}>
-        <div>
+        <div style={{alignSelf:'center',width:'100%'}}>
           <Carousel style={{border:5,borderColor:'red'}} slide={false}>
             {service?.images.map((image, index) => {
                 const blobData = image.image_data
@@ -44,7 +33,7 @@ const Service = () => {
                 <Carousel.Item>
                   <img
                     className="d-block w-100"
-                    style={{ borderRadius: "5%" }}
+                    style={{ borderRadius: "5%",maxWidth:'100%',maxHeight:'400px',width:'100%',height:'500px',}}
                     src={`data:image/jpeg;base64,${blobData}`}
                     alt="First slide"
                   />
@@ -62,9 +51,29 @@ const Service = () => {
           <h4> {'$'+service?.cost}</h4>
           <Rating name="simple-controlled" value={1} />
           <h5>{service?.description}</h5>
+          <div style={
+            {
+              display:"flex",
+              width:"100%",
+              justifyContent: "space-between"
+            }
+          }>
           <Button >
             Schedule Meeting
           </Button>
+          <Button onClick ={() => {setLaunchPayPal(true)}} >
+            Buy Service
+          </Button>
+          </div>
+          <Container style={
+            {
+              marginTop:"1%",
+              display:"flex",
+              justifyContent: "center"
+            }
+          }>
+          {launchPayPal?<Payment service={service} />:<div/>}
+          </Container> 
           <h3>Reviews</h3>
         </div>
        </div>

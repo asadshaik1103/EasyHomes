@@ -2,8 +2,8 @@ package com.group24.easyHomes.controller;
 
 import com.group24.easyHomes.dto.ServiceDTO;
 import com.group24.easyHomes.mappers.ServiceToServiceDTO;
-import com.group24.easyHomes.model.ServiceImages;
-import com.group24.easyHomes.model.Services;
+import com.group24.easyHomes.model.*;
+import com.group24.easyHomes.repository.AppUserRepository;
 import com.group24.easyHomes.service.ServicesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,6 +20,7 @@ import java.util.Set;
 
 @RestController
 @RequestMapping(value = "/service",produces = "application/json")
+@CrossOrigin(origins = "*", maxAge = 3600)
 public class  ServiceController {
 
     @Autowired
@@ -27,6 +28,9 @@ public class  ServiceController {
 
     @Autowired
     private ServiceToServiceDTO serviceToServiceDTO;
+
+    @Autowired
+    private AppUserRepository userRepository;
 
     @GetMapping("/services")
     public ResponseEntity<List<Services>> list(){
@@ -38,22 +42,21 @@ public class  ServiceController {
 //        return (Services) serviceRepository.findById(serviceId).orElseThrow(RuntimeException::new);
 //    }
 
-    @PostMapping(value = "/services",consumes = {"multipart/form-data"},produces ={"application/json"})
-    public ResponseEntity<Services> addService(@RequestPart("service") @Valid ServiceDTO serviceDTO,
-                                               @RequestPart("file")  MultipartFile[] files){
-        try{
-            Set<ServiceImages> serviceImages = new HashSet<>();
+    @PostMapping(value = "/services",consumes = {"application/json"},produces ={"application/json"})
+    public ResponseEntity<Services> addService(@RequestBody ServiceDTO serviceDTO)
+{
+        try {
             Services services = serviceToServiceDTO.convert(serviceDTO);
-
-            for(MultipartFile file:files)
+            AppUser user = userRepository.getById(serviceDTO.getUser_id());
+            String name = null ;
+            if( user!= null)
             {
-                String fileName = StringUtils.cleanPath(file.getOriginalFilename());
-                ServiceImages image = new ServiceImages(fileName, file.getContentType(), file.getBytes());
-                services.addImage(image);
+                name = user.getFirstName() + " " + user.getLastName();
             }
+            services.setUser_name(name);
             service.addService(services);
             return new ResponseEntity<>(services,HttpStatus.CREATED) ;
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
@@ -75,5 +78,12 @@ public class  ServiceController {
         return new ResponseEntity<>(service.updateService(serviceId,services),HttpStatus.NO_CONTENT);
 
     }
+
+    @PostMapping(value = "/services/filter",consumes = {"application/json"},produces ={"application/json"})
+    public ResponseEntity<List<Services>> filterServices(@RequestBody ServicesListQuery servicesListQuery)
+    {
+        return new ResponseEntity<>(service.filterServices(servicesListQuery),HttpStatus.OK);
+    }
+
 
 }

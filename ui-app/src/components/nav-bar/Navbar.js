@@ -1,10 +1,9 @@
 import * as React from "react";
 import PropTypes from "prop-types";
+
 import CssBaseline from "@mui/material/CssBaseline";
 import { ThemeProvider } from "@mui/material/styles";
 import StarOutlineIcon from '@mui/icons-material/StarOutline';
-
-// new imports:
 import { styled, alpha } from "@mui/material/styles";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
@@ -21,7 +20,12 @@ import MailIcon from "@mui/icons-material/Mail";
 import MoreIcon from "@mui/icons-material/MoreVert";
 
 import { customTheme } from '../../utils/theme';
-import { Container } from "react-bootstrap";
+import { logoutUser } from '../../reducers/app/appSlice';
+
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from 'react-router-dom';
+
+import { filterProperties, filterServices } from '../../reducers/app/thunks/appThunk';
 function ElevationScroll(props) {
   const { children } = props;
 
@@ -68,6 +72,9 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     width: "100%",
     [theme.breakpoints.up("md")]: {
       width: "20ch",
+      '&:focus': {
+        width: '30ch',
+      },
     },
   },
 }));
@@ -77,19 +84,30 @@ export default function ElevateAppBar(props) {
   const navBarTheme = customTheme;
 
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const [filterAnchorEl, setFilterAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
-  const [favouritesCount, setFavouritesCount] = React.useState(0);
-  const [messagesCount, setMessagesCount] = React.useState(0);
+  const [favouritesCount, setFavouritesCount] = React.useState(0); // eslint-disable-line
+  const [messagesCount, setMessagesCount] = React.useState(0); // eslint-disable-line
 
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const currentTab = useSelector(state => state.app.currentTab);
   // setFavouritesCount(0);
   // setMessagesCount(0);
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
+  // const isFilterMenuOpen = Boolean(anchorEl);
+
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
   };
+
+  // const handleFilterMenuOpen = (event) => {
+  //   setAnchorEl(event.currentTarget);
+  // };
 
   const handleMobileMenuClose = () => {
     setMobileMoreAnchorEl(null);
@@ -100,11 +118,25 @@ export default function ElevateAppBar(props) {
     handleMobileMenuClose();
   };
 
+  // const handleFilterMenuClose = () => {
+  //   setFilterAnchorEl(null);
+  //   handleMobileMenuClose();
+  // };
+
+  const handleLogout = () => {
+    dispatch(logoutUser({ isUserLoggedIn: false }));
+    setAnchorEl(null);
+    handleMobileMenuClose();
+    
+    navigate('/login');
+  };
+
   const handleMobileMenuOpen = (event) => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
 
   const menuId = "primary-search-account-menu";
+  // const filterMenuId = "primary-search-account-menu";
   const renderMenu = (
     <Menu
       anchorEl={anchorEl}
@@ -122,7 +154,7 @@ export default function ElevateAppBar(props) {
       onClose={handleMenuClose}
     >
       <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-      <MenuItem onClick={handleMenuClose}>Logout</MenuItem>
+      <MenuItem onClick={handleLogout}>Logout</MenuItem>
     </Menu>
   );
 
@@ -199,6 +231,17 @@ export default function ElevateAppBar(props) {
                   <StyledInputBase
                     placeholder="Search…"
                     inputProps={{ "aria-label": "search" }}
+                    onChange={(e) => { 
+                      if (currentTab === 0) {
+                        if (e.target.value.length > 2) {
+                          dispatch(filterProperties({filterParams: {property_name: e.target.value}}));
+                        }
+                      } else {
+                        if (e.target.value.length > 2) {
+                          dispatch(filterServices({filterParams: {service_name: e.target.value}}));
+                        }
+                      }
+                    }}
                   />
                 </Search>
                 <Box sx={{ flexGrow: 1 }} />
@@ -246,13 +289,13 @@ export default function ElevateAppBar(props) {
                 </Box>
               </Toolbar>
             </AppBar>
+            {/* {renderFilterMenu} */}
             {renderMobileMenu}
             {renderMenu}
           </AppBar>
         </ThemeProvider>
       </ElevationScroll>
       <Toolbar />
-      {/* <Container fixed><HomePage /></Container> */}
     </React.Fragment>
   );
 }

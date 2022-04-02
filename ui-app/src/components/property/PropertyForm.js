@@ -14,8 +14,6 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import InputAdornment from '@mui/material/InputAdornment';
 import FormLabel from '@mui/material/FormLabel';
-import IconButton from '@mui/material/IconButton';
-import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
 import { styled } from '@mui/material/styles';
 import axios from 'axios';
 import Snackbar from '@mui/material/Snackbar';
@@ -25,27 +23,27 @@ const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
-// propertyName
-// propertyType
-// bedrooms
-// bathrooms
-// rent
-// base64Images
+
 export default function SimpleDialog(props) {
-    const { onClose, open, title, setDialogOpenState } = props;
+    const { open, title, setDialogOpenState } = props;
     const [propertyName, setPropertyName] = React.useState('');
     const [propertyType, setPropertyType] = React.useState('');
     const [bedrooms, setBedrooms] = React.useState('');
     const [bathrooms, setBathrooms] = React.useState('');
     const [rent, setRentChange] = React.useState('');
-    //const [submitFile, setSubmitFile] = React.useState({});
     const[files,setFiles] = React.useState([]);
     const [base64Data, setBase64Data ] = React.useState('');
-    //const [base64Image, setBase64Image ] = React.useState([]);
+    const [propertyLocation, setPropertyLocation ] = React.useState('');
+    const [city, setCity ] = React.useState('');
+    const [province, setProvince ] = React.useState('');
+    const [country, setCountry ] = React.useState('');
+    const [postalCode, setPostalCode ] = React.useState('');
     const [base64Images, setbase64Images] = React.useState([]);
-    const [property, setProperty] = React.useState({});
     const [snackbar, setSnackBar] = React.useState(false);
     const [severity, setSeverity] = React.useState('success');
+    const [disabled, setDisabled] = React.useState(false);
+
+    const images = [];
 
    
   
@@ -65,7 +63,6 @@ export default function SimpleDialog(props) {
       address:{
         location:'',
         city:'',
-        country:'',
         province:'',
         country:'',
         postal_code:''
@@ -77,19 +74,8 @@ export default function SimpleDialog(props) {
       rent:0.0,
       images:[]
   }
-
-  const image ={
-    image_data:''
-  }
   
     const onFileChange = (e) => {
-      debugger;
-      // const val= e.target.files.map(file => {
-      //   return {
-      //     "image_data": file
-      //   }
-      // });
-
       for (var i = 0; i < e.target.files.length; i++) {
         console.log(e.target.files[i]);
           if (e.target.files[i]) {
@@ -99,36 +85,20 @@ export default function SimpleDialog(props) {
             console.log('file uploaded: ', e.target.files[i]);
           }
       }       
-    // console.log(base64Images);
     };
   
-    // const _handleReaderLoaded = (e) => {
-    //   console.log('file uploaded 2: ', e);
-    //   let binaryString = e.target.result;
-    //   // setBase64Data({
-    //   //   base64Data: btoa(binaryString),
-    //   // });
-    //   setBase64Images({
-        
-    //   });
-    //   const base64Images = [{
-    //     images_data: ""
-    //   },
-    // {
-    //   images_data: ""
-    // }]
-    // };
-
     const _handleReaderLoaded = e => {
-      //console.log("file uploaded 2: ", e);
       let binaryString = e.target.result;
-      // setbase64Data(base64String); // <- your binaryString here
       const newbase64Images = [...base64Images];
+      
+      // setbase64Data(base64String); // <- your binaryString here
       // newbase64Images[]
       const base64Image = {
-        image_data: btoa(binaryString) // <- your binaryString here
+        image_data: btoa(binaryString)
       }
-      setbase64Images([...base64Images, base64Image]);
+      images.push(base64Image)
+      setbase64Images(images);
+      // setbase64Images([...base64Images, base64Image]);
     };
 
     const [state, setState] = React.useState({
@@ -150,13 +120,31 @@ export default function SimpleDialog(props) {
 
     const handlsetParkingIncludedeChange = (event) => {
         setParkingIncluded(event.target.checked);
-        initialValues.parkingInclude = event.target.checked;
     };
 
 
     const handleRentChange = (event) => {
       setRentChange(event.target.value);
-      //initialValues.rent = event.target.value;
+    };
+
+    const handlePropertyLocationChange = (event) => {
+      setPropertyLocation(event.target.value);
+    };
+
+    const handleCityChange = (event) => {
+      setCity(event.target.value);
+    };
+
+    const handleProvinceChange = (event) => {
+      setProvince(event.target.value);
+    };
+
+    const handleCountryChange = (event) => {
+      setCountry(event.target.value);
+    };
+
+    const handlePostalCodeChange = (event) => {
+      setPostalCode(event.target.value);
     };
     const handleClose = () => {
         // onClose();
@@ -165,79 +153,48 @@ export default function SimpleDialog(props) {
 
       const handlePropertyTypeChange = (event) => {
         setPropertyType(event.target.value);
-        //initialValues.propertyType = event.target.value;
       };
 
       const handleBedroomsChange = (event) => {
         setBedrooms(event.target.value);
-        //initialValues.bedrooms = event.target.value;
       };
       const handleBathroomsChange = (event) => {
         setBathrooms(event.target.value);
-        //initialValues.bathrooms = event.target.value;
         console.log(initialValues.bathrooms);
       };
 
-      const Input = styled('input')({
-        display: 'none',
-      });
-
       const handlePropertyNameChange = (event) => {
         setPropertyName(event.target.value);
-        //initialValues.propertyName = event.target.value;
       };
 
+      const disablePostButton = () => {
+        return (propertyName === null || propertyName === ''|| propertyType === null || propertyType === ''
+        ||propertyLocation === null || propertyLocation === ''|| city === null || city === ''|| province == null || 
+        province === ''|| country === null || country === '' || postalCode  === null || postalCode  ==='' )
+      };
+    
+
       const submitPropertyPost = (initialValues) => {
-        console.log("initialValues: ", initialValues);
-        console.log();
-        console.log();
-        console.log();
-        console.log();
-        console.log();
-        console.log();
-        console.log();
-        console.log(base64Images);
-       alert("Property Saved");
-       console.log(propertyName);
-       console.log(base64Data);
-       // propertyName
-// propertyType
-// bedrooms
-// bathrooms
-// rent
-// base64Images
+        console.log(propertyType);
        const property ={
+         "user_id": localStorage.getItem("userId"),
           "property_name": propertyName,
           "address":{
-            "location" : "South Park Street",
-            "city": "Halifax",
-            "province":"NS",
-            "country": "Canada",
-            "postal_code": "H3J2K9"
+            "location" : propertyLocation,
+            "city": city,
+            "province":province,
+            "country": country,
+            "postal_code": postalCode
         },
-          "amenities":"Laundry,Wifi",
-          "property_type":propertyType,
-           "bathrooms": bathrooms,
-           "bedrooms": bedrooms,
-          "parking_included":"true",
-          "rent": rent,
-          "images": [...base64Images]
+
+        "amenities": "" + (laundry ? "Laundry" : "") + "," +(wifi ? "Wifi" : ""),
+        "property_type":propertyType,
+        "bathrooms": bathrooms,
+        "bedrooms": bedrooms,
+        "parking_included":parkingIncluded,
+        "rent": rent,
+        "images": [...base64Images]
        };
-
-      // const form = new FormData();
-      // form.append("property",JSON.stringify(property) );
-      // for (let key of form.keys)
-      //  {
-      //    console.log(key,form.get(key));
-      // }
-    //   for(let i = 0; i< e.target.files.length; i++) {
-    //     formData.append('files', e.target.files[i])
-    // }
-      //files.forEach(file => form.append("file",file));
-      //console.log(files);
-      //form.append("file",files);
-      //console.log(form.values);
-
       JSON.stringify(property)
 
       axios({
@@ -264,29 +221,19 @@ export default function SimpleDialog(props) {
       const handleDialogClose = () => {
         setDialogOpenState();
       }
-
-     const isFormValid = () => {
-        return  false;
-        // propertyName && propertyType && bedrooms && bathrooms && rent;
-      }
-
-      // propertyName
-// propertyType
-// bedrooms
-// bathrooms
-// rent
-// base64Images
       const resetForm = () => {
-        this.setPropertyName('');
-        this.setPropertyType('');
-        this.setBedrooms('');
-        this.setBathrooms('');
-        this.setRentChange('');
-        this.setbase64Images([]);
-      }
-
-      // const 
-       
+       setPropertyName('');
+        setPropertyType('');
+        setBedrooms('');
+        setBathrooms('');
+        setRentChange('');
+        setPropertyLocation('');
+        setCity('');
+        setProvince('');
+        setCountry('');
+        setPostalCode('');
+        setbase64Images([]);
+      }       
     return( <Dialog onBackdropClick={handleDialogClose} onClose={handleClose} open={open}>
         <DialogTitle>{title}</DialogTitle>
         <form>
@@ -301,6 +248,7 @@ export default function SimpleDialog(props) {
                 value={propertyName}
                 onChange={handlePropertyNameChange}
                 fullWidth
+                size="small"
               />
             </Grid>
             <Grid item xs={6}>
@@ -314,10 +262,13 @@ export default function SimpleDialog(props) {
                 label="Property Type"
                 value={propertyType}
                 onChange={handlePropertyTypeChange}
+                size="small"
                 >
-                <MenuItem value={1}>One</MenuItem>
-                <MenuItem value={2}>Two</MenuItem>
-                <MenuItem value={3}>Three</MenuItem>
+                <MenuItem value={"1 BHK"}>1 BHK</MenuItem>
+                <MenuItem value={"2 BHK"}>2 BHK</MenuItem>
+                <MenuItem value={"3 BHK"}>3 BHK</MenuItem>
+                <MenuItem value={"4 BHK"}>4 BHK</MenuItem>
+                <MenuItem value={"Townhouse"}>TownHouse</MenuItem>
                 </Select>
               </FormControl>
             </Grid>
@@ -332,6 +283,7 @@ export default function SimpleDialog(props) {
                 label="Bedrooms"
                 value={bedrooms}
                 onChange={handleBedroomsChange}
+                size="small"
                 >
                 <MenuItem value={1}>One</MenuItem>
                 <MenuItem value={2}>Two</MenuItem>
@@ -350,6 +302,7 @@ export default function SimpleDialog(props) {
                 label="Bathrooms"
                 value={bathrooms}
                 onChange={handleBathroomsChange}
+                size="small"
                 >
                 <MenuItem value={1}>One</MenuItem>
                 <MenuItem value={2}>Two</MenuItem>
@@ -373,6 +326,7 @@ export default function SimpleDialog(props) {
                 onChange={handleRentChange}
                 startAdornment={<InputAdornment position="start">$</InputAdornment>}
                 label="Rent"
+                size="small"
               />
             </FormControl>
             </Grid>
@@ -399,7 +353,7 @@ export default function SimpleDialog(props) {
         </Container>
         <div style={{ padding: 20 }}></div>
         <Container  maxWidth="md">
-          <Grid item xs={6}> <Typography variant="h4" gutterBottom component="div">
+          <Grid item xs={6}> <Typography variant="h6" gutterBottom component="div">
           Property Address
           </Typography>
           </Grid>
@@ -410,6 +364,9 @@ export default function SimpleDialog(props) {
                 id="propertyLocation"
                 name="propertyLocation"
                 label="Property Location"
+                size="small"
+                value={propertyLocation}
+                onChange={handlePropertyLocationChange}
                 fullWidth
               />
           </Grid>
@@ -419,6 +376,9 @@ export default function SimpleDialog(props) {
                 id="city"
                 name="city"
                 label="City"
+                size="small"
+                value={city}
+                onChange={handleCityChange}
                 fullWidth
               />
           </Grid>
@@ -428,6 +388,9 @@ export default function SimpleDialog(props) {
                 id="province"
                 name="province"
                 label="Province"
+                size="small"
+                value={province}
+                onChange={handleProvinceChange}
                 fullWidth
               />
           </Grid>
@@ -437,6 +400,9 @@ export default function SimpleDialog(props) {
                 id="country"
                 name="country"
                 label="Country"
+                size="small"
+                value={country}
+                onChange={handleCountryChange}
                 fullWidth
               />
           </Grid>
@@ -446,6 +412,9 @@ export default function SimpleDialog(props) {
                 id="postalCode"
                 name="postalCode"
                 label="Postal Code"
+                size="small"
+                value={postalCode}
+                onChange={handlePostalCodeChange}
                 fullWidth
               />
           </Grid>
@@ -453,8 +422,8 @@ export default function SimpleDialog(props) {
       </Container>
       <Container  maxWidth="md">
       <div style={{ padding: 20 }}></div>  
-      <Grid item xs={6}> <Typography variant="h4" gutterBottom component="div">
-          Add Images
+      <Grid item xs={6}> <Typography variant="h6" gutterBottom component="div">
+          Upload Images
       </Typography>
       </Grid>
       <Grid item xs={6}>
@@ -467,18 +436,15 @@ export default function SimpleDialog(props) {
           multiple
           onChange={onFileChange}
         />
-        {/* <IconButton color="primary" aria-label="upload picture" component="span">
-          <AddAPhotoIcon  fontSize="large"/>
-        </IconButton> */}
       </label>
       </Grid>
       <div style={{ padding: 20 }}></div>
-      <Button variant="contained" disabled={!isFormValid} onClick={submitPropertyPost}>Post</Button>
-      <Snackbar open={snackbar} autoHideDuration={6000} onClose={handleSnackClose}>
+      <Button variant="contained" disabled={disablePostButton()} onClick={submitPropertyPost}>Post</Button>
+      {/* <Snackbar open={snackbar} autoHideDuration={6000} onClose={handleSnackClose}>
           <Alert onClose={handleSnackClose} severity={severity} sx={{ width: '100%' }}>
             This is a success message!
           </Alert>
-        </Snackbar>
+        </Snackbar> */}
         {/* <Alert severity="error">This is an error message!</Alert> */}
         {/* <Alert severity="success">Property posted successfully</Alert> */}
       </Container>

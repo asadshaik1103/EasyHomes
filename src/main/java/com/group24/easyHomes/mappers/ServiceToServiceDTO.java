@@ -1,8 +1,6 @@
 package com.group24.easyHomes.mappers;
 
-import com.group24.easyHomes.dto.PropertyDTO;
 import com.group24.easyHomes.dto.ServiceDTO;
-import com.group24.easyHomes.model.Property;
 import com.group24.easyHomes.model.Services;
 import com.sun.istack.Nullable;
 import lombok.Synchronized;
@@ -39,10 +37,11 @@ public class ServiceToServiceDTO  implements Converter<ServiceDTO, Services> {
         services.setCountry(source.getCountry());
         services.setPincode(source.getPincode());
         services.setAddress(source.getAddress());
+        services.setUser_id(source.getUser_id());
 
         if (source.getImages() != null && source.getImages().size() > 0){
             source.getImages()
-                    .forEach(image -> services.getImages().add(imageDTOToImage.convert(image)));
+                    .forEach(image -> services.addImage(imageDTOToImage.convert(image)));
         }
 
         return services;

@@ -1,4 +1,4 @@
-import { Container, Grid, TextField } from "@mui/material";
+import { Alert, Container, Grid, Snackbar, TextField } from "@mui/material";
 import *  as React from "react";
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
@@ -8,12 +8,11 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';  
-import IconButton from '@mui/material/IconButton';
-import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
-import { styled } from '@mui/material/styles';
+import axios from 'axios';
+import { POST_SERVICE } from "../../constants/Api";
 
   export default function ServiceForm(props) {
-    const { onClose, open, title } = props;
+    const { open, title, setDialogOpenState } = props;
     const [serviceName, setServiceName] = React.useState('');
     const [serviceType, setServiceType] = React.useState('');
     const [cost, setCost] = React.useState(0);
@@ -24,34 +23,97 @@ import { styled } from '@mui/material/styles';
     const [country,setCountry] =  React.useState('');
     const [pincode,setPincode] =  React.useState('');
     const [address,setAddress] =  React.useState('');
-    const [image,setImage] =  React.useState([]);
+    const [base64Images,setbase64Images] =  React.useState([]);
+    const [snackbar, setSnackBar] = React.useState(false);
+    const [severity, setSeverity] = React.useState('success');
 
-    const ServiceData = {
-      'service_name': '',
-    'service_type': '',
-    'cost': 0,
-    'plan': '',
-    'description': '',
-    'city': '',
-    'province': '',
-    'country': '',
-    'pincode': '',
-    'address': '',
-    'review_id': null,
-    }
+    const images = [];
 
     const handleClose = () => {
-        onClose();
-      };  
+      setDialogOpenState();
+   };
 
-      const Input = styled('input')({
-        display: 'none',
-      });
+    const handleSnackClose = (event, reason) => {
+      if (reason === 'clickaway') {
+        return;
+      }
+      setSnackBar(false);
+    };
 
-      const submitPropertyPost = () => {
+      const _handleReaderLoaded = e => {
+        let binaryString = e.target.result;
+        const base64Image = {
+          name:"",
+          image_data: btoa(binaryString),
+          type:""
+        }
+        images.push(base64Image)
+        setbase64Images(images);
       };
-          
-    return( <Dialog onClose={handleClose} open={open}>
+
+      const onFileChange = (e) => {
+        for (var i = 0; i < e.target.files.length; i++) {
+            if (e.target.files[i]) {
+              const reader = new FileReader();
+            reader.onload = _handleReaderLoaded.bind(this);
+              reader.readAsBinaryString(e.target.files[i]);
+              console.log('file uploaded: ', e.target.files[i]);
+            }
+        }       
+      };
+
+      const submitServicePost = (initialValues) => {
+        const postData = {
+          "user_id": localStorage.getItem("userId"),
+          'service_name': serviceName,
+          'service_type': serviceType,
+          'cost': cost,
+          'plan': plan,
+          'description': description,
+          'city': city,
+          'province': province,
+          'country': country,
+          'pincode': pincode,
+          'address': address,
+          'review_id': null,
+          'images':[...base64Images]
+        }
+
+      axios({
+        method: 'post',
+        url: POST_SERVICE,
+        data: JSON.stringify(postData),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+        })
+        .then(function (response) {
+            setSnackBar(true);
+            setSeverity("success");
+            setDialogOpenState(false);
+            resetForm();
+            console.log(snackbar);
+        })
+        .catch(function (response) {
+            console.log(response);
+        });
+      };
+
+      const resetForm = () => {
+        setServiceName('')
+        setServiceType('')
+        setCost(0)
+        setPlan('')
+        setDescription('')
+        setCity('')
+        setProvince('')
+        setCountry('')
+        setPincode('')
+        setAddress('')
+        setbase64Images([])
+      }
+
+    return( <Dialog onBackdropClick={handleClose} onClose={handleClose} open={open}>
         <DialogTitle>{title}</DialogTitle>
         <Container  maxWidth="md">
           <Grid container spacing={2}>
@@ -185,20 +247,30 @@ import { styled } from '@mui/material/styles';
       </Container>
       <Container  maxWidth="md">
       <div style={{ padding: 20 }}></div>  
-      <Grid item xs={6}> <Typography variant="h4" gutterBottom component="div">
-          Add Images
+      <Grid item xs={6}> <Typography variant="h6" gutterBottom component="div">
+          Upload Images
       </Typography>
       </Grid>
       <Grid item xs={6}>
       <label htmlFor="icon-button-file">
-        <Input accept="image/*" id="icon-button-file"  type="file" />
-        <IconButton color="primary" aria-label="upload picture" component="span">
-          <AddAPhotoIcon  fontSize="large"/>
-        </IconButton>
+        <input
+          type="file"
+          name="image"
+          id="file"
+          accept=".jpg, .jpeg, .png"
+          multiple
+          onChange={onFileChange}
+        />
       </label>
       </Grid>
-      <div style={{ padding: 20 }}></div>
-      <Button variant="contained" onClick={submitPropertyPost}>Post</Button>
+      <div style={{ padding: 20 }}>
+      <Snackbar open={snackbar} autoHideDuration={6000} onClose={handleSnackClose}>
+          <Alert onClose={handleSnackClose} severity={severity} sx={{ width: '100%' }}>
+            This is a success message!
+          </Alert>
+        </Snackbar>
+      </div>
+      <Button variant="contained" onClick={submitServicePost}>Post</Button>
       </Container>
 
       <div style={{ padding: 20 }}></div>

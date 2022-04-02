@@ -17,8 +17,8 @@ public class PropertyImages {
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid2")
     private String id;
-    private String name;
-    private String type;
+   /* private String name;
+    private String type;*/
 
     @Lob
     private byte[] image_data;
@@ -33,14 +33,14 @@ public class PropertyImages {
     }
 
     public PropertyImages(String name, String type, byte[] image_data) {
-        this.name = name;
-        this.type = type;
+      /*  this.name = name;
+        this.type = type;*/
         this.image_data = image_data;
     }
 
     public PropertyImages(String name, String type, byte[] image_data, Property property) {
-        this.name = name;
-        this.type = type;
+     /*   this.name = name;
+        this.type = type;*/
         this.image_data = image_data;
         this.property = property;
     }
