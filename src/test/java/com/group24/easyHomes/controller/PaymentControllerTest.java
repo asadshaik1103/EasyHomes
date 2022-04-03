@@ -3,10 +3,7 @@ package com.group24.easyHomes.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.group24.easyHomes.model.PaymentDetails;
-import com.group24.easyHomes.model.Property;
-import com.group24.easyHomes.service.AppUserService;
 import com.group24.easyHomes.service.PaymentService;
-import com.group24.easyHomes.service.PropertyService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -22,7 +19,6 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.doReturn;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -53,7 +49,7 @@ public class PaymentControllerTest {
             "\"service_id\": 1" +
             "}";
 
-    PaymentDetails paymentDetailsResponse = new PaymentDetails(Constants.paymentAmount,Constants.userId,Constants.serviceId);
+    PaymentDetails paymentDetailsResponse = new PaymentDetails(Constants.paymentAmount,Constants.userId,Constants.paidForServiceID);
 
     @Test
     @WithMockUser(username = "dv", password = "pwd", authorities = "USER")

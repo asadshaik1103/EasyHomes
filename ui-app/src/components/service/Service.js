@@ -2,11 +2,28 @@ import React from "react";
 import {Button,Dialog, Typography} from "@mui/material";
 import Payment from "../payment/payment";
 import Carousel,{CarouselItem} from "../carosel/Carousel";
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
+
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 const Service = (props) => {
 
   const { open, setDialogOpenState,service } = props;
   const [launchPayPal, setLaunchPayPal ] = React.useState(false);
+  const [succeeded, setSucceeded] = React.useState(false);
+  const [toastContent, setToastContent] = React.useState('');
+
+  const handleSnackClose = () => {
+    setSucceeded(false);
+  }
+
+  const handleDialogClose = () => {
+    setLaunchPayPal(false);
+    dispatch(openModel({ homeDialog:{isOpen:false,service:null} }))
+  }
 
   const handleClose = () => {
     setDialogOpenState();
@@ -55,9 +72,22 @@ const Service = (props) => {
             Buy Service
           </Button>
           </div>
-          {launchPayPal?<Payment service={service} />:<div/>}
-          <Typography fontSize={28}>Reviews</Typography>
-       </div>
+          <Container style={
+            {
+              marginTop:"1%",
+              display:"flex",
+              justifyContent: "center"
+            }
+          }>
+          {launchPayPal?<Payment service={service} setToastMessage={setSucceeded} />:<div/>}
+          </Container> 
+          <h3>Reviews</h3>
+       <Snackbar open={succeeded} autoHideDuration={6000} onClose={handleSnackClose}>
+        <Alert onClose={handleSnackClose} severity="success" sx={{ width: '100%' }}>
+          Payment Sucessful!
+        </Alert>
+          </Snackbar>
+          </div>
     </Dialog>
     
   );

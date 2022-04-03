@@ -79,6 +79,4 @@ public class  ServiceController {
     {
         return new ResponseEntity<>(service.filterServices(servicesListQuery),HttpStatus.OK);
     }
-
-
 }

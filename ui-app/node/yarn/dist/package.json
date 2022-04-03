@@ -1,8 +1,7 @@
 {
   "name": "yarn",
   "installationMethod": "tar",
-  "version": "1.22.18",
-  "packageManager": "yarn@1.22.17",
+  "version": "1.22.11",
   "license": "BSD-2-Clause",
   "preferGlobal": true,
   "description": "📦🐈 Fast, reliable, and secure dependency management.",

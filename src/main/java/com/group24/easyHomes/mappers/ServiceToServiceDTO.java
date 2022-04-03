@@ -37,7 +37,6 @@ public class ServiceToServiceDTO  implements Converter<ServiceDTO, Services> {
         services.setCountry(source.getCountry());
         services.setPincode(source.getPincode());
         services.setAddress(source.getAddress());
-        services.setReview_id(source.getReview_id());
         services.setUser_id(source.getUser_id());
 
         if (source.getImages() != null && source.getImages().size() > 0){

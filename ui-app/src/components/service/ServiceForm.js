@@ -12,7 +12,7 @@ import axios from 'axios';
 import { POST_SERVICE } from "../../constants/Api";
 
   export default function ServiceForm(props) {
-    const { open, title, setDialogOpenState,handlePost } = props;
+    const { open, title, setDialogOpenState, setToastMessage, setToastContent} = props;
     const [serviceName, setServiceName] = React.useState('');
     const [serviceType, setServiceType] = React.useState('');
     const [cost, setCost] = React.useState(0);
@@ -92,7 +92,8 @@ import { POST_SERVICE } from "../../constants/Api";
             setSeverity("success");
             setDialogOpenState(false);
             resetForm();
-            handlePost()
+            setToastMessage(true);
+            setToastContent("Service added successfully!");
         })
         .catch(function (response) {
         });

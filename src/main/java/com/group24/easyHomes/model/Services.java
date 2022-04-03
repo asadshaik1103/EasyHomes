@@ -3,6 +3,7 @@ package com.group24.easyHomes.model;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
+import org.jetbrains.annotations.NotNull;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -29,13 +30,18 @@ public class Services {
     private String country;
     private String pincode;
     private String address;
-    private Long review_id;
+
     private Long user_id;
     private String user_name;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "service")
     @Setter(value = AccessLevel.NONE)
     private Set<ServiceImages> images = new HashSet<>();
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "services", orphanRemoval = true)
+    @Setter(value = AccessLevel.NONE)
+    private Set<ServiceReview> reviews = new HashSet<>();
+
 
     @Column(nullable = false, updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
@@ -58,7 +64,6 @@ public class Services {
         this.country = country;
         this.pincode = pincode;
         this.address = address;
-        this.review_id = review_id;
     }
 
     public Services()
@@ -67,5 +72,10 @@ public class Services {
     public void  addImage(ServiceImages image){
         image.setService(this);
         this.images.add(image);
+    }
+
+    public void  addReview(ServiceReview review){
+        review.setServices(this);
+        this.reviews.add(review);
     }
 }
