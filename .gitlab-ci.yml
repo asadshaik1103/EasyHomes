@@ -2,14 +2,13 @@ stages:
   - build
   - test
   - deploy
-  - code_quality
 
 build:
   stage: build
   image: maven:latest
   script:
     - echo "Building the pipeline"
-    - mvn clean package -X
+    - mvn clean package
   artifacts:
     paths:
       - target
@@ -27,64 +26,26 @@ test:
 
   script:
     - echo "Pipeline test started"
-    - mvn verify -X
+    - mvn verify
   tags:
     - ugrad
 
 deploy_develop:
   stage: deploy
-  image: ruby:latest
-  tags:
-    - dalfcs_docker_autoscale
-  script:
-    - echo "deploying Easy-Homes develop"
-      - rm -f package-lock.json
-    - apt-get update -qy
-    - apt-get install -y ruby-dev
-    - gem install dpl
-    - dpl --provider=heroku --app=$HEROKU_APP_NAME --api-key=$HEROKU_KEY
-    - echo "backend application has been built"
-  only:
-    refs:
-      - develop
-
-#deploy_develop:
-#  stage: deploy
-#  tags:
-#    - ugrad
-#  artifacts:
-#    paths:
-#      - target
-#  script:
-#    - echo "dbURL=$DATABASE_TEST_URL" > config.properties
-#    - echo "dbUserName=$DATABASE_TEST_USERNAME" >> config.properties
-#    - echo "dbPassword=$DATABASE_TEST_PASSWORD" >> config.properties
-#    - echo "dbDriver=$DATABASE_DRIVER" >> config.properties
-#    - echo "Deploying the develop pipeline"
-#    - chmod og-rwx ${DEPLOY_SSH_KEY}
-#    - zip -r ${CI_COMMIT_SHORT_SHA}.zip target
-#    - scp -r -o StrictHostKeyChecking=no -i "${DEPLOY_SSH_KEY}" ${CI_COMMIT_SHORT_SHA}.zip "${DEPLOY_USER}@${DEPLOY_HOST}:${DEPLOY_DIR}/${CI_PROJECT_NAME}-${CI_COMMIT_REF_NAME}-${CI_COMMIT_SHORT_SHA}.zip"
-
-code_quality:
-  stage: code_quality
-  image: maven:latest
   tags:
     - ugrad
   artifacts:
     paths:
       - target
-  variables:
-    UPLOAD_QUALITY_REPORT: 'curl -X PUT -H "Authorization: Token $QSCORED_API_KEY" -H "repository-link: $CI_PROJECT_URL" + -H "username: dm341240@dal.ca" -H "Content-Type: mulitpart/form-data" --url "https://qscored.com/api/upload/file.xml?is_open_access=off&version=$CI_PIPELINE_IID&project_name=easyhomes" -F "file=@Designite_output/DesigniteAnalysis.xml"'
-  script: 
-    - wget -O DesigniteJava.jar https://www.dropbox.com/s/hrfuiesdb9o6cg5/DesigniteJava.jar?dl=1
-    - java --version
-    - echo $CI_COMMIT_BRANCH
-    - echo $CI_DEFAULT_BRANCH
-    - echo $CI_PROJECT_PATH
-    - java -jar DesigniteJava.jar -i . -o Designite_output -f XML
-    - 'eval "$UPLOAD_QUALITY_REPORT"'
-
-  
+  script:
+    - echo "dbURL=$DATABASE_TEST_URL" > config.properties
+    - echo "dbUserName=$DATABASE_TEST_USERNAME" >> config.properties
+    - echo "dbPassword=$DATABASE_TEST_PASSWORD" >> config.properties
+    - echo "dbDriver=$DATABASE_DRIVER" >> config.properties
+    - echo "Deploying the develop pipeline"
+    - chmod og-rwx ${DEPLOY_SSH_KEY}
+    - zip -r ${CI_COMMIT_SHORT_SHA}.zip target
+    - scp -r -o StrictHostKeyChecking=no -i "${DEPLOY_SSH_KEY}" ${CI_COMMIT_SHORT_SHA}.zip "${DEPLOY_USER}@${DEPLOY_HOST}:${DEPLOY_DIR}/${CI_PROJECT_NAME}-${CI_COMMIT_REF_NAME}-${CI_COMMIT_SHORT_SHA}.zip"
 #  only:
 #    - develop
 #
