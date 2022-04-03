@@ -31,7 +31,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/user")
-@CrossOrigin(origins="*")
+@CrossOrigin(origins = "*", maxAge = 3600)
 @AllArgsConstructor
 public class AppUserResourceImpl {
 
