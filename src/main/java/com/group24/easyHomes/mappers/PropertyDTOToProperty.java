@@ -4,6 +4,7 @@ import com.group24.easyHomes.dto.PropertyDTO;
 import com.group24.easyHomes.model.Property;
 import com.sun.istack.Nullable;
 import lombok.Synchronized;
+//import org.jetbrains.annotations.Nullable;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
@@ -27,20 +28,20 @@ public class PropertyDTOToProperty  implements Converter<PropertyDTO, Property> 
             return null;
         }
         final Property property = new Property();
-
-        System.out.println("Daman***** "+source.getProperty_name()+" ****** ");
         property.setProperty_id(source.getProperty_id());
         property.setAddress(addressDTOToAddress.convert(source.getAddress()));
         property.setProperty_name(source.getProperty_name());
+        property.setProperty_type(source.getProperty_type());
         property.setAmenities(source.getAmenities());
         property.setBathrooms(source.getBathrooms());
         property.setBedrooms(source.getBedrooms());
         property.setParking_included(source.isParking_included());
         property.setRent(source.getRent());
+        property.setUser_id(source.getUser_id());
 
         if (source.getImages() != null && source.getImages().size() > 0){
             source.getImages()
-                    .forEach(image -> property.getImages().add(imageDTOToImage.convert(image)));
+                    .forEach(image -> property.addImage(imageDTOToImage.convert(image)));
         }
 
         return property;
