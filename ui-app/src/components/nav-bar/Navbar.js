@@ -181,7 +181,7 @@ export default function ElevateAppBar(props) {
             <MailIcon />
           </Badge>
         </IconButton>
-        <p>Messages</p>
+        <Typography>Messages</Typography>
       </MenuItem>
       <MenuItem>
         <IconButton
@@ -193,7 +193,7 @@ export default function ElevateAppBar(props) {
             <StarOutlineIcon />
           </Badge>
         </IconButton>
-        <p>Favourites</p>
+        <Typography>Favourites</Typography>
       </MenuItem>
       <MenuItem onClick={handleProfileMenuOpen}>
         <IconButton
@@ -205,7 +205,7 @@ export default function ElevateAppBar(props) {
         >
           <AccountCircle />
         </IconButton>
-        <p>Profile</p>
+        <Typography>Profile</Typography>
       </MenuItem>
     </Menu>
   );

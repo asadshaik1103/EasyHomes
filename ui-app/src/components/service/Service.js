@@ -1,14 +1,9 @@
-import "bootstrap";
-import { Button, Carousel } from "react-bootstrap";
 import React from "react";
-import {
-  Dialog,
-  Rating,
-} from "@mui/material";
-import { useDispatch,useSelector } from 'react-redux';
+import {Button,Dialog, Typography} from "@mui/material";
+import { useDispatch } from 'react-redux';
 import { openModel } from '../../reducers/app/appSlice';
-import { Container } from "react-bootstrap";
 import Payment from "../payment/payment";
+import Carousel,{CarouselItem} from "../carosel/Carousel";
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 
@@ -16,13 +11,14 @@ const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
-const Service = () => {
+const Service = (props) => {
 
-  const dispatch = useDispatch();
+  const { open, setDialogOpenState,service } = props;
   const [launchPayPal, setLaunchPayPal ] = React.useState(false);
   const [succeeded, setSucceeded] = React.useState(false);
   const [toastContent, setToastContent] = React.useState('');
 
+  const dispatch = useDispatch();
   const handleSnackClose = () => {
     setSucceeded(false);
   }
@@ -32,73 +28,57 @@ const Service = () => {
     dispatch(openModel({ homeDialog:{isOpen:false,service:null} }))
   }
 
-
-  const isOpen = useSelector(state => state.app.homeDialog.isOpen)
-  const service = useSelector(state => state.app.homeDialog.service)
+  const handleClose = () => {
+    setDialogOpenState();
+   };
 
   return (
-      <Dialog fullWidth maxWidth='md' open={isOpen} onClose={() => handleDialogClose() }>
+    <Dialog fullWidth maxWidth='md' onBackdropClick={handleDialogClose} onClose={handleClose} open={open}>
     <div
     style={{
       padding: "5%",
     }}>
         <div style={{alignSelf:'center',width:'100%'}}>
-          <Carousel style={{border:5,borderColor:'red'}} slide={false}>
-            {service?.images.map((image, index) => {
-                const blobData = image.image_data
-              return (
-                <Carousel.Item>
-                  <img
-                    className="d-block w-100"
-                    style={{ borderRadius: "5%",maxWidth:'100%',maxHeight:'400px',width:'100%',height:'500px',}}
-                    src={`data:image/jpeg;base64,${blobData}`}
-                    alt="First slide"
-                  />
-                </Carousel.Item>
-              );
-            })}
-          </Carousel>
+        <Carousel>
+      { service?.images.map((item , index)=>{
+            const blobData = item.image_data
+            const imageSrc = blobData ? `data:image/jpeg;base64,${blobData}` : ''
+          return(
+            <CarouselItem>
+            <img style={{maxWidth:'100%',maxHeight:'700px',width:'100%',height:'700px',}}
+            src={imageSrc}/>
+            </CarouselItem>)
+          })
+        }
+        </Carousel>
         </div>
-        <div
-          style={{
-           marginTop:'10%'
-          }}
-        >
-          <h2 style={{ fontWeight: "bold" }}>{service?.service_name}</h2>
-          <h4> {'$'+service?.cost}</h4>
-          <Rating name="simple-controlled" value={1} />
-          <h5>{service?.description}</h5>
+          <Typography fontSize={34} style={{ fontWeight: "bold" }}>{service?.service_name}</Typography>
+          <Typography fontSize={28}> {'$'+service?.cost}</Typography>
+            <Typography>{service?.description}</Typography>
           <div style={
             {
               display:"flex",
               width:"100%",
-              justifyContent: "space-between"
+              justifyContent: "space-between",
+              marginTop:'1.5%',
+              marginBottom:'1.5%  '
             }
           }>
-          <Button >
+          <Button variant="contained">
             Schedule Meeting
           </Button>
-          <Button onClick ={() => {setLaunchPayPal(true)}} >
+          <Button variant="contained" onClick ={() => {setLaunchPayPal(true)}} >
             Buy Service
           </Button>
           </div>
-          <Container style={
-            {
-              marginTop:"1%",
-              display:"flex",
-              justifyContent: "center"
-            }
-          }>
           {launchPayPal?<Payment service={service} setToastMessage={setSucceeded} />:<div/>}
-          </Container> 
           <h3>Reviews</h3>
-        </div>
-       </div>
        <Snackbar open={succeeded} autoHideDuration={6000} onClose={handleSnackClose}>
         <Alert onClose={handleSnackClose} severity="success" sx={{ width: '100%' }}>
           Payment Sucessful!
         </Alert>
           </Snackbar>
+          </div>
     </Dialog>
     
   );
