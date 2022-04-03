@@ -69,9 +69,6 @@ export default function FabMenu() {
         setDialogOpenState={setDialogOpened}
       />
       }
-
-<div style={{position:'sticky',display:'flex',flexDirection:'row',justifyContent:'flex-end',bottom:'25px'}}>
-  
       <Box sx={getSpeedDialBoxStyles()}>
         <SpeedDial
           ariaLabel="Add"
@@ -99,7 +96,6 @@ export default function FabMenu() {
           ))}
         </SpeedDial>
       </Box>
-      </div>
     </ThemeProvider>
   );
 }

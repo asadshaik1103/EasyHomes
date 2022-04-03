@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { AUTH_USER, FILTER_PROPERTY, FILTER_SERVICE, GET_PROPERTY, GET_SERVICE } from '../../../constants/Api';
 export const authenticateUserData = createAsyncThunk(

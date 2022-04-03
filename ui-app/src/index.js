@@ -9,7 +9,6 @@ import reportWebVitals from './reportWebVitals';
 import store from './store/store';
 import './index.css';
 
-import 'bootstrap/dist/css/bootstrap.min.css';
 // const cors = require('cors');
 // const corsOptions ={
 //     origin:'http://localhost:3000', 

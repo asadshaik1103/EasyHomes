@@ -12,7 +12,7 @@ import axios from 'axios';
 import { POST_SERVICE } from "../../constants/Api";
 
   export default function ServiceForm(props) {
-    const { open, title, setDialogOpenState } = props;
+    const { open, title, setDialogOpenState,handlePost } = props;
     const [serviceName, setServiceName] = React.useState('');
     const [serviceType, setServiceType] = React.useState('');
     const [cost, setCost] = React.useState(0);
@@ -92,10 +92,9 @@ import { POST_SERVICE } from "../../constants/Api";
             setSeverity("success");
             setDialogOpenState(false);
             resetForm();
-            console.log(snackbar);
+            handlePost()
         })
         .catch(function (response) {
-            console.log(response);
         });
       };
 
@@ -164,9 +163,9 @@ import { POST_SERVICE } from "../../constants/Api";
                 value={plan}
                 onChange={(e)=>{setPlan(e.target.value)}}
                 >
-                <MenuItem value={1}>Weekly</MenuItem>
-                <MenuItem value={2}>Monthly</MenuItem>
-                <MenuItem value={3}>Anualy</MenuItem>
+                <MenuItem value={"Weekly"}>Weekly</MenuItem>
+                <MenuItem value={"Monthly"}>Monthly</MenuItem>
+                <MenuItem value={"Anually"}>Anually</MenuItem>
                 </Select>
               </FormControl>
             </Grid>
