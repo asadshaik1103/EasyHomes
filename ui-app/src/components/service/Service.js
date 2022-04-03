@@ -4,6 +4,7 @@ import React from "react";
 import {
   Dialog,
   Rating,
+  Typography,
 } from "@mui/material";
 import { useDispatch,useSelector } from 'react-redux';
 import { openModel } from '../../reducers/app/appSlice';
@@ -11,6 +12,7 @@ import { Container } from "react-bootstrap";
 import Payment from "../payment/payment";
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
+import ServiceReviewForm from "./ServiceReviewForm";
 
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -22,6 +24,7 @@ const Service = () => {
   const [launchPayPal, setLaunchPayPal ] = React.useState(false);
   const [succeeded, setSucceeded] = React.useState(false);
   const [toastContent, setToastContent] = React.useState('');
+  const [openReview,setOpenReview] = React.useState(false);
 
   const handleSnackClose = () => {
     setSucceeded(false);
@@ -32,12 +35,20 @@ const Service = () => {
     dispatch(openModel({ homeDialog:{isOpen:false,service:null} }))
   }
 
+  const handleReviewOpen = () => {
+    handleDialogClose();
+
+  }
+
+  const setDialogReviewOpenState = () => {
+    setOpenReview(true)
+  }
 
   const isOpen = useSelector(state => state.app.homeDialog.isOpen)
   const service = useSelector(state => state.app.homeDialog.service)
 
   return (
-      <Dialog fullWidth maxWidth='md' open={isOpen} onClose={() => handleDialogClose() }>
+    <Dialog fullWidth maxWidth='md' open={isOpen} onClose={() => handleDialogClose() }>
     <div
     style={{
       padding: "5%",
@@ -91,14 +102,36 @@ const Service = () => {
           }>
           {launchPayPal?<Payment service={service} setToastMessage={setSucceeded} />:<div/>}
           </Container> 
-          <h3>Reviews</h3>
-        </div>
-       </div>
-       <Snackbar open={succeeded} autoHideDuration={6000} onClose={handleSnackClose}>
-        <Alert onClose={handleSnackClose} severity="success" sx={{ width: '100%' }}>
-          Payment Sucessful!
-        </Alert>
+          <Snackbar open={succeeded} autoHideDuration={6000} onClose={handleSnackClose}>
+            <Alert onClose={handleSnackClose} severity="success" sx={{ width: '100%' }}>
+            Payment Sucessful!
+            </Alert>
           </Snackbar>
+          <h3 style={{ fontWeight: "bold" }}>Reviews</h3>
+          {service?.reviews.map((review, index) => {
+              return (
+                <div><Container style={
+                  {
+                    marginTop:"2%",
+                    marginLeft:-10
+                    
+                  }
+                }>
+                  <div style={{justifyContent:'space-between',display:"flex"}}>
+                  <Typography fontSize={25} style={{ padding:0, margin:0 }}>{review.review_subject}</Typography>
+                  <Rating readOnly name="simple-controlled" value={review.review_rating} />
+                  </div>
+                  <p style={{ padding:0, margin:0}}>{review.review_description}</p>
+                  <small style={{ padding:0, margin:0}}>Posted on:{review.posted_on}</small>
+                  <hr></hr>
+                  </Container>
+                </div>
+              );
+            })}
+        </div>
+            <ServiceReviewForm style = {{marginLeft:-30}} service = {service}/>
+       </div>
+
     </Dialog>
     
   );
