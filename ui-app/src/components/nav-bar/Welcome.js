@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-//import { Card } from "react-bootstrap";
 
 const Welcome = (props) => {
 

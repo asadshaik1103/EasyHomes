@@ -37,6 +37,7 @@ const HomePage = () => {
 
   const RenderService = ({ services },index) => {
     const blobData= services.images[0]?.image_data ;
+    const imageSrc = blobData ? `data:image/jpeg;base64,${blobData}` : ''
     return (
       <Grid item xs={4}>
         <Card>
@@ -51,7 +52,7 @@ const HomePage = () => {
           <CardMedia
         component="img"
         height="194"
-        image={`data:image/jpeg;base64,${blobData}`}
+        image={imageSrc}
         alt="Paella dish"
       />
           <CardContent>
@@ -70,6 +71,7 @@ const HomePage = () => {
     console.log(services)
 
     const blobData= property.images[0]?.image_data ;
+    const imageSrc = blobData ? `data:image/jpeg;base64,${blobData}` : ''
 
     return (
       <Grid item xs={4}>
@@ -86,7 +88,7 @@ const HomePage = () => {
       <CardMedia
         component="img"
         height="194"
-        image={`data:image/jpeg;base64,${blobData}`}
+        image={imageSrc}
         alt="Paella dish"
       />
       <CardContent>

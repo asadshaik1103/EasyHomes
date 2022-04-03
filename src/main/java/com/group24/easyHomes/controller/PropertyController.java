@@ -80,8 +80,9 @@ public class PropertyController {
 
 
     @PutMapping(value = "/properties/{propertyId}/update",consumes = {"application/json"},produces ={"application/json"})
-    public ResponseEntity<Property>  updateProperty(@PathVariable int propertyId, @RequestBody Property property)
+    public ResponseEntity<Property>  updateProperty(@PathVariable int propertyId, @RequestBody PropertyDTO propertyDTO)
     {
+            Property property = propertyDTOToProperty.convert(propertyDTO);
             return new ResponseEntity<>(service.updateProperty(propertyId,property),HttpStatus.NO_CONTENT);
 
     }

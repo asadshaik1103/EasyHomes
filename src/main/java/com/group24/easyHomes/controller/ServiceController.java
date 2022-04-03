@@ -37,11 +37,6 @@ public class  ServiceController {
         return new ResponseEntity<>(service.listAll(), HttpStatus.OK);
     }
 
-//    @GetMapping("/{id}")
-//    public Services getService(@PathVariable Long serviceId) throws Throwable {
-//        return (Services) serviceRepository.findById(serviceId).orElseThrow(RuntimeException::new);
-//    }
-
     @PostMapping(value = "/services",consumes = {"application/json"},produces ={"application/json"})
     public ResponseEntity<Services> addService(@RequestBody ServiceDTO serviceDTO)
 {
@@ -73,10 +68,10 @@ public class  ServiceController {
 
 
     @PutMapping(value = "/services/{serviceId}/update",consumes = {"application/json"},produces ={"application/json"})
-    public ResponseEntity<Services>  updateService(@PathVariable Long serviceId, @RequestBody Services services)
+    public ResponseEntity<Services>  updateProperty(@PathVariable Long serviceId, @RequestBody ServiceDTO serviceDTO)
     {
+        Services services = serviceToServiceDTO.convert(serviceDTO);
         return new ResponseEntity<>(service.updateService(serviceId,services),HttpStatus.NO_CONTENT);
-
     }
 
     @PostMapping(value = "/services/filter",consumes = {"application/json"},produces ={"application/json"})
