@@ -1,5 +1,7 @@
 import React from "react";
 import {Button,Dialog, Typography} from "@mui/material";
+import { useDispatch } from 'react-redux';
+import { openModel } from '../../reducers/app/appSlice';
 import Payment from "../payment/payment";
 import Carousel,{CarouselItem} from "../carosel/Carousel";
 import Snackbar from '@mui/material/Snackbar';
@@ -16,6 +18,7 @@ const Service = (props) => {
   const [succeeded, setSucceeded] = React.useState(false);
   const [toastContent, setToastContent] = React.useState('');
 
+  const dispatch = useDispatch();
   const handleSnackClose = () => {
     setSucceeded(false);
   }
@@ -28,10 +31,6 @@ const Service = (props) => {
   const handleClose = () => {
     setDialogOpenState();
    };
-
-   const handleDialogClose = () => {
-     setDialogOpenState();
-   }  
 
   return (
     <Dialog fullWidth maxWidth='md' onBackdropClick={handleDialogClose} onClose={handleClose} open={open}>
@@ -72,15 +71,7 @@ const Service = (props) => {
             Buy Service
           </Button>
           </div>
-          <Container style={
-            {
-              marginTop:"1%",
-              display:"flex",
-              justifyContent: "center"
-            }
-          }>
           {launchPayPal?<Payment service={service} setToastMessage={setSucceeded} />:<div/>}
-          </Container> 
           <h3>Reviews</h3>
        <Snackbar open={succeeded} autoHideDuration={6000} onClose={handleSnackClose}>
         <Alert onClose={handleSnackClose} severity="success" sx={{ width: '100%' }}>
