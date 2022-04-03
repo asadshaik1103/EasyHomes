@@ -11,6 +11,13 @@ import { ThemeProvider } from '@mui/material/styles';
 import SimpleDialog from '../property/PropertyForm';
 import ServiceForm from '../service/ServiceForm';
 import { customTheme } from '../../utils/theme';
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
+
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
+
 const actions = [
   { icon: <HomeWorkIcon />, name: 'Add a property', id: 'add-property'},
   { icon: <MiscellaneousServicesIcon />, name: 'Add a service', id: 'add-service' },
@@ -19,6 +26,16 @@ const actions = [
 export default function FabMenu() {
   const [open, setOpen] = React.useState(false);
   const [dialog,setDialog] = React.useState('');
+  const [succeeded, setSucceeded] = React.useState(false);
+  const [toastContent, setToastContent] = React.useState('');
+  const [toastMessage, setToastMessage] = React.useState(false);
+  
+
+  const handleSnackClose = () =>
+  {
+    setSucceeded(false);
+  }
+
   const handleOpen = () => {
     setOpen(true);
   }
@@ -54,12 +71,19 @@ export default function FabMenu() {
 
   return (
     <ThemeProvider theme={fabMenuTheme}>
+        <Snackbar open={succeeded} autoHideDuration={5000} onClose={handleSnackClose}>
+          <Alert onClose={handleSnackClose} severity="success" sx={{ width: '100%' }}>
+          {toastContent}
+          </Alert>
+        </Snackbar>
       {dialog === 'add-property' ?
       <SimpleDialog
         open={dialogOpened}
         onClose={setDialogOpened}
         title="Add Property"
         setDialogOpenState={setDialogOpened}
+        setToastMessage={setSucceeded}
+        setToastContent={setToastContent}
       />
       :
       <ServiceForm
@@ -67,7 +91,10 @@ export default function FabMenu() {
         onClose={setDialogOpened}
         title="Add Service"
         setDialogOpenState={setDialogOpened}
+        setToastMessage={setSucceeded}
+        setToastContent={setToastContent}
       />
+      
       }
 
 <div style={{position:'sticky',display:'flex',flexDirection:'row',justifyContent:'flex-end',bottom:'25px'}}>

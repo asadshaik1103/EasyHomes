@@ -73,7 +73,7 @@ public class  ServiceController {
 
 
     @PutMapping(value = "/services/{serviceId}/update",consumes = {"application/json"},produces ={"application/json"})
-    public ResponseEntity<Services>  updateProperty(@PathVariable Long serviceId, @RequestBody Services services)
+    public ResponseEntity<Services>  updateService(@PathVariable Long serviceId, @RequestBody Services services)
     {
         return new ResponseEntity<>(service.updateService(serviceId,services),HttpStatus.NO_CONTENT);
 
@@ -84,6 +84,4 @@ public class  ServiceController {
     {
         return new ResponseEntity<>(service.filterServices(servicesListQuery),HttpStatus.OK);
     }
-
-
 }

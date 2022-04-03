@@ -26,7 +26,7 @@ const Alert = React.forwardRef(function Alert(props, ref) {
 
 
 export default function SimpleDialog(props) {
-    const { open, title, setDialogOpenState } = props;
+    const { open, title, setDialogOpenState, setToastMessage, setToastContent } = props;
     const [propertyName, setPropertyName] = React.useState('');
     const [propertyType, setPropertyType] = React.useState('');
     const [bedrooms, setBedrooms] = React.useState('');
@@ -211,6 +211,8 @@ export default function SimpleDialog(props) {
             setSeverity("success");
             setDialogOpenState(false);
             resetForm();
+            setToastMessage(true);
+            setToastContent("Property added successfully!");
             console.log(snackbar);
         })
         .catch(function (response) {
